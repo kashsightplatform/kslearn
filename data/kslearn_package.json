@@ -1,0 +1,282 @@
+{
+  "metadata": {
+    "category": "kslearn",
+    "title": "📚 KSLearn — Complete Learning Platform",
+    "description": "All-in-one kslearn content: notes, quizzes, flashcards, and tutorials in a single package",
+    "icon": "📚",
+    "difficulty": "beginner-advanced",
+    "version": "1.0",
+    "author": "kslearn Team",
+    "created": "2026-04-03"
+  },
+
+  "notes": [
+    {
+      "id": 1,
+      "title": "Introduction to kslearn",
+      "icon": "🏠",
+      "content": "kslearn is a comprehensive educational learning system that runs in your terminal.\n\n🎯 What You Can Do:\n• 📚 Study detailed notes on any subject\n• 📝 Take interactive quizzes with instant feedback\n• 🃏 Review flashcards for quick memorization\n• 🎓 Follow step-by-step tutorials\n• 🧠 Ask the offline AI tutor questions\n• 📊 Track your learning progress\n\n🚀 How It Works:\n• All content is loaded from package files\n• Study notes first, then test yourself with quizzes\n• Use flashcards for quick review sessions\n• Tutorials guide you through complex topics step by step\n\n📱 Where It Runs:\n• Termux (Android)\n• Linux\n• macOS\n• Windows\n\n⌨️ Getting Started:\n• Run 'kslearn' to launch the interactive menu\n• Or use CLI commands: kslearn study, kslearn quiz, kslearn flashcards\n• Type 'kslearn help' to see all available commands",
+      "key_points": [
+        "kslearn is a terminal-based learning platform",
+        "Study notes before taking quizzes for best results",
+        "Flashcards are for quick review, tutorials are for deep learning",
+        "Works on Android (Termux), Linux, macOS, and Windows"
+      ],
+      "examples": [
+        {
+          "title": "Launching kslearn",
+          "explanation": "Simply type the command and press Enter.",
+          "code": "kslearn\n# or the short form:\nksl"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Study Modes Explained",
+      "icon": "📖",
+      "content": "kslearn offers four ways to learn, each designed for a different learning style.\n\n📚 Notes Mode — Read & Understand:\n• Detailed explanations with real-world examples\n• Key points highlighted for quick review\n• Code examples and step-by-step instructions\n• Navigate between topics with N (next) and P (previous)\n\n📝 Quiz Mode — Test Your Knowledge:\n• Multiple choice questions with instant feedback\n• Explanations for both correct and wrong answers\n• Score tracking and streak counting\n• Retake quizzes to improve your score\n\n🃏 Flashcard Mode — Quick Review:\n• Front: question or term\n• Back: answer or definition\n• Mark as 'Know it' or 'Still learning'\n• Fast-paced, great for memorization\n\n🎓 Tutorial Mode — Step-by-Step Lessons:\n• Guided lessons that build on each other\n• Interactive checkpoints to ensure understanding\n• Perfect for beginners learning a new subject",
+      "key_points": [
+        "Notes = deep reading and understanding",
+        "Quizzes = testing what you've learned",
+        "Flashcards = quick memorization and review",
+        "Tutorials = guided step-by-step lessons"
+      ],
+      "examples": []
+    }
+  ],
+
+  "quiz_topics": [
+    {
+      "id": 1,
+      "title": "kslearn — General Knowledge",
+      "questions": [
+        {
+          "question": "What command launches kslearn's interactive menu?",
+          "options": ["kslearn", "kslearn start", "run kslearn", "ksl run"],
+          "correct": 0,
+          "explanation": "Simply typing 'kslearn' or the shortcut 'ksl' opens the full interactive menu."
+        },
+        {
+          "question": "What is the recommended study order for best results?",
+          "options": ["Quiz first, then notes", "Notes first, then quiz", "Only flashcards", "Only tutorials"],
+          "correct": 1,
+          "explanation": "Study notes to understand the material first, then take quizzes to test and reinforce your knowledge."
+        },
+        {
+          "question": "Which feature stores your learning progress?",
+          "options": ["Settings", "My Progress", "Brain", "Data Store"],
+          "correct": 1,
+          "explanation": "'My Progress' tracks quiz scores, accuracy, study streaks, and completed topics."
+        },
+        {
+          "question": "What format does kslearn use for its content packages?",
+          "options": ["PDF files", ".ksl package files", "Word documents", "HTML pages"],
+          "correct": 1,
+          "explanation": ".ksl (KSLearn Package) files are encrypted, signed packages containing notes, quizzes, flashcards, and tutorials."
+        },
+        {
+          "question": "What is the purpose of flashcard mode?",
+          "options": ["Deep study of complex topics", "Quick review and memorization", "Writing practice", "Testing advanced knowledge"],
+          "correct": 1,
+          "explanation": "Flashcards are designed for quick review sessions to help memorize terms, definitions, and key facts."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Learning Strategies",
+      "questions": [
+        {
+          "question": "What is spaced repetition?",
+          "options": [
+            "Studying the same topic every hour",
+            "Reviewing material at increasing intervals over time",
+            "Only studying at night",
+            "Skipping difficult topics"
+          ],
+          "correct": 1,
+          "explanation": "Spaced repetition means reviewing material after 1 day, then 3 days, then 7 days, etc. This is proven to improve long-term memory retention."
+        },
+        {
+          "question": "What should you do when you get a quiz question wrong?",
+          "options": [
+            "Skip the explanation and move on",
+            "Read the explanation, then review the related notes",
+            "Guess on the next question faster",
+            "Quit the quiz entirely"
+          ],
+          "correct": 1,
+          "explanation": "Wrong answers are learning opportunities. Read why the answer is correct, then review the notes to solidify understanding."
+        },
+        {
+          "question": "What's the benefit of study streaks?",
+          "options": [
+            "They unlock premium features",
+            "They build consistent study habits and motivation",
+            "They decrease quiz difficulty",
+            "They earn you points to spend"
+          ],
+          "correct": 1,
+          "explanation": "Streaks track consecutive days of study, encouraging you to build a daily learning habit. Consistency beats cramming."
+        },
+        {
+          "question": "Which is the most effective way to study with kslearn?",
+          "options": [
+            "Only take quizzes without reading notes",
+            "Read notes, take quizzes, review flashcards, repeat",
+            "Only use flashcards all day",
+            "Read notes once and never review"
+          ],
+          "correct": 1,
+          "explanation": "The full cycle — read notes → take quizzes → review flashcards → repeat — leverages multiple learning methods for maximum retention."
+        },
+        {
+          "question": "What does the 'Knowledge Brain' feature do?",
+          "options": [
+            "Plays music while you study",
+            "Stores Q&A pairs you can search offline",
+            "Generates random study topics",
+            "Connects to online AI"
+          ],
+          "correct": 1,
+          "explanation": "The Knowledge Brain stores Q&A pairs, conversations, and learned information that you can search even without internet."
+        }
+      ]
+    }
+  ],
+
+  "flashcards": [
+    {
+      "front": "What does kslearn stand for?",
+      "back": "KSLearn — a terminal-based educational learning platform for studying any subject",
+      "category": "basics",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What are the 4 study modes in kslearn?",
+      "back": "📚 Notes (read), 📝 Quizzes (test), 🃏 Flashcards (review), 🎓 Tutorials (guided lessons)",
+      "category": "basics",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What is a .ksl file?",
+      "back": "An encrypted, signed content package that holds notes, quizzes, flashcards, or tutorials. Only the creator can build .ksl files; users can only load them.",
+      "category": "basics",
+      "difficulty": "medium"
+    },
+    {
+      "front": "What is spaced repetition?",
+      "back": "Reviewing material at increasing intervals (1 day, 3 days, 7 days, etc.) to improve long-term memory retention.",
+      "category": "learning",
+      "difficulty": "medium"
+    },
+    {
+      "front": "What should you do after getting a quiz question wrong?",
+      "back": "Read the explanation carefully, then review the related notes to understand the concept you missed.",
+      "category": "learning",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What shortcut launches kslearn?",
+      "back": "ksl (instead of typing the full 'kslearn' command)",
+      "category": "basics",
+      "difficulty": "easy"
+    },
+    {
+      "front": "Where is your study progress saved?",
+      "back": "In the config files — quiz scores, accuracy, streaks, and completed topics are all tracked automatically.",
+      "category": "basics",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What's the difference between Notes and Tutorials?",
+      "back": "Notes = comprehensive reference material. Tutorials = guided step-by-step lessons that build on each other progressively.",
+      "category": "modes",
+      "difficulty": "medium"
+    },
+    {
+      "front": "Can you study with kslearn offline?",
+      "back": "Yes! All content is stored locally. The Knowledge Brain works offline. Only the AI chat (tgpt) needs internet.",
+      "category": "features",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What platforms does kslearn support?",
+      "back": "Termux (Android), Linux, macOS, and Windows — it runs anywhere Python 3.7+ is available.",
+      "category": "features",
+      "difficulty": "easy"
+    }
+  ],
+
+  "tutorials": [
+    {
+      "id": 1,
+      "title": "Getting Started with kslearn",
+      "icon": "🚀",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Launch kslearn",
+          "content": "Open your terminal and type the command to start the interactive menu.",
+          "code": "kslearn\n# or the shortcut:\nksl",
+          "tip": "The first time you run kslearn, it will create your config files automatically."
+        },
+        {
+          "step": 2,
+          "title": "Browse Study Notes",
+          "content": "From the main menu, select option 1 (Study Notes) to browse available topics. You'll see a list of all subjects with descriptions.",
+          "tip": "Start with the first topic and work your way through sequentially for the best learning experience."
+        },
+        {
+          "step": 3,
+          "title": "Read a Topic",
+          "content": "Select a topic number to read the full notes. You'll see detailed content, key points, and examples.\n\nNavigation while reading:\n  [N] Next topic\n  [P] Previous topic\n  [Q] Take quiz on this topic\n  [A] Ask AI\n  [0] Back to topics",
+          "tip": "Don't rush — read the examples and try to understand each key point before moving on."
+        },
+        {
+          "step": 4,
+          "title": "Test Yourself with a Quiz",
+          "content": "After studying notes, press Q to take the quiz for that topic. You'll get multiple-choice questions with instant feedback and explanations.",
+          "tip": "Aim for 80%+ accuracy. If you score lower, review the notes again and retake the quiz."
+        },
+        {
+          "step": 5,
+          "title": "Review with Flashcards",
+          "content": "Use flashcard mode (F from the main menu) for quick review sessions. Flashcards show a question on the front — tap to reveal the answer.",
+          "tip": "Flashcards are perfect for studying during short breaks — 5 minutes with flashcards can reinforce a lot of knowledge."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Mastering Quiz Mode",
+      "icon": "📝",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Select a Quiz Category",
+          "content": "From the main menu, select option 2 (Take Quiz). You'll see all available quiz categories. Choose one by number.",
+          "tip": "Study the notes for that category first for the best quiz results."
+        },
+        {
+          "step": 2,
+          "title": "Choose a Topic",
+          "content": "Each quiz has multiple topics. Select one, or press R for a random topic.",
+          "tip": "Start with basics if you're new to the subject."
+        },
+        {
+          "step": 3,
+          "title": "Answer Questions",
+          "content": "For each question:\n  1. Read the question carefully\n  2. Review all four options\n  3. Type the number of your answer (1-4)\n  4. Get instant feedback with explanation\n\nType 'q' at any time to end the quiz early.",
+          "tip": "Don't guess — think through each option before selecting."
+        },
+        {
+          "step": 4,
+          "title": "Review Your Results",
+          "content": "After the quiz, you'll see:\n  • Number of questions answered\n  • Correct answers count\n  • Total score\n  • Accuracy percentage\n  • Best streak\n\nUse this to identify areas you need to study more.",
+          "tip": "Aim to beat your previous score each time you retake a quiz."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,775 @@
+{
+  "metadata": {
+    "category": "kslearn_user_guide",
+    "title": "📖 kslearn User Guide",
+    "description": "Complete user guide covering installation, setup, all features, tutorials, troubleshooting, and creating custom content. Learn how to use every part of kslearn.",
+    "icon": "📖",
+    "difficulty": "beginner",
+    "version": "1.0",
+    "author": "kslearn"
+  },
+  "notes": [
+    {
+      "id": 1,
+      "title": "What is kslearn?",
+      "icon": "🎯",
+      "content": "kslearn is an offline-first educational learning system that combines comprehensive study notes, interactive quizzes, flashcards, step-by-step tutorials, and AI chat — all accessible from a single terminal interface.\n\nKey Features:\n• 📚 Study Notes — Detailed explanations with examples for every topic\n• 📝 Interactive Quizzes — Multiple-choice questions with explanations\n• 🃏 Flashcards — Quick review mode for key concepts\n• 🎓 Tutorials — Step-by-step guided lessons\n• 🤖 AI Chat — Online AI tutor (10+ providers) and offline mode\n• 🧠 Knowledge Brain — Offline Q&A database that learns from you\n• 📊 Progress Tracking — Scores, streaks, and daily goals\n• 🏆 Achievements — 15 badges across 4 rarity levels\n• 🔄 Spaced Review — Review topics you struggled with\n• 🔍 Global Search — Search all notes at once\n\nEverything works WITHOUT internet. Only AI Chat needs a connection (unless using Ollama locally or free providers like Sky and Phind).",
+      "key_points": [
+        "kslearn is offline-first — all features work without internet",
+        "AI Chat is the only feature that may need internet (offline mode available)",
+        "All content is stored in JSON files for easy extension",
+        "Works on Termux, Linux, macOS, and Windows"
+      ],
+      "examples": [
+        {
+          "title": "System Requirements",
+          "explanation": "What you need to run kslearn",
+          "code": "Termux (Android): Python 3.7+, pkg install python\nLinux: Python 3.7+, pip\nmacOS: Python 3.7+, pip\nWindows: Python 3.7+, pip\n\nMinimum storage: 50MB base installation\nRecommended: 100MB+ for additional content packs"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Installation Guide",
+      "icon": "📦",
+      "content": "Installing kslearn is straightforward. Choose the method that matches your platform.\n\nQuick Install (Recommended):\n1. Clone the repository\n2. Navigate to the kslearn directory\n3. Install with pip\n\nTermux Installation:\n1. Install Python package manager\n2. Clone the repository\n3. Install kslearn\n\nAfter installation, verify it worked by checking the version number.",
+      "key_points": [
+        "Use 'pip install -e .' for development mode (editable install)",
+        "On Termux, run 'pkg install python' first",
+        "Verify with 'kslearn --version' — should show v1.0.0",
+        "The -e flag means changes to source code take effect immediately"
+      ],
+      "examples": [
+        {
+          "title": "Installation Commands",
+          "explanation": "Copy-paste these commands to install",
+          "code": "# Standard install\ngit clone https://github.com/kashsight/kslearn\ncd kslearn\npip install -e .\n\n# Termux\npkg install python\ngit clone https://github.com/kashsight/kslearn\ncd kslearn\npip install -e .\n\n# Verify\nkslearn --version"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "First Launch & Theme Setup",
+      "icon": "🎨",
+      "content": "Run kslearn by typing 'kslearn' in your terminal. You'll see the main menu with the ASCII banner at the top.\n\nChoosing a Theme:\nkslearn has 3 standardized themes that change ALL UI colors — banner, tables, panels, menus, and prompts.\n\n• Sky (sky_blue) — Default. Bright sky blue and cyan tones. Energizing.\n• Forest (green) — Natural green theme. Calming for study sessions.\n• Monochrome (grey) — Clean white and grey. Minimalist, distraction-free.\n\nTo change theme:\n1. Press C from main menu for Settings\n2. Select theme option\n3. Choose green, grey, or sky_blue\n4. Change applies immediately\n\nOr edit data/config/settings.json:\n\"theme\": \"sky_blue\"\n\nSetting Your Username:\n1. Press C for Settings\n2. Select Username\n3. Enter your name\nThis appears on progress reports and achievement notifications.",
+      "key_points": [
+        "3 themes available: sky_blue (default), green, grey",
+        "Themes change ALL UI colors consistently — banner, tables, menus, prompts",
+        "Theme set in settings.json under 'theme' key",
+        "Username appears on export reports and achievements"
+      ],
+      "examples": [
+        {
+          "title": "Theme Color Mapping",
+          "explanation": "How each theme affects the UI",
+          "code": "Sky Theme: banner=bright_cyan, primary=sky_blue1, border=sky_blue1\nGreen Theme: banner=bright_green, primary=green, border=green\nGrey Theme: banner=white, primary=white, border=bright_black\n\nAll table columns, menu items, and prompts use the primary color."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Main Menu Navigation",
+      "icon": "🏠",
+      "content": "The main menu is your hub. Every feature is accessible with a single keypress.\n\nMenu Options:\n1 — Study Notes: Browse learning materials by category\n2 — Take Quiz: Test your knowledge with multiple-choice questions\n3 — AI Chat: Chat with AI tutor (online or offline)\n4 — My Progress: View your statistics and scores\n5 — Bookmarks: Access saved topics\n6 — Knowledge Brain: Browse offline Q&A database\n7 — Data Store: Download new content packs\n8 — Support kslearn: Credits, email, website, GitHub\nF — Flashcards: Quick card-based review\nT — Timed Quiz: 60-second speed challenge\nG — Global Search: Search all notes at once\nR — Spaced Review: Review topics you struggled with\nU — Tutorials: Step-by-step guided lessons\nV — Achievements: View earned badges\nE — Export Report: Generate progress summary as file\nD — Profiles: Switch or manage user profiles\nC — Settings: Configure themes, quiz options, AI\nH or ? — Help: Show commands and usage info\n0 — Exit: Leave kslearn\n\nAt the bottom of the menu you'll see:\n• Daily Goal progress bar (minutes studied today)\n• Study Streak (consecutive days studied)\n• A tip suggesting to start with Study Notes",
+      "key_points": [
+        "All 20 features accessible with one key from main menu",
+        "Numbered options (1-8) and letter shortcuts (F, T, G, R, U, V, E, D, C, H, 0)",
+        "Daily goal and streak shown at bottom of menu",
+        "Press Ctrl+C to cancel current operation or exit"
+      ],
+      "examples": [
+        {
+          "title": "Quick Navigation Reference",
+          "explanation": "Memorize these for fast access",
+          "code": "Study: 1 (notes), F (flashcards), U (tutorials)\nTest: 2 (quiz), T (timed quiz)\nAI: 3 (chat), 6 (knowledge brain)\nTrack: 4 (progress), V (achievements), R (spaced review)\nManage: 5 (bookmarks), D (profiles), C (settings)\nSearch: G (global search), E (export)\nHelp: H (?), 8 (support), 0 (exit)"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Study Notes — How to Learn",
+      "icon": "📚",
+      "content": "Study Notes is the core learning feature. Press 1 from the main menu.\n\nStep 1: Select a Category\nYou'll see available content categories:\n• 📖 Bible & Christianity — 25 topics covering the entire Bible\n• 🏥 POTT Level 6 — 20 topics on Perioperative Theatre Technology\n• 🧠 kslearn Platform — Platform guides and getting started\n\nStep 2: Select a Topic\nEach category lists its topics with numbers. Enter the number to study.\n\nStep 3: Read the Content\nEach topic displays:\n• Full content — Detailed explanations with examples\n• Key Points — Summary of important concepts\n• Examples — Practical illustrations and code snippets\n\nStep 4: Navigate\nWhile reading:\n• N — Next topic in the category\n• P — Previous topic\n• B — Back to topic list\n• Q — Take a quiz on this topic\n• Bookmark — Save topic for later review\n\nBible Content (25 topics):\nCovers the entire Bible from Genesis to Revelation, including the Pentateuch, Historical Books, Prophets, Gospels, Epistles, parables, miracles, theology, end times, prayer, and practical topics like money, marriage, and suffering.\n\nPOTT Level 6 Content (20 topics):\nTVET CDACC curriculum covering human anatomy, cell biology, homeostasis, hospital procedures, theatre safety, infection control, instruments, waste management, CPR, health education, diseases, medical ethics, and clinical services.",
+      "key_points": [
+        "Select category first, then choose a specific topic",
+        "Each topic has content, key points, and examples",
+        "Use N/P to navigate between topics",
+        "Press Q to take a quiz on the current topic",
+        "Bookmark topics for quick access later (menu option 5)"
+      ],
+      "examples": [
+        {
+          "title": "Bible Topics Overview",
+          "explanation": "25 topics from Genesis to practical Christian living",
+          "code": "1. Introduction to the Bible\n2. The Pentateuch (Torah)\n3. Historical Books\n4. Wisdom & Poetry\n5. Major Prophets\n6. Minor Prophets\n7. The Gospels\n8. Death & Resurrection of Christ\n9. Acts — Early Church\n10. Paul's Epistles\n11. General Epistles & Revelation\n12-25: Theology, parables, miracles, prayer, relationships..."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Quizzes — Testing Your Knowledge",
+      "icon": "📝",
+      "content": "Quizzes test your understanding with multiple-choice questions. Press 2 from the main menu.\n\nStandard Quiz Mode:\n1. Select a category (Bible, POTT, etc.)\n2. Select a quiz topic\n3. Answer each question by entering 1, 2, 3, or 4\n4. After each answer you see:\n   • ✓ (correct) or ✗ (wrong)\n   • Explanation of why the answer is right\n5. Final results show score, accuracy, and best streak\n\nStandard quizzes have 6 questions per session.\n\nTimed Quiz (press T from main menu):\n• 60-second speed challenge\n• Answer as many questions as possible\n• Score based on correct answers in time limit\n• Your best score is tracked\n• Great for quick review sessions\n\nQuiz Results Rating:\n• 80%+ → 🎉 Excellent!\n• 60-79% → 👍 Good job!\n• Below 60% → 📚 Keep learning!\n\nQuiz Features:\n• Random topic selection available\n• Review mode — retake only wrong answers\n• Streak bonuses for consecutive correct answers\n• Explanations shown after each answer (toggleable in settings)\n• Scores saved per topic for progress tracking",
+      "key_points": [
+        "Standard quiz = 6 questions with explanations",
+        "Timed quiz = 60 seconds, answer as many as possible",
+        "Results rated: 80%+ Excellent, 60-79% Good, <60% Keep learning",
+        "Explanations shown after each answer (can toggle in settings)",
+        "Scores saved automatically for progress tracking",
+        "Review mode lets you retake only wrong answers"
+      ],
+      "examples": [
+        {
+          "title": "POTT Quiz Topics",
+          "explanation": "Available quiz topics in POTT Level 6",
+          "code": "1. Human Anatomy & Physiology (10 questions)\n   Covers: body organization, cells, homeostasis, skeletal system\n\n2. Theatre Safety & Infection Control (10 questions)\n   Covers: OT safety, nosocomial infections, sterilization\n\n3. Disease Control & Health Education (10 questions)\n   Covers: communicable diseases, health promotion, first aid"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Flashcards — Quick Review",
+      "icon": "🃏",
+      "content": "Flashcards are the fastest way to review key concepts. Press F from the main menu.\n\nHow Flashcards Work:\n1. Select a category (e.g., POTT Level 6)\n2. A card appears showing the FRONT (question or concept)\n3. Press Enter to FLIP and see the BACK (answer/explanation)\n4. Rate your confidence:\n   • E — Easy (you knew it immediately)\n   • M — Medium (you needed to think)\n   • H — Hard (you need to review again)\n5. Next card appears automatically\n\nFlashcard Features:\n• Cards organized by difficulty: easy, medium, hard\n• Progress tracked per session\n• Score calculated from your ratings\n• Great for quick review before exams\n\nCurrent Flashcard Content:\n• POTT Level 6: 25+ cards covering anatomy, procedures, safety\n• kslearn Platform: 10 cards on platform features\n\nFlashcard Tips:\n• Be honest with your rating — hard cards come back sooner\n• Use flashcards for 5-minute quick reviews\n• Hard-rated cards help the spaced review system",
+      "key_points": [
+        "Press Enter to flip between front and back of card",
+        "Rate: E (easy), M (medium), H (hard)",
+        "Hard ratings help spaced review identify weak topics",
+        "Current content: 25+ POTT cards, 10 platform cards",
+        "Great for 5-minute quick review sessions"
+      ],
+      "examples": [
+        {
+          "title": "Sample Flashcard Flow",
+          "explanation": "How a flashcard session looks",
+          "code": "FRONT: What is the powerhouse of the cell?\n[Press Enter to flip]\nBACK: Mitochondria — organelles that produce ATP energy\n\nRate your confidence:\nE = Easy  M = Medium  H = Hard\n\nYour choice: E\n✓ Card marked as easy. Next card...\n\nSession score: 8/10 easy (80%)"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Tutorials — Step-by-Step Lessons",
+      "icon": "🎓",
+      "content": "Tutorials are structured, step-by-step guided lessons. Unlike notes (which you browse freely), tutorials present information in a fixed sequence.\n\nPress U from the main menu to access tutorials.\n\nTutorial Structure:\nEach tutorial has multiple steps:\n1. Step title — What you'll learn in this step\n2. Content — Detailed explanation\n3. Example — Practical illustration\n4. Tip — Important reminder or warning\n\nNavigation:\n• N — Next step\n• P — Previous step\n• Q — Take the tutorial's quiz\n• B — Back to tutorial list\n\nCurrent Tutorials (POTT Level 6):\n1. Getting Started with POTT — Overview of the course and requirements\n2. How to Sterilize Surgical Instruments — Proper sterilization methods\n3. Managing OT Waste — Safe disposal of theatre waste\n4. Performing CPR — Step-by-step CPR procedure\n5. Understanding Theatre Zoning — OT zones and access control\n\nTutorial Features:\n• Progress saved — resume where you left off\n• Each tutorial ends with a quiz to test understanding\n• Completion tracked in settings\n• Achievement unlocked for completing your first tutorial (Tutorial Graduate)",
+      "key_points": [
+        "Tutorials present content in a fixed step-by-step sequence",
+        "Progress is saved — you can resume later",
+        "Each tutorial has a quiz at the end",
+        "5 POTT tutorials currently available",
+        "Completing first tutorial earns 'Tutorial Graduate' achievement"
+      ],
+      "examples": [
+        {
+          "title": "Tutorial: How to Sterilize Surgical Instruments",
+          "explanation": "Step breakdown of this tutorial",
+          "code": "Step 1: Introduction to Sterilization\n  — What sterilization is and why it matters\nStep 2: Types of Sterilization Methods\n  — Autoclave, dry heat, chemical sterilization\nStep 3: Autoclave Operation\n  — Temperature, pressure, time settings\nStep 4: Quality Control\n  — Biological and chemical indicators\nStep 5: Storage of Sterile Instruments\n  — Proper packaging and shelf life\n\nQuiz: 5 questions on sterilization methods"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "AI Chat — Your AI Tutor",
+      "icon": "🤖",
+      "content": "AI Chat connects you with an AI tutor for personalized help. Press 3 from the main menu.\n\nTwo Modes:\n\n1. ONLINE MODE — Uses tgpt with 10+ providers:\n\nFREE Providers (no API key needed):\n• Sky (sky-1 model)\n• Phind (phind-70b model)\n• DeepSeek (deepseek-chat)\n• Pollinations AI\n• ISou\n• Kimi (free tier)\n\nAPI Key Providers:\n• OpenAI (gpt-4o, gpt-4-turbo, gpt-3.5-turbo)\n• Anthropic (claude-sonnet-4, claude-3-5-sonnet, claude-3-haiku)\n• Groq (llama-3.2-90b, llama-3.1-70b, llama-3.1-8b)\n• Google Gemini (gemini-2.5-flash, gemini-2.0-flash, gemini-1.5-pro)\n• Ollama (llama3.3, llama3.2, mistral — runs locally)\n\n2. OFFLINE MODE — Uses Knowledge Brain\n• No internet needed\n• Answers from built-in knowledge base\n• Covers kslearn, DevOps, AI/ML, web development\n\nSetting Up AI:\n1. For free providers: Select Online → choose Sky or Phind → start chatting\n2. For API providers: Settings → AI → Set API Key → paste key → select provider\n\nAI Chat Features:\n• Conversations auto-saved to Knowledge Brain\n• Chat history keeps last 50 messages\n• Category detection auto-tags saved Q&A\n• Provider can be switched mid-session\n• Auto-save can be toggled off in settings",
+      "key_points": [
+        "Online mode needs internet; offline mode works without",
+        "Free providers (Sky, Phind, DeepSeek) need NO API key",
+        "All conversations auto-saved to Knowledge Brain",
+        "Chat history keeps last 50 messages",
+        "10+ providers available — switch anytime",
+        "Ollama runs locally — no internet needed"
+      ],
+      "examples": [
+        {
+          "title": "Quick Start with Free AI",
+          "explanation": "No API key needed — just internet",
+          "code": "1. Press 3 from main menu\n2. Select 'Online'\n3. Choose provider: Sky or Phind\n4. Ask your question!\n\nExample questions:\n• 'Explain homeostasis'\n• 'What happened in Acts chapter 2?'\n• 'How do I sterilize surgical instruments?'\n• 'What is the difference between mitosis and meiosis?'"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Knowledge Brain — Offline Q&A",
+      "icon": "🧠",
+      "content": "The Knowledge Brain is a local Q&A database that works completely offline. Press 6 from the main menu.\n\nHow It Works:\nAll questions and answers are stored as JSON pairs. When you ask a question, the system searches stored knowledge for matching keywords.\n\nFeatures:\n• Search — Find answers by keyword\n• Browse — Scroll through all stored knowledge\n• Add — Manually add new Q&A pairs\n• Export — Share knowledge as JSON file\n• Import — Load knowledge from other users\n\nHow Knowledge Gets Added:\n1. Automatically — AI Chat conversations are auto-saved\n2. Manually — From the Knowledge Brain menu, select Add Q&A\n\nEach Q&A pair contains:\n• Question — The query\n• Answer — The response\n• Category — Topic area (devops, ai_ml, webdev, etc.)\n\nCurrent Knowledge Covers:\n• kslearn basics and features (20 pairs)\n• DevOps & Cloud — Git, CI/CD, Docker, Kubernetes, AWS\n• AI/ML — Machine learning concepts\n• Web Development — HTML, CSS, React, HTTP, DOM\n\nTotal: 34+ Q&A pairs across multiple categories",
+      "key_points": [
+        "Works completely offline — no internet needed",
+        "AI Chat conversations auto-save to Knowledge Brain",
+        "You can manually add Q&A pairs",
+        "Knowledge can be exported and shared as JSON",
+        "34+ Q&A pairs currently stored",
+        "Search by keyword to find relevant answers"
+      ],
+      "examples": [
+        {
+          "title": "Knowledge Brain Search",
+          "explanation": "Searching for stored knowledge",
+          "code": "Search query: 'Docker'\n\nFound 3 results:\n\n1. What is Docker?\n   Docker is a platform for containerizing applications.\n   Category: devops_cloud\n\n2. What is the difference between Docker and VMs?\n   Docker uses containers (shared OS kernel) while VMs\n   have full OS. Containers are lighter and faster.\n   Category: devops_cloud\n\n3. What is Docker Compose?\n   Docker Compose defines and runs multi-container\n   applications using a YAML configuration file.\n   Category: devops_cloud"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Progress Tracking & Statistics",
+      "icon": "📊",
+      "content": "Track your learning journey with detailed statistics. Press 4 from the main menu.\n\nStatistics Table Shows:\n• Category — Subject area (Bible, POTT, etc.)\n• Played — Number of quizzes taken\n• Correct — Total correct answers\n• Accuracy — Percentage score\n• Best Streak — Longest consecutive correct answers\n\nStudy Streaks:\n• Counts consecutive days you've studied\n• Resets if you miss a day\n• Best streak always tracked\n• Streak bonuses give extra quiz points\n• Achievements at 5, 10, and 30 days\n\nDaily Goals:\n• Set a daily study goal in minutes (default: 15)\n• Progress bar shows minutes studied today\n• Resets at midnight\n• Achievement for reaching your goal\n• Change in Settings → Daily Goal Minutes\n\nAll progress is saved automatically in data/config/settings.json including:\n• Quiz scores per topic\n• Accuracy percentages\n• Completion timestamps\n• Best streaks per category\n• Bookmarks with timestamps\n• Achievement earn dates",
+      "key_points": [
+        "Statistics table shows quizzes, accuracy, and streaks per category",
+        "Study streak counts consecutive days — resets if you miss one",
+        "Daily goal defaults to 15 minutes — customizable in settings",
+        "All progress auto-saved to settings.json",
+        "Best streak and best scores are permanently tracked"
+      ],
+      "examples": [
+        {
+          "title": "Statistics Table Example",
+          "explanation": "What your progress looks like",
+          "code": "📊 Your Statistics\n┌──────────┬────────┬─────────┬──────────┬─────────────┐\n│ Category │ Played │ Correct │ Accuracy │ Best Streak │\n├──────────┼────────┼─────────┼──────────┼─────────────┤\n│ Bible    │   12   │   10    │   83%    │      5      │\n│ POTT L6  │    8   │    7    │   88%    │      4      │\n│ kslearn  │    2   │    2    │  100%    │      2      │\n└──────────┴────────┴─────────┴──────────┴─────────────┘\n\nDaily Goal: ████████░░░░░░░░░░░░ 8/15min (53%)\nStudy Streak: 🔥🔥 2 days (Best: 2)"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Achievements & Badges",
+      "icon": "🏆",
+      "content": "Earn achievements as you learn. Press V from the main menu to view your badges.\n\nAll 15 Achievements:\n\nCommon (easy to achieve):\n🌟 First Steps — Complete your first quiz\n🎓 Tutorial Graduate — Complete your first tutorial\n🃏 Flash of Genius — Complete first flashcard session\n👤 Profile Creator — Create a user profile\n\nUncommon (requires some effort):\n💎 Perfectionist — Score 100% on any quiz\n🏆 Quiz Master — Complete 25 quizzes\n📖 Knowledge Seeker — Complete 50 Q&A questions\n🗺️ Explorer — Study 5 different categories\n📚 Bookworm — Bookmark 20 topics\n🔄 Consistent Learner — Complete 10 spaced reviews\n\nRare (takes dedication):\n🔥 Hot Streak — Maintain a 5-day study streak\n⚡ Speed Demon — Score 15+ in timed quiz\n🎨 Renaissance Mind — Score 80%+ in 3 categories\n\nLegendary (only committed learners):\n📅 Month Warrior — Maintain a 30-day study streak\n🧠 Walking Encyclopedia — Complete 200 Q&A questions\n\nAchievement notifications appear with the achievement name, description, and icon when unlocked.",
+      "key_points": [
+        "15 achievements across 4 rarity levels",
+        "Common: First Steps, Tutorial Graduate, Flash of Genius, Profile Creator",
+        "Uncommon: Perfectionist, Quiz Master, Knowledge Seeker, Explorer, Bookworm",
+        "Rare: Hot Streak (5 days), Speed Demon (15+ timed), Renaissance Mind",
+        "Legendary: Month Warrior (30 days), Walking Encyclopedia (200 Q&A)"
+      ],
+      "examples": [
+        {
+          "title": "Achievement Unlocked Example",
+          "explanation": "What you see when earning an achievement",
+          "code": "╔═══════════════════════════════════════╗\n║  🏆 ACHIEVEMENT UNLOCKED!            ║\n║                                       ║\n║  💎 Perfectionist                     ║\n║  Score 100% on any quiz               ║\n╚═══════════════════════════════════════╝"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "Spaced Review System",
+      "icon": "📅",
+      "content": "Spaced repetition helps you review topics you struggled with, timing reviews just before you're likely to forget.\n\nPress R from the main menu to access Spaced Review.\n\nHow It Works:\n1. kslearn tracks topics where you scored below 80%\n2. These topics are added to your Review Queue\n3. Each topic has a next review date\n4. Review the topic and retake the quiz\n5. If you improve, next review is pushed further out\n\nReview Schedule (based on forgetting curve):\n• First review: 1 day after struggling\n• Second review: 3 days after\n• Third review: 7 days after\n• Fourth review: 14 days after\n\nThis system maximizes retention by reviewing just before you forget.\n\nReview Queue Tracks:\n• Category and topic name\n• Your accuracy score\n• Last reviewed date\n• Review count\n• Next review date\n\nTips:\n• Don't skip spaced reviews — they target your weak areas\n• Hard-rated flashcards also feed the review queue\n• Completing 10 spaced reviews earns the 'Consistent Learner' achievement",
+      "key_points": [
+        "Spaced review targets topics where you scored below 80%",
+        "Review schedule: 1 day, 3 days, 7 days, 14 days",
+        "Based on the forgetting curve for maximum retention",
+        "Hard flashcard ratings feed the review queue",
+        "10 spaced reviews earns 'Consistent Learner' achievement"
+      ],
+      "examples": [
+        {
+          "title": "Review Queue Example",
+          "explanation": "What your review queue looks like",
+          "code": "📅 Spaced Review Queue\n\n1. Cell Structure and the Cell Cycle\n   Accuracy: 40% | Next review: Tomorrow\n\n2. Homeostasis and Feedback Loops\n   Accuracy: 60% | Next review: In 2 days\n\n3. Paul's Epistles\n   Accuracy: 70% | Next review: In 5 days\n\nTotal items in queue: 3\nPress R to start reviewing!"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "title": "Global Search",
+      "icon": "🔍",
+      "content": "Search ALL notes across ALL categories at once. Press G from the main menu.\n\nHow It Works:\n1. Enter a search term (e.g., 'cell', 'salvation', 'CPR')\n2. kslearn searches all categories and topics\n3. Results show matching topics with highlighted keywords\n4. Select a result to read the full topic\n\nSearch Features:\n• Case-insensitive — 'cell' finds 'Cell', 'CELL'\n• Searches content, key points, and examples\n• Partial matches work — 'homeo' finds 'homeostasis'\n• Cross-category — one search covers Bible, POTT, and all content\n• Results ranked by relevance\n\nSearch Tips:\n• Use specific terms for better results ('mitochondria' vs 'cell')\n• Search for concepts, not just keywords\n• Try related terms if first search returns nothing\n• Search works across all installed content packs",
+      "key_points": [
+        "Searches ALL categories at once",
+        "Case-insensitive and supports partial matches",
+        "Searches content, key points, and examples",
+        "Results show matching topics with highlighted keywords",
+        "Works across all installed content packs"
+      ],
+      "examples": [
+        {
+          "title": "Search Results Example",
+          "explanation": "What search results look like",
+          "code": "🔍 Search: 'mitochondria'\n\nFound 3 matches:\n\n1. 🏥 POTT Level 6 → Cell Structure and the Cell Cycle\n   ...contains: Mitochondrion — powerhouse of the cell...\n\n2. 📖 Bible → Organization of the Human Body\n   ...contains: cells containing organelles such as\n   the nucleus, mitochondria, and ribosomes...\n\n3. 🧠 Knowledge Brain → What is the powerhouse of the cell?\n   ...contains: Mitochondria — organelles that produce ATP\n\nSelect a result number to read full topic (0 to exit):"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "title": "Data Store — Download Content",
+      "icon": "🏪",
+      "content": "The Data Store lets you browse and download new learning content. Press 7 from the main menu.\n\nFree Content Packs:\n• Python Basics Pack\n• JavaScript Essentials\n• AI & Machine Learning Intro\n• Cybersecurity Fundamentals\n• Web Development Bootcamp\n\nPremium Content:\n• Complete Python Mastery ($9.99)\n• Full-Stack Web Developer Path ($19.99)\n• Machine Learning Engineer ($24.99)\n• Cybersecurity Professional ($14.99)\n• Data Science Bootcamp ($17.99)\n• DevOps Engineer Path ($16.99)\n\nCommunity Content:\n• Rust Programming Basics\n• Go for Backend\n\nBundles:\n• All-Access Pass ($49.99 one-time)\n• Monthly Subscription ($9.99/month)\n\nHow to Download:\n1. Select a content pack\n2. Choose Download\n3. Pack downloads as .ksl file (encrypted, signed)\n4. kslearn auto-installs the content\n5. New categories appear in Study Notes and Quizzes\n\nNote: Free content needs internet for download. Premium content requires purchase.",
+      "key_points": [
+        "5 free content packs available",
+        "6 premium content packs ($9.99-$24.99 each)",
+        "2 community content packs (Rust, Go)",
+        "Bundles: All-Access ($49.99) or Monthly ($9.99/month)",
+        "Content downloads as .ksl encrypted files",
+        "Auto-installs after download"
+      ],
+      "examples": [
+        {
+          "title": "Content Pack Contents",
+          "explanation": "What's inside each pack",
+          "code": "Python Basics Pack (Free):\n  • Notes: Python syntax, variables, data types, operators\n  • Quiz: 10 questions on Python fundamentals\n  • Flashcards: 15 cards on Python concepts\n\nComplete Python Mastery (Premium, $9.99):\n  • Notes: 30+ topics from basics to advanced\n  • Quiz: 50+ questions across 5 quiz sets\n  • Flashcards: 40 cards\n  • Tutorials: 8 step-by-step tutorials"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "title": "Settings Reference",
+      "icon": "⚙️",
+      "content": "Configure your kslearn experience. Press C from the main menu.\n\nTheme Settings:\n• Theme — green, grey, sky_blue (default: sky_blue)\n• Color Scheme — Matches selected theme\n\nQuiz Settings:\n• Difficulty — easy, medium, hard, mixed (default: mixed)\n• Show Explanations — Show answer explanations (default: true)\n• Auto Timer — Enable timed quizzes (default: true)\n• Timer Minutes — Quiz duration (default: 3)\n\nAI Settings:\n• API Provider — OpenAI, Anthropic, Groq, Gemini, Ollama (default: anthropic)\n• API Key — Your provider's API key (default: empty)\n• Auto-Save Chat — Save AI chat to Knowledge Brain (default: true)\n\nGeneral Settings:\n• Username — Your display name (default: empty)\n• Language — Interface language (default: English)\n• Daily Goal — Minutes per day (default: 15)\n• Focus Track — Default learning track (default: general)\n• Notifications — Enable notifications (default: true)\n• Sound — Enable sound effects (default: false)\n• Use Rich UI — Enable Rich terminal UI (default: true)\n\nFeature Toggles (all default: true):\n• Flashcards\n• Timed Quiz\n• Global Search\n• Spaced Review\n• Tutorials\n• Achievements\n• Export Report\n• Multi-User Profiles\n• Study Streaks\n• Daily Goal Tracking",
+      "key_points": [
+        "Theme: sky_blue (default), green, grey",
+        "Quiz difficulty: mixed (default) — or set to easy/medium/hard",
+        "API Provider: anthropic (default) — change to any supported provider",
+        "Daily goal: 15 minutes (default) — adjust to your schedule",
+        "All features enabled by default — toggle off if not needed",
+        "Settings saved to data/config/settings.json"
+      ],
+      "examples": [
+        {
+          "title": "Settings JSON Structure",
+          "explanation": "How settings are stored",
+          "code": "{\n  \"theme\": \"sky_blue\",\n  \"color_scheme\": \"sky_blue\",\n  \"username\": \"gombwe\",\n  \"language\": \"en\",\n  \"difficulty\": \"mixed\",\n  \"show_explanations\": true,\n  \"daily_goal_minutes\": 15,\n  \"api_provider\": \"anthropic\",\n  \"use_rich_ui\": true,\n  \"flashcard_mode\": true,\n  \"features\": {\n    \"flashcards\": true,\n    \"timed_quiz\": true,\n    \"global_search\": true,\n    \"spaced_review\": true,\n    \"tutorials\": true,\n    \"achievements\": true\n  }\n}"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "title": "Export Report",
+      "icon": "📄",
+      "content": "Generate a comprehensive progress summary. Press E from the main menu.\n\nWhat the Report Includes:\n• All quiz scores and accuracy per category\n• Study streak (current and best)\n• Achievements earned with dates\n• Topics bookmarked\n• Tutorials completed\n• Total questions answered\n• Daily goal completion history\n\nExport Formats:\n• Markdown (.md) — Default, readable in any text editor\n• Text (.txt) — Plain text format\n\nHow to Export:\n1. Press E from main menu\n2. Enter a filename (or accept default: kslearn_report.md)\n3. File saves to your current directory\n\nUse Cases:\n• Share with teachers or parents\n• Keep for personal records\n• Include in learning portfolios\n• Track progress over weeks/months\n• Compare performance across categories",
+      "key_points": [
+        "Report includes scores, streaks, achievements, bookmarks",
+        "Default format: Markdown (.md)\n• Also supports plain text (.txt)",
+        "Default filename: kslearn_report.md",
+        "Useful for sharing with teachers or keeping records"
+      ],
+      "examples": [
+        {
+          "title": "Sample Report Output",
+          "explanation": "What an exported report looks like",
+          "code": "# kslearn Progress Report\nGenerated: 2026-04-04\nUser: gombwe\n\n## Quiz Performance\n| Category | Quizzes | Accuracy | Best Streak |\n|----------|---------|----------|-------------|\n| Bible    | 12      | 83%      | 5           |\n| POTT L6  | 8       | 88%      | 4           |\n\n## Study Streak\nCurrent: 2 days\nBest: 2 days\n\n## Achievements Earned (4/15)\n🌟 First Steps — 2026-04-03\n💎 Perfectionist — 2026-04-03\n🎓 Tutorial Graduate — 2026-04-03\n🃏 Flash of Genius — 2026-04-03"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "title": "User Profiles",
+      "icon": "👤",
+      "content": "Multiple users can share the same kslearn installation with separate progress. Press D from the main menu.\n\nWhy Use Profiles:\n• Multiple users on one device\n• Separate progress for different purposes (school, personal, work)\n• Each profile has its own settings\n\nEach Profile Tracks Separately:\n• Quiz history and scores\n• Achievements earned\n• Bookmarked topics\n• Study streaks\n• Tutorial progress\n• Daily goals\n• Review queue\n• Flashcard sessions\n\nTo Create a Profile:\n1. Press D from main menu\n2. Select Create Profile\n3. Enter a profile name\n4. Profile created with clean slate\n\nTo Switch Profiles:\n1. Press D\n2. Select the profile name\n3. All data switches to that profile\n\nDefault Profile:\nEvery installation comes with a 'default' profile. Your current progress is stored under this profile.",
+      "key_points": [
+        "Each profile has separate quiz history, achievements, streaks, bookmarks",
+        "Create unlimited profiles",
+        "Default profile created automatically",
+        "Switch profiles instantly from main menu",
+        "Useful for shared devices or separate learning tracks"
+      ],
+      "examples": [
+        {
+          "title": "Profile Structure",
+          "explanation": "How profiles are stored in settings",
+          "code": "\"active_profile\": \"default\",\n\"profiles\": {\n  \"default\": {\n    \"name\": \"Default User\"\n  },\n  \"student1\": {\n    \"name\": \"Student 1\",\n    \"created\": \"2026-04-04\"\n  },\n  \"student2\": {\n    \"name\": \"Student 2\",\n    \"created\": \"2026-04-04\"\n  }\n}"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "title": "Creating Custom Content — JSON Format",
+      "icon": "📝",
+      "content": "You can create your own learning content as JSON files. Place them in the data/ directory and kslearn loads them automatically.\n\nA content file has this structure:\n\n1. METADATA — Describes the content package:\n   • category: Unique identifier (lowercase, underscores)\n   • title: Display name with emoji\n   • description: Brief summary\n   • icon: Emoji for the category\n   • difficulty: beginner, intermediate, advanced\n   • version: Content version number\n   • author: Creator name\n\n2. NOTES — Array of study topics:\n   Each note has: id, title, icon, content, key_points[], examples[]\n\n3. QUIZ_TOPICS — Array of quiz question sets:\n   Each has: topic name, questions array\n   Each question has: id, question, options[], answer, explanation\n\n4. FLASHCARDS — Array of front/back cards:\n   Each has: front, back, category, difficulty\n\n5. TUTORIALS — Array of step-by-step lessons:\n   Each has: title, steps[]\n   Each step has: title, content, example, tip\n\nYou can include any combination — notes only, quizzes only, or all four types.",
+      "key_points": [
+        "Place JSON files in data/ directory — kslearn auto-loads them",
+        "Metadata block is required; notes, quizzes, flashcards, tutorials are optional",
+        "Category should be unique (lowercase with underscores)",
+        "Quiz answer is zero-based index (0=first option, 1=second)",
+        "You can include any combination of content types"
+      ],
+      "examples": [
+        {
+          "title": "Complete Content File Template",
+          "explanation": "Full JSON structure for a content file",
+          "code": "{\n  \"metadata\": {\n    \"category\": \"my_subject\",\n    \"title\": \"📖 My Subject\",\n    \"description\": \"Description of content\",\n    \"icon\": \"📖\",\n    \"difficulty\": \"beginner\",\n    \"version\": \"1.0\",\n    \"author\": \"Your Name\"\n  },\n  \"notes\": [\n    {\n      \"id\": 1,\n      \"title\": \"First Topic\",\n      \"icon\": \"📌\",\n      \"content\": \"Study content here.\\\\n\\\\nUse double backslashn for new lines.\",\n      \"key_points\": [\"Point 1\", \"Point 2\"],\n      \"examples\": [{\"title\": \"Example\", \"explanation\": \"What it shows\", \"code\": \"Details\"}]\n    }\n  ],\n  \"quiz_topics\": [\n    {\n      \"topic\": \"Quiz Topic\",\n      \"questions\": [\n        {\n          \"id\": 1,\n          \"question\": \"What is the answer?\",\n          \"options\": [\"A\", \"B\", \"C\", \"D\"],\n          \"answer\": 0,\n          \"explanation\": \"A is correct because...\"\n        }\n      ]\n    }\n  ],\n  \"flashcards\": [\n    {\"front\": \"Question?\", \"back\": \"Answer\", \"category\": \"My Subject\", \"difficulty\": \"easy\"}\n  ],\n  \"tutorials\": [\n    {\n      \"title\": \"Getting Started\",\n      \"steps\": [\n        {\"title\": \"Step 1\", \"content\": \"Details\", \"example\": \"Example\", \"tip\": \"Tip\"}\n      ]\n    }\n  ]\n}"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "title": "Updating and Troubleshooting",
+      "icon": "🔧",
+      "content": "Keeping kslearn up to date and solving common problems.\n\nUpdating kslearn:\n1. Navigate to kslearn directory\n2. Run: git pull\n3. Run: pip install -e .\n\nBacking Up Progress:\nYour progress is in data/config/settings.json\nBackup: cp data/config/settings.json settings_backup.json\nRestore: cp settings_backup.json data/config/settings.json\n\nCommon Issues:\n\nProblem: 'kslearn: command not found'\nSolution: Run 'pip install -e .' from the kslearn directory\n\nProblem: No content in Study Notes\nSolution: Check that JSON files exist in the data/ directory\n\nProblem: AI Chat not working\nSolution: Check internet connection. For free providers (Sky, Phind), no API key needed. For offline mode, check data/brain/knowledge.json exists.\n\nProblem: Quiz won't start\nSolution: Ensure the content file has quiz_topics with questions\n\nProblem: Progress not saving\nSolution: Check write permissions on data/config/settings.json\n\nProblem: Colors look wrong\nSolution: Change theme in Settings (C) to sky_blue, green, or grey\n\nGetting Help:\n• Press H in main menu for built-in help\n• Visit: https://github.com/kashsight/kslearn\n• Use option 8 (Support) for contact info",
+      "key_points": [
+        "Update with 'git pull' then 'pip install -e .'",
+        "Backup settings.json to preserve progress",
+        "Most issues fixed by reinstalling with 'pip install -e .'",
+        "AI Chat needs internet except for offline/Knowledge Brain mode",
+        "Progress stored in data/config/settings.json",
+        "Theme issues fixed by switching to sky_blue, green, or grey"
+      ],
+      "examples": [
+        {
+          "title": "Quick Fix Commands",
+          "explanation": "Common troubleshooting commands",
+          "code": "# Reinstall (fixes most issues)\npip install -e .\n\n# Backup progress\ncp data/config/settings.json settings_backup_$(date +%F).json\n\n# Restore progress\ncp settings_backup.json data/config/settings.json\n\n# Check Python version\npython --version\n\n# Check installed packages\npip list | grep kslearn\n\n# Check content files\nls data/*.json\nls data/brain/*.json"
+        }
+      ]
+    }
+  ],
+  "quiz_topics": [
+    {
+      "topic": "Getting Started with kslearn",
+      "questions": [
+        {
+          "id": 1,
+          "question": "What command installs kslearn in development mode?",
+          "options": [
+            "pip install kslearn",
+            "pip install -e .",
+            "npm install kslearn",
+            "apt install kslearn"
+          ],
+          "answer": 1,
+          "explanation": "pip install -e . installs in editable/development mode, so source code changes take effect immediately."
+        },
+        {
+          "id": 2,
+          "question": "Which feature in kslearn requires internet?",
+          "options": [
+            "Study Notes",
+            "Quizzes",
+            "AI Chat (online mode)",
+            "Flashcards"
+          ],
+          "answer": 2,
+          "explanation": "Only AI Chat online mode needs internet. Everything else works offline. AI Chat also has an offline mode using Knowledge Brain."
+        },
+        {
+          "id": 3,
+          "question": "How many themes does kslearn have?",
+          "options": [
+            "2",
+            "3",
+            "5",
+            "10"
+          ],
+          "answer": 1,
+          "explanation": "kslearn has 3 themes: Sky (sky_blue), Forest (green), and Monochrome (grey)."
+        },
+        {
+          "id": 4,
+          "question": "Where is user progress stored?",
+          "options": [
+            "data/brain/knowledge.json",
+            "data/config/settings.json",
+            "data/config/theme.json",
+            "~/.kslearnrc"
+          ],
+          "answer": 1,
+          "explanation": "All user progress — quiz scores, streaks, achievements, bookmarks — is stored in data/config/settings.json."
+        },
+        {
+          "id": 5,
+          "question": "What key opens the main menu's Help screen?",
+          "options": [
+            "H or ?",
+            "F1",
+            "M",
+            "S"
+          ],
+          "answer": 0,
+          "explanation": "Press H or ? from the main menu to see the help screen with all commands and usage info."
+        }
+      ]
+    },
+    {
+      "topic": "kslearn Features Knowledge",
+      "questions": [
+        {
+          "id": 1,
+          "question": "What does the Spaced Review feature do?",
+          "options": [
+            "Reviews all topics randomly",
+            "Reviews topics you scored below 80% on a schedule",
+            "Repeats the same quiz every day",
+            "Shows flashcards you rated easy"
+          ],
+          "answer": 1,
+          "explanation": "Spaced Review tracks topics where you scored below 80% and schedules reviews at increasing intervals (1, 3, 7, 14 days) based on the forgetting curve."
+        },
+        {
+          "id": 2,
+          "question": "How many achievements are there in kslearn?",
+          "options": [
+            "10",
+            "12",
+            "15",
+            "20"
+          ],
+          "answer": 2,
+          "explanation": "kslearn has 15 achievements across 4 rarity levels: Common (4), Uncommon (6), Rare (3), and Legendary (2)."
+        },
+        {
+          "id": 3,
+          "question": "Which AI provider runs locally without internet?",
+          "options": [
+            "OpenAI GPT-4",
+            "Anthropic Claude",
+            "Ollama",
+            "Google Gemini"
+          ],
+          "answer": 2,
+          "explanation": "Ollama runs AI models locally on your device, so it doesn't need internet. All other providers require a connection."
+        },
+        {
+          "id": 4,
+          "question": "What file format does the Data Store use for content packs?",
+          "options": [
+            ".zip",
+            ".json",
+            ".ksl",
+            ".tar.gz"
+          ],
+          "answer": 2,
+          "explanation": "Content packs download as .ksl files, which are encrypted and signed for security."
+        },
+        {
+          "id": 5,
+          "question": "What accuracy rating earns 'Excellent!' in quiz results?",
+          "options": [
+            "70%+",
+            "75%+",
+            "80%+",
+            "90%+"
+          ],
+          "answer": 2,
+          "explanation": "80%+ accuracy earns 'Excellent!' (🎉). 60-79% is 'Good job!' (👍). Below 60% is 'Keep learning!' (📚)."
+        }
+      ]
+    },
+    {
+      "topic": "Creating Content for kslearn",
+      "questions": [
+        {
+          "id": 1,
+          "question": "Where should you place custom JSON content files?",
+          "options": [
+            "data/config/",
+            "data/brain/",
+            "data/",
+            "kslearn/"
+          ],
+          "answer": 2,
+          "explanation": "Custom JSON content files go in the data/ directory. kslearn auto-discovers and loads them."
+        },
+        {
+          "id": 2,
+          "question": "In quiz questions, what does 'answer': 2 mean?",
+          "options": [
+            "The third option is correct",
+            "The second option is correct",
+            "Two options are correct",
+            "Answer is worth 2 points"
+          ],
+          "answer": 0,
+          "explanation": "The answer field uses zero-based indexing. answer: 0 = first option, answer: 1 = second, answer: 2 = third option."
+        },
+        {
+          "id": 3,
+          "question": "Which field is REQUIRED in a content file's metadata?",
+          "options": [
+            "category, title, description",
+            "author, version, icon",
+            "difficulty, created",
+            "All of the above"
+          ],
+          "answer": 0,
+          "explanation": "The minimum required metadata fields are category (unique identifier), title (display name), and description (summary). Other fields are recommended but not strictly required."
+        },
+        {
+          "id": 4,
+          "question": "How do you create line breaks in note content?",
+          "options": [
+            "Use <br> tags",
+            "Use \\n",
+            "Use empty lines",
+            "Use ---"
+          ],
+          "answer": 1,
+          "explanation": "Use \\n (escaped newline) in JSON strings to create line breaks in note content."
+        },
+        {
+          "id": 5,
+          "question": "Can a content file include only flashcards without notes?",
+          "options": [
+            "No, notes are always required",
+            "Yes, any combination of content types works",
+            "No, quizzes must accompany flashcards",
+            "Only if the metadata says flashcard_only"
+          ],
+          "answer": 1,
+          "explanation": "You can include any combination — notes only, quizzes only, flashcards only, tutorials only, or any mix."
+        }
+      ]
+    }
+  ],
+  "flashcards": [
+    {
+      "front": "What command installs kslearn?",
+      "back": "pip install -e .\n\nThe -e flag installs in editable mode so source changes take effect immediately.",
+      "category": "kslearn_user_guide",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What are the 3 kslearn themes?",
+      "back": "Sky (sky_blue), Forest (green), Monochrome (grey)\n\nDefault is Sky. Change in Settings (C).",
+      "category": "kslearn_user_guide",
+      "difficulty": "easy"
+    },
+    {
+      "front": "Which key opens Flashcards from the main menu?",
+      "back": "F\n\nF = Flashcards, T = Timed Quiz, G = Global Search, R = Spaced Review, U = Tutorials, V = Achievements, E = Export, D = Profiles, C = Settings, H = Help, 0 = Exit",
+      "category": "kslearn_user_guide",
+      "difficulty": "easy"
+    },
+    {
+      "front": "How many achievements does kslearn have?",
+      "back": "15 achievements across 4 rarity levels:\n• Common: 4\n• Uncommon: 6\n• Rare: 3\n• Legendary: 2",
+      "category": "kslearn_user_guide",
+      "difficulty": "medium"
+    },
+    {
+      "front": "What accuracy earns 'Excellent!' in a quiz?",
+      "back": "80%+ accuracy\n\n60-79% = Good job!\nBelow 60% = Keep learning!",
+      "category": "kslearn_user_guide",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What is the Spaced Review schedule?",
+      "back": "Based on the forgetting curve:\n1. First review: 1 day after\n2. Second review: 3 days after\n3. Third review: 7 days after\n4. Fourth review: 14 days after",
+      "category": "kslearn_user_guide",
+      "difficulty": "medium"
+    },
+    {
+      "front": "Which AI providers are FREE (no API key)?",
+      "back": "Sky, Phind, DeepSeek, Pollinations AI, ISou, Kimi (free tier)\n\nOllama runs locally.\nOpenAI, Anthropic, Groq, Gemini need API keys.",
+      "category": "kslearn_user_guide",
+      "difficulty": "medium"
+    },
+    {
+      "front": "Where is user progress stored?",
+      "back": "data/config/settings.json\n\nBackup: cp data/config/settings.json settings_backup.json",
+      "category": "kslearn_user_guide",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What file format do Data Store content packs use?",
+      "back": ".ksl files — encrypted and signed content packages.\n\nThey auto-install after download.",
+      "category": "kslearn_user_guide",
+      "difficulty": "medium"
+    },
+    {
+      "front": "In quiz JSON, what does 'answer': 1 mean?",
+      "back": "The SECOND option is correct (zero-based index).\n\nanswer: 0 = first option\nanswer: 1 = second option\nanswer: 2 = third option\nanswer: 3 = fourth option",
+      "category": "kslearn_user_guide",
+      "difficulty": "easy"
+    },
+    {
+      "front": "How many topics are in the Bible content?",
+      "back": "25 topics — covering the entire Bible from Genesis to Revelation, including theology, parables, miracles, prayer, and practical topics.",
+      "category": "kslearn_user_guide",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What are the 5 POTT tutorials?",
+      "back": "1. Getting Started with POTT\n2. How to Sterilize Surgical Instruments\n3. Managing OT Waste\n4. Performing CPR\n5. Understanding Theatre Zoning",
+      "category": "kslearn_user_guide",
+      "difficulty": "medium"
+    },
+    {
+      "front": "How do you create a new user profile?",
+      "back": "Press D from main menu → Select Create Profile → Enter name.\n\nEach profile has separate progress, achievements, streaks, and settings.",
+      "category": "kslearn_user_guide",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What does Global Search search?",
+      "back": "ALL notes across ALL categories at once.\n\nIt searches content, key points, and examples. Case-insensitive with partial match support.",
+      "category": "kslearn_user_guide",
+      "difficulty": "easy"
+    },
+    {
+      "front": "How to update kslearn?",
+      "back": "cd kslearn && git pull && pip install -e .\n\nThen backup your settings.json before updating.",
+      "category": "kslearn_user_guide",
+      "difficulty": "easy"
+    }
+  ],
+  "tutorials": [
+    {
+      "title": "Getting Started with kslearn",
+      "steps": [
+        {
+          "title": "Step 1: Install kslearn",
+          "content": "kslearn is a terminal-based learning system. You need Python installed first.\n\nOn Termux: pkg install python\nThen clone and install: git clone + pip install -e .",
+          "example": "git clone https://github.com/kashsight/kslearn\ncd kslearn\npip install -e .\nkslearn --version",
+          "tip": "The -e flag means any changes you make to the source code take effect immediately without reinstalling."
+        },
+        {
+          "title": "Step 2: Launch kslearn",
+          "content": "Simply type 'kslearn' in your terminal. You'll see the main menu with the ASCII art banner and all available features.\n\nThe menu shows 20 features with both numbered options (1-8) and letter shortcuts (F, T, G, R, U, V, E, D, C, H, 0).",
+          "example": "kslearn\n# You'll see the banner, menu table, daily goal, and study streak",
+          "tip": "Press H at any time from the main menu to see a help screen with all commands."
+        },
+        {
+          "title": "Step 3: Choose Your Theme",
+          "content": "kslearn has 3 themes. Press C for Settings, then select the theme option. Choose from sky_blue (default), green, or grey.\n\nThe theme changes ALL colors in the UI — the banner, menu tables, panels, prompts, and borders all use one consistent color palette.",
+          "example": "Sky: bright_cyan banner, sky_blue1 tables\nGreen: bright_green banner, green tables\nGrey: white banner, bright_black borders",
+          "tip": "Try all three themes and pick the one that's most comfortable for your eyes during long study sessions."
+        },
+        {
+          "title": "Step 4: Start Studying",
+          "content": "Press 1 to open Study Notes. Select a category, then pick a topic. Read through the content, key points, and examples.\n\nAfter studying, press 2 to take a quiz on what you learned. Or press T for a quick timed quiz.",
+          "example": "1 → Select category → Select topic → Read → N (next) → Q (quiz)",
+          "tip": "The recommended learning flow is: Study Notes → Quiz → Flashcards for review → Come back tomorrow for your streak!"
+        },
+        {
+          "title": "Step 5: Track Your Progress",
+          "content": "Press 4 to see your statistics table. Check your accuracy per category, best streaks, and study streak.\n\nSet a daily goal in settings (default 15 minutes). The progress bar at the bottom of the main menu shows how close you are.",
+          "example": "4 → View stats → C → Settings → Daily Goal → Set to 30 minutes",
+          "tip": "Study a little every day to build your streak. 5 days = Hot Streak achievement, 30 days = Month Warrior (legendary)!"
+        }
+      ]
+    },
+    {
+      "title": "How to Create Your Own Content",
+      "steps": [
+        {
+          "title": "Step 1: Create the JSON File",
+          "content": "Create a new .json file in the data/ directory. Name it something descriptive like my_subject.json.\n\nStart with the metadata block — this tells kslearn about your content.",
+          "example": "{\n  \"metadata\": {\n    \"category\": \"my_subject\",\n    \"title\": \"📖 My Subject\",\n    \"description\": \"Learn about my subject\",\n    \"icon\": \"📖\",\n    \"difficulty\": \"beginner\",\n    \"version\": \"1.0\",\n    \"author\": \"Your Name\"\n  }\n}",
+          "tip": "Use a unique category name — lowercase with underscores. This is how kslearn identifies your content."
+        },
+        {
+          "title": "Step 2: Add Study Notes",
+          "content": "Add a 'notes' array to your JSON file. Each note needs an id, title, icon, content, key_points array, and examples array.\n\nUse \\n for line breaks in the content field.",
+          "example": "\"notes\": [\n  {\n    \"id\": 1,\n    \"title\": \"Introduction\",\n    \"icon\": \"📌\",\n    \"content\": \"This is the introduction.\\\\n\\\\nMore details here.\",\n    \"key_points\": [\"First point\", \"Second point\"],\n    \"examples\": [\n      {\n        \"title\": \"Example\",\n        \"explanation\": \"What this shows\",\n        \"code\": \"Details here\"\n      }\n    ]\n  }\n]",
+          "tip": "Write 3-6 key points per topic. Keep topics focused — one concept per topic works best."
+        },
+        {
+          "title": "Step 3: Add Quiz Questions",
+          "content": "Add a 'quiz_topics' array. Each quiz topic has a name and an array of questions.\n\nEach question needs: id, question text, 4 options, answer index, and explanation.\n\nIMPORTANT: answer is zero-based — 0 means first option, 1 means second, etc.",
+          "example": "\"quiz_topics\": [\n  {\n    \"topic\": \"Basics Quiz\",\n    \"questions\": [\n      {\n        \"id\": 1,\n        \"question\": \"What is the answer?\",\n        \"options\": [\"Option A\", \"Option B\", \"Option C\", \"Option D\"],\n        \"answer\": 1,\n        \"explanation\": \"Option B is correct because...\"\n      }\n    ]\n  }\n]",
+          "tip": "Write plausible wrong options. Make questions test understanding, not just memorization. Always include a helpful explanation."
+        },
+        {
+          "title": "Step 4: Add Flashcards and Tutorials (Optional)",
+          "content": "Add flashcards for quick review — each has a front (question) and back (answer).\n\nAdd tutorials for step-by-step guided lessons — each tutorial has a title and an array of steps.",
+          "example": "\"flashcards\": [\n  {\"front\": \"What is X?\", \"back\": \"X is...\", \"category\": \"my_subject\", \"difficulty\": \"easy\"}\n],\n\"tutorials\": [\n  {\n    \"title\": \"Getting Started\",\n    \"steps\": [\n      {\"title\": \"Step 1\", \"content\": \"Details\", \"example\": \"Example\", \"tip\": \"Tip\"}\n    ]\n  }\n]",
+          "tip": "Flashcards are great for definitions and key facts. Tutorials work best for procedures and workflows."
+        },
+        {
+          "title": "Step 5: Test Your Content",
+          "content": "Save the JSON file and run 'kslearn'. Your new category should appear in Study Notes.\n\nTest by:\n1. Reading a note (press 1)\n2. Taking the quiz (press 2)\n3. Trying flashcards (press F)\n4. Running the tutorial (press U)\n\nIf anything doesn't work, check your JSON syntax.",
+          "example": "# Validate JSON syntax:\npython -m json.tool data/my_subject.json\n\n# Then launch:\nkslearn",
+          "tip": "Use 'python -m json.tool' to validate your JSON before launching. It catches syntax errors like missing commas or brackets."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+# Website - NOT pushed to GitHub
+website/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# User data (don't push personal progress)
+data/config/settings.json
+data/config/theme.json
+data/chat_history.json
+data/chat_settings.json
+data/knowledge_brain.json
+data/progress.json
+data/brain/
+
+# Generated files
+learnquest/
+*.ksl
+!data/ksl/
+!data/ksl/hierarchical_sample.json
+
+# Logs
+*.log
+
+# Firebase hosting cache
+.firebase/hosting.*.cache
+
+# Temporary
+tmp/
+temp/
+*.tmp

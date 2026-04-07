@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 📖 User Guide
+    url: https://github.com/kashsightplatform/kslearn/blob/main/docs/USER_GUIDE.md
+    about: Complete guide for all kslearn features
+  - name: 📦 Installation Help
+    url: https://github.com/kashsightplatform/kslearn/blob/main/docs/INSTALLATION.md
+    about: Detailed setup instructions
+  - name: 💬 Email Support
+    url: mailto:kashsightplatform@gmail.com
+    about: Contact us directly for urgent issues

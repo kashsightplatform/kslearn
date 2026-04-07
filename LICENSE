@@ -1,0 +1,46 @@
+# KashSight Platform License
+
+**Copyright © 2026 KashSight Platform. All rights reserved.**
+
+---
+
+## Terms of Use
+
+This software, **kslearn**, is the proprietary property of **KashSight Platform**. By using this software, you agree to the following terms:
+
+### ✅ You MAY:
+
+- Use kslearn for **personal learning and educational purposes**
+- Install and run the application on your own devices
+- Study the content and materials provided within the app
+
+### ❌ You MAY NOT:
+
+- **Modify, alter, or edit** the source code or any part of the application
+- **Redistribute, resell, or share** modified or unmodified copies of the software
+- **Create derivative works** based on this software
+- **Reverse engineer, decompile, or disassemble** the software
+- **Extract, copy, or redistribute** the encrypted content (`.ksl` files)
+- **Remove or alter** any copyright, trademark, or proprietary notices
+
+### 🐛 Reporting Issues
+
+If you find a bug, have a feature request, or want to suggest improvements:
+
+- **Email:** kashsightplatform@gmail.com
+- **GitHub Issues:** https://github.com/kashsightplatform/kslearn/issues
+- **Website:** https://kash-sight.web.app
+
+We welcome feedback and will review all submissions.
+
+### 📦 Content
+
+All content packages (`.ksl` files, JSON data, notes, quizzes, tutorials) included with kslearn are the exclusive property of KashSight Platform and are provided for **personal learning use only**. No rights to modify, redistribute, or create derivative content packages are granted.
+
+### ⚠️ Disclaimer
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+---
+
+**KashSight Platform** — https://kash-sight.web.app

@@ -1,0 +1,907 @@
+{
+  "metadata": {
+    "category": "kslearn",
+    "title": "📚 KSLearn — Complete User Guide & Platform Overview",
+    "description": "Everything you need to know about kslearn — the terminal-based educational learning platform. Installation, features, usage tips, and best practices.",
+    "icon": "📚",
+    "difficulty": "beginner",
+    "version": "1.0",
+    "author": "kslearn Team",
+    "created": "2026-04-03"
+  },
+
+  "notes": [
+    {
+      "id": 1,
+      "title": "What is kslearn?",
+      "icon": "🏠",
+      "content": "kslearn is a comprehensive educational learning platform that runs entirely in your terminal. It's built with Python and designed to work on Android (Termux), Linux, macOS, and Windows.\n\n🎯 Core Philosophy:\n• Learn anything — math, science, psychology, religion, music, technology, and more\n• Study notes first, then test yourself with quizzes\n• Review with flashcards for quick memorization\n• Follow guided tutorials for step-by-step lessons\n\n📦 What's Included:\n• Comprehensive study notes with real-world examples\n• Interactive multiple-choice quizzes with instant feedback\n• Flashcard mode for quick review sessions\n• Step-by-step tutorials for guided learning\n• Offline AI knowledge brain for Q&A\n• Progress tracking and study streaks\n• Bookmarks for saving topics\n• Spaced repetition review system\n• Achievement system to track milestones\n\n🖥️ How It Works:\n• All content is packaged into .ksl files (encrypted, signed)\n• The app auto-discovers and loads .ksl files at runtime\n• Users cannot edit or forge .ksl files — only study from them\n• Content creators use ksl_tool.py to build packages from JSON\n\n⌨️ Quick Start:\n• Type 'kslearn' or 'ksl' to launch the interactive menu\n• Or use CLI commands: kslearn study, kslearn quiz, etc.\n• Type 'kslearn help' to see all available commands",
+      "key_points": [
+        "kslearn is a terminal-based learning platform — no GUI needed",
+        "All content comes in encrypted .ksl packages",
+        "Study notes first, then take quizzes for best results",
+        "Works on Android, Linux, macOS, and Windows",
+        "The app is open source, but premium content is encrypted"
+      ],
+      "examples": [
+        {
+          "title": "Launching kslearn",
+          "explanation": "Open your terminal and type the command.",
+          "code": "kslearn\n# or the shortcut:\nksl"
+        },
+        {
+          "title": "Quick help",
+          "explanation": "From the main menu, press H or ? to see all commands.",
+          "code": "kslearn help\n# or press H in the interactive menu"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Installation & Setup",
+      "icon": "📦",
+      "content": "Getting kslearn running on your system is straightforward.\n\n🐧 Linux / macOS:\n1. Install Python 3.7+ (usually pre-installed)\n2. Clone the repo: git clone https://github.com/kslearn/kslearn\n3. cd kslearn\n4. pip install -e .\n5. Run: kslearn\n\n🤖 Android (Termux):\n1. Install Termux from F-Droid (recommended) or Play Store\n2. pkg update && pkg upgrade\n3. pkg install python git\n4. git clone https://github.com/kslearn/kslearn\n5. cd kslearn\n6. pip install -e .\n7. Run: kslearn\n\n🪟 Windows:\n1. Install Python 3.7+ from python.org\n2. Open Command Prompt or PowerShell\n3. Follow the same Linux steps\n4. If pip isn't in PATH, use: python -m pip install -e .\n\n✅ Verify Installation:\n• Run: kslearn --version\n• You should see: kslearn v1.0.0\n• Then run: kslearn to open the interactive menu\n\n📁 After Installation:\n• Create data/ksl/ directory for content packages\n• Drop .ksl files into data/ksl/\n• The app auto-discovers and loads them on startup\n\n🔑 If You Have Premium Content:\n• Run: kslearn activate\n• Enter your purchase key\n• Premium .ksl files will decrypt automatically",
+      "key_points": [
+        "Python 3.7+ is required",
+        "pip install -e . installs in development mode (auto-updates)",
+        "On Termux, use F-Droid version for best compatibility",
+        "Create data/ksl/ for .ksl content packages",
+        "Run 'kslearn activate' for premium content"
+      ],
+      "examples": [
+        {
+          "title": "Full Installation on Termux",
+          "explanation": "Complete step-by-step for Android users.",
+          "code": "pkg update && pkg upgrade\npkg install python git\n\ngit clone https://github.com/kslearn/kslearn\ncd kslearn\npip install -e .\n\n# Verify\nkslearn --version\n\n# Run\nkslearn"
+        },
+        {
+          "title": "Installing Required Dependencies",
+          "explanation": "kslearn needs two Python packages.",
+          "code": "# These install automatically with pip install -e .\n# But if installing manually:\npip install rich click\n\n# rich — beautiful terminal UI\nclick — CLI command routing"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Study Notes — How to Use",
+      "icon": "📖",
+      "content": "Notes are the foundation of learning in kslearn. They provide detailed explanations, real-world examples, and key takeaways.\n\n📚 Accessing Notes:\n• From main menu: Select option 1 (Study Notes)\n• CLI: kslearn study\n\n📋 Notes Structure:\nEach notes category contains multiple topics. Each topic has:\n• Content — Detailed explanation with examples\n• Key Points — Bulleted summary of important facts\n• Examples — Real-world applications with code snippets\n\n📖 Reading Notes:\n• Select a topic number to read it full\n• Navigation while reading:\n  [N] — Next topic\n  [P] — Previous topic\n  [Q] — Take quiz on this topic\n  [A] — Ask AI about this topic\n  [B] — Bookmark this topic\n  [0] — Back to topics list\n\n💡 Best Practices:\n• Read the full content before moving to examples\n• Pay attention to key points — they're quiz material\n• Use N/P to navigate at your own pace\n• Bookmark topics you want to revisit\n• Take the quiz immediately after reading to reinforce knowledge",
+      "key_points": [
+        "Notes provide the detailed theory behind each topic",
+        "Key points are the most testable facts — focus on them",
+        "Examples show real-world application of concepts",
+        "Bookmark topics you find difficult for later review",
+        "Take quizzes immediately after reading for best retention"
+      ],
+      "examples": [
+        {
+          "title": "Navigating Notes",
+          "explanation": "How to move through topics efficiently.",
+          "code": "Main Menu > 1. Study Notes\nSelect category (e.g., ms_office)\n\nTopic list appears:\n  01  Introduction to Microsoft Office  🏠\n  02  Getting Started with Word  📝\n  03  Word — Formatting Text  ✏️\n\nType '1' to read topic 1\nThen:\n  N → next topic\n  P → previous topic\n  Q → quiz on this topic\n  0 → back to topic list"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Quiz Mode — Test Your Knowledge",
+      "icon": "📝",
+      "content": "Quizzes test your understanding with multiple-choice questions, instant feedback, and score tracking.\n\n📝 Accessing Quizzes:\n• From main menu: Select option 2 (Take Quiz)\n• CLI: kslearn quiz\n\n🎯 Quiz Structure:\n• Each quiz has multiple topics\n• Each topic has 5-10 multiple-choice questions\n• 4 options per question (numbered 1-4)\n• Type 'q' to quit anytime\n\n📊 Scoring System:\n• Correct answer: +10 points + streak bonus (+2 per consecutive correct)\n• Wrong answer: 0 points, streak resets\n• Shows explanation for every answer (correct or wrong)\n• Final results show accuracy %, best streak, and performance rating\n\n💡 Quiz Strategies:\n• Study notes BEFORE taking the quiz\n• Read all 4 options before selecting\n• Don't guess — think through each option\n• If you score below 60%, review notes and retake\n• Use 'R' for random topic if you're unsure where to start\n• Quiz progress is saved automatically to your config",
+      "key_points": [
+        "Study notes first for best quiz results",
+        "Streaks give bonus points — consecutive correct answers matter",
+        "Read ALL options before answering",
+        "Score below 60% = review notes and retake",
+        "Quiz progress saves automatically"
+      ],
+      "examples": [
+        {
+          "title": "Taking a Quiz",
+          "explanation": "Step-by-step quiz flow.",
+          "code": "Main Menu > 2. Take Quiz\n\nAvailable quizzes:\n  01  Microsoft Office Quiz  🖥️\n\nSelect quiz: 1\n\nSelect topic:\n  01  Microsoft Office — General Basics (10 questions)\n  02  Word — Basics and Formatting (10 questions)\n  R  🎲 Random Topic\n  0  Back\n\nType topic number or 'R' for random\n\n[1/10]  🔥 Streak: 0\n──────────────────────────────\nWhat is the name of Microsoft's\nsubscription-based Office suite?\n\n  [1] Office 2021\n  [2] Microsoft 365\n  [3] Office Starter\n  [4] Windows Essentials\n\nYour answer: 2\n\n✓ Correct! +10 points\n💡 Microsoft 365 is the subscription version..."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Flashcard Mode — Quick Review",
+      "icon": "🃏",
+      "content": "Flashcards are designed for quick memorization. Each card shows a question or term on the front — flip to reveal the answer.\n\n🃏 Accessing Flashcards:\n• From main menu: Press F\n• Best for: 5-15 minute quick review sessions\n\n📋 How Flashcards Work:\n• Front: Question or term to learn\n• Back: Answer or definition\n• After seeing the answer:\n  [1] Know it — Mark as learned, move on\n  [2] Still learning — Keep in rotation\n\n💡 When to Use Flashcards:\n• During short breaks (5-10 minutes)\n• Before an exam for quick review\n• After studying notes to reinforce key terms\n• As a warm-up before taking quizzes\n\n📊 Flashcard Tips:\n• Don't spend too long on each card\n• If you don't know it, mark 'Still learning'\n• Review 'Still learning' cards until you know them all\n• Flashcards complement notes and quizzes — don't use them alone",
+      "key_points": [
+        "Flashcards are for quick memorization, not deep learning",
+        "Best used during short breaks or before exams",
+        "Mark honestly — 'Still learning' means you need more review",
+        "Combine with notes and quizzes for complete learning",
+        "5-15 minute sessions are most effective"
+      ],
+      "examples": [
+        {
+          "title": "Using Flashcards",
+          "explanation": "A typical flashcard session.",
+          "code": "Main Menu > Press F\n\nFront:\n  What does kslearn stand for?\n  [Tap to reveal]\n\nBack:\n  KSLearn — a terminal-based educational\n  learning platform for studying any subject\n\n[1] ✓ Know it\n[2] 🔄 Still learning\n[0] Exit\n\nYour choice: 1\n\nNext card...\n[3] Know it\n[7] Know it\n[2] Know it\n\nSession complete: 5/5 known!"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Tutorial Mode — Guided Lessons",
+      "icon": "🎓",
+      "content": "Tutorials are step-by-step guided lessons that build on each other. Perfect for beginners learning a new subject from scratch.\n\n🎓 Accessing Tutorials:\n• From main menu: Press U\n• Best for: Complete beginners on a topic\n\n📋 Tutorial Structure:\nEach tutorial has multiple steps:\n• Step title — What you'll learn in this step\n• Content — Detailed explanation\n• Code/Example — Practical demonstration\n• Tip — Pro tip or best practice\n\n💡 How to Use Tutorials:\n• Follow steps in order — they build on each other\n• Don't skip steps even if you think you know them\n• Try the code examples yourself\n• Read tips for expert shortcuts and best practices\n• Take your time — tutorials are for deep understanding\n\n📊 Tutorials vs Notes:\n• Notes = comprehensive reference material (read what you need)\n• Tutorials = guided lessons (follow step-by-step)\n• Use notes for review, tutorials for learning from scratch",
+      "key_points": [
+        "Tutorials are sequential — don't skip steps",
+        "Try the examples yourself as you go",
+        "Tips contain expert knowledge and shortcuts",
+        "Best for complete beginners on a new subject",
+        "Use notes for reference, tutorials for structured learning"
+      ],
+      "examples": [
+        {
+          "title": "Following a Tutorial",
+          "explanation": "Step-by-step guided learning.",
+          "code": "Main Menu > Press U\n\nAvailable Tutorials:\n  01  Getting Started with kslearn  🚀\n  02  Mastering Quiz Mode  📝\n\nSelect tutorial: 1\n\nStep 1/5: Launch kslearn\nOpen your terminal and type the command.\n  kslearn\n💡 Tip: First run creates config files automatically.\n\nPress Enter for next step...\n\nStep 2/5: Browse Study Notes\n..."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Progress Tracking & Achievements",
+      "icon": "📊",
+      "content": "kslearn tracks your learning journey automatically — quiz scores, study streaks, and milestones.\n\n📊 My Progress (Option 4):\n• Total quizzes completed\n• Overall accuracy percentage\n• Best streak across all quizzes\n• Last study session date\n• Per-topic breakdown (score, accuracy, date)\n\n🔥 Study Streaks:\n• Tracks consecutive days of studying\n• Displayed on main menu\n• Goal: maintain daily habit\n• Shows current streak and all-time best\n\n🏆 Achievements:\n• Unlock badges for milestones\n• Different rarity levels (Common, Uncommon, Rare, Legendary)\n• Auto-checked after quiz sessions\n• View all achievements with option V\n\n📅 Spaced Review (Option R):\n• Reviews topics you struggled with\n• Uses spaced repetition algorithm\n• Suggests topics to revisit based on quiz performance\n• Helps convert short-term memory to long-term\n\n🃏 Bookmarks (Option 5):\n• Save topics you want to revisit\n• Press B while reading any topic\n• View all bookmarks from main menu\n• Great for difficult topics or exam prep",
+      "key_points": [
+        "Progress is tracked automatically after every quiz",
+        "Study streaks encourage daily learning habits",
+        "Achievements unlock as you hit milestones",
+        "Spaced review targets your weak areas",
+        "Bookmarks let you save topics for later review"
+      ],
+      "examples": [
+        {
+          "title": "Viewing Progress",
+          "explanation": "What the progress screen looks like.",
+          "code": "Main Menu > 4. My Progress\n\n📊 My Learning Progress\n─────────────────────────────\n  Quizzes Completed:  12\n  Total Score:        1,240\n  Overall Accuracy:   78.5%\n  Best Streak:        8 🔥\n  Current Streak:     3 days\n  Last Studied:       2026-04-03 14:30\n\n📋 Recent Quizzes:\n  ms_office/Word Basics     83%  ✅\n  ms_office/Excel Basics    72%  ⚠️\n  science/Chemistry         91%  🏆"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "AI Chat — Online & Offline Tutor",
+      "icon": "🤖",
+      "content": "kslearn includes an AI chat feature that works both online (powered by tgpt) and offline (using the Knowledge Brain).\n\n🤖 Accessing AI Chat:\n• From main menu: Select option 3 (AI Chat)\n• CLI: kslearn chat\n\n📡 Online Mode (tgpt):\n• Requires internet connection\n• Powered by AI providers (Anthropic, OpenAI, etc.)\n• Configure provider with: kslearn ai-config\n• Best for: complex questions, creative explanations\n\n🧠 Offline Mode (Knowledge Brain):\n• Works without internet\n• Searches pre-loaded Q&A database\n• Keyword-based matching\n• Fast responses, no API needed\n• Configure brain content with .ksl packages\n\n💡 When to Use Each:\n• Online: Complex topics, creative explanations, new subjects\n• Offline: Quick reference, basic questions, no internet\n\n💬 Chat Tips:\n• Ask specific questions for best results\n• In offline mode, use keywords the brain recognizes\n• Conversations are saved to the Knowledge Brain\n• You can add new Q&A pairs through chat interactions",
+      "key_points": [
+        "Online mode needs internet, offline mode doesn't",
+        "Configure online AI with: kslearn ai-config",
+        "Offline brain uses keyword matching",
+        "Ask specific questions for best results",
+        "Conversations are saved for future reference"
+      ],
+      "examples": [
+        {
+          "title": "Asking the AI a Question",
+          "explanation": "Example AI chat session.",
+          "code": "Main Menu > 3. AI Chat\n\nChoose mode:\n  [1] Online AI (tgpt)\n  [2] Offline Brain\n\nSelect: 2 (Offline)\n\nQ: What is the difference between\n   Word and Excel?\n\nA: Word is a word processing app for\n   creating documents (letters, reports,\n   resumes). Excel is a spreadsheet app\n   for working with data, formulas,\n   and calculations.\n\nWas this helpful? (y/n): y\n✓ Feedback saved!\n\nType 'quit' to exit."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Settings & Customization",
+      "icon": "⚙️",
+      "content": "Customize kslearn to fit your learning style and preferences.\n\n⚙️ Accessing Settings:\n• From main menu: Press C\n• CLI: kslearn config\n\n🎨 Available Settings:\n• Username — Your display name\n• Daily Goal — Target minutes of study per day\n• Theme — Dark or light terminal theme\n• Color Scheme — Choose accent color (cyan, green, blue, etc.)\n• Language — Interface language (English default)\n• Difficulty — Mixed, beginner, intermediate, advanced\n• Show Explanations — Toggle quiz explanations after answers\n• Auto Timer — Auto-end study sessions after X minutes\n• Notification — Enable/disable study reminders\n\n📝 Editing Config:\n• Interactive: kslearn config --edit\n• View current: kslearn config\n• Reset to defaults: kslearn config --reset\n\n👤 Multiple Profiles:\n• Switch between user profiles from main menu (Press D)\n• Each profile has separate progress, bookmarks, settings\n• Useful for shared devices or different subjects",
+      "key_points": [
+        "Settings are accessible from the main menu (C)",
+        "Daily goals help you stay consistent",
+        "Multiple profiles support separate users",
+        "Reset config with: kslearn config --reset",
+        "Color scheme and theme customize the UI"
+      ],
+      "examples": [
+        {
+          "title": "Changing Your Username",
+          "explanation": "Personalize your experience.",
+          "code": "kslearn config --edit\n\nCurrent settings:\n  username: User\n  daily_goal_minutes: 30\n  theme: dark\n  ...\n\nEdit username:\n  username: John\n\nSave? (y/n): y\n✓ Settings saved!"
+        },
+        {
+          "title": "Switching Profiles",
+          "explanation": "Multiple users on one device.",
+          "code": "Main Menu > Press D\n\n👤 User Profiles\n  [1] Default User (current)\n  [2] Add New Profile\n  [3] Switch Profile\n  [0] Back\n\nSelect: 2\nProfile name: Sarah\n✓ Profile created!"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Content System — .ksl Packages",
+      "icon": "📦",
+      "content": "All learning content in kslearn comes packaged as .ksl (KSLearn Package) files. These are encrypted, digitally signed packages.\n\n📦 What is a .ksl File?\n• Encrypted content package (AES-256)\n• Contains notes, quizzes, flashcards, and/or tutorials\n• Digitally signed — only the creator can build them\n• Users can load and study, but not edit or forge\n• Self-describing — the header tells the app what type of content it contains\n\n📁 Where .ksl Files Go:\n• Place all .ksl files in: data/ksl/\n• The app auto-discovers every .ksl file on startup\n• Header is read to determine content type (notes, quiz, flashcard, tutorial, brain)\n• Content is decrypted in memory only — never written to disk as plain text\n\n🔑 Activation:\n• Free content: works immediately, no key needed\n• Premium content: requires activation key\n• Run: kslearn activate to enter your key\n• Key is saved to: ~/.kslearn/licenses/content.key\n\n🛠️ Creating .ksl Files (For Creators):\n• Source content: Create JSON files with notes, quizzes, etc.\n• Pack tool: python ksl_tool.py (interactive)\n• Output: Saves to data/ksl/ directory\n• brain.ksl is separate from content.ksl\n• The creator tool encrypts and signs automatically",
+      "key_points": [
+        ".ksl files are encrypted, signed content packages",
+        "All .ksl files go in data/ksl/",
+        "App auto-discovers and loads them on startup",
+        "Decryption happens in memory only",
+        "Use python ksl_tool.py to create packages from JSON"
+      ],
+      "examples": [
+        {
+          "title": "Adding Content to kslearn",
+          "explanation": "How to install new .ksl packages.",
+          "code": "# As a creator:\npython ksl_tool.py\n  → Type 1 (Combined)\n  → Enter package name\n  → Enter JSON file paths\n  → Saves to data/ksl/content.ksl\n\n# As a user:\n# Just copy the .ksl file:\ncp content.ksl ~/kslearn/data/ksl/\n\n# If premium, activate:\nkslearn activate\n  → Enter your key\n\n# Run kslearn — content loads automatically!"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "CLI Commands Reference",
+      "icon": "⌨️",
+      "content": "Complete reference of all kslearn CLI commands.\n\n📋 Core Commands:\n• kslearn — Launch interactive menu\n• ksl — Shortcut for kslearn\n• kslearn study — Browse learning notes\n• kslearn quiz — Browse and start quizzes\n• kslearn quiz <topic> — Start specific quiz\n• kslearn quiz --random — Random quiz\n• kslearn chat — AI chat (online/offline)\n• kslearn flashcards — Flashcard mode\n• kslearn brain — Knowledge Brain stats\n\n🔧 Configuration:\n• kslearn config — View settings\n• kslearn config --edit — Edit interactively\n• kslearn config --reset — Reset to defaults\n• kslearn ai-config — Configure AI provider\n\n📦 Content Management:\n• kslearn activate — Activate purchased content\n• kslearn activate --key KEY — Activate directly\n• kslearn protect — Set master signing key\n• kslearn verify — Verify content integrity\n\n📊 Progress & Info:\n• kslearn track — View learning tracks\n• kslearn daily — Today's recommended lesson\n• kslearn --version — Show version\n• kslearn --help — Show help\n\n💡 Pro Tips:\n• Use 'ksl' as a quick shortcut\n• All commands work without the interactive menu\n• Combine with shell scripts for automated study sessions\n• Use --help on any command for detailed usage",
+      "key_points": [
+        "'ksl' is the quick shortcut for 'kslearn'",
+        "All features accessible via CLI commands",
+        "Use --help on any command for detailed usage",
+        "Commands work without the interactive menu",
+        "Combine with shell scripts for automation"
+      ],
+      "examples": [
+        {
+          "title": "Quick Study Session via CLI",
+          "explanation": "Start studying without the interactive menu.",
+          "code": "# Study notes directly\nkslearn study\n\n# Start a specific quiz\nkslearn quiz ms_office\n\n# Random quiz challenge\nkslearn quiz --random\n\n# Quick AI question\nkslearn chat\n\n# Check your progress\nkslearn config"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Troubleshooting & FAQ",
+      "icon": "❓",
+      "content": "Common issues and their solutions.\n\n🔧 Common Issues:\n\n1. 'Command not found: kslearn'\n   • Run: pip install -e .\n   • Make sure ~/.local/bin is in your PATH\n   • Or use: python -m kslearn.cli\n\n2. 'No content found' or empty menus\n   • Create data/ksl/ directory\n   • Add .ksl files to it\n   • Or create JSON files and pack with ksl_tool.py\n\n3. 'Decryption failed' on premium content\n   • Run: kslearn activate\n   • Enter your correct key\n   • Check for typos in the key\n\n4. Quiz shows no topics\n   • Make sure .ksl files contain 'quiz_topics' key\n   • Re-pack JSON with ksl_tool.py\n\n5. AI chat offline mode has no answers\n   • The Knowledge Brain needs Q&A data\n   • Create a brain.ksl with Q&A pairs\n   • Pack with: python ksl_tool.py → Type 2 (Brain)\n\n6. Terminal display looks broken\n   • Ensure your terminal supports Unicode\n   • Try a different terminal emulator\n   • Set TERM=xterm-256color\n\n7. pip install fails on Termux\n   • Run: pkg install python\n   • Then: pip install --no-cache-dir rich click\n   • Then: pip install -e .\n\n💡 General Tips:\n• Keep kslearn updated with: git pull\n• Back up your ~/.kslearn/ folder (contains keys and config)\n• Use 'kslearn verify' to check content integrity\n• Report bugs on GitHub",
+      "key_points": [
+        "'pip install -e .' fixes most installation issues",
+        "data/ksl/ must exist with .ksl files for content to load",
+        "Activation key must be exact — no typos",
+        "Knowledge Brain needs brain.ksl with Q&A data",
+        "Back up ~/.kslearn/ to preserve keys and settings"
+      ],
+      "examples": [
+        {
+          "title": "Fixing 'No Content Found'",
+          "explanation": "Most common issue for new users.",
+          "code": "# Check if data/ksl exists\nls data/ksl/\n\n# If empty, create it\nmkdir -p data/ksl/\n\n# Add .ksl files\ncp content.ksl data/ksl/\ncp brain.ksl data/ksl/\n\n# Verify\nkslearn\n# Content should now appear!"
+        },
+        {
+          "title": "Fixing AI Offline Mode",
+          "explanation": "When offline AI has no answers.",
+          "code": "# Check if brain.ksl exists\nls data/ksl/brain.ksl\n\n# If missing, create it:\npython ksl_tool.py\n  → Type 2 (Brain)\n  → Enter JSON with brain_qa key\n  → Saves to data/ksl/brain.ksl\n\n# Restart kslearn\nkslearn\n# AI offline mode should now work!"
+        }
+      ]
+    }
+  ],
+
+  "quiz_topics": [
+    {
+      "id": 1,
+      "title": "kslearn — Platform Basics",
+      "questions": [
+        {
+          "question": "What command launches kslearn's interactive menu?",
+          "options": ["kslearn", "kslearn start", "run kslearn", "ksl run"],
+          "correct": 0,
+          "explanation": "Simply typing 'kslearn' or the shortcut 'ksl' opens the full interactive menu."
+        },
+        {
+          "question": "Where should .ksl content files be placed?",
+          "options": ["data/notes/", "data/quizzes/", "data/ksl/", "data/packages/"],
+          "correct": 2,
+          "explanation": "All .ksl files go in data/ksl/. The app auto-discovers every .ksl file in this directory."
+        },
+        {
+          "question": "What is the shortcut command for kslearn?",
+          "options": ["ks", "ksl", "learn", "kl"],
+          "correct": 1,
+          "explanation": "'ksl' is the shortcut. It's defined as an entry point alongside 'kslearn' in setup.py."
+        },
+        {
+          "question": "What does kslearn use for its content packages?",
+          "options": ["PDF files", ".ksl package files", "Word documents", "HTML pages"],
+          "correct": 1,
+          "explanation": ".ksl (KSLearn Package) files are encrypted, signed packages containing notes, quizzes, flashcards, and tutorials."
+        },
+        {
+          "question": "Which menu option opens Study Notes?",
+          "options": ["1", "2", "3", "4"],
+          "correct": 0,
+          "explanation": "Option 1 (Study Notes) from the main menu opens the notes browser."
+        },
+        {
+          "question": "What happens when you run kslearn for the first time?",
+          "options": [
+            "Nothing — you must configure it first",
+            "It creates config files and directories automatically",
+            "It downloads content from the internet",
+            "It shows a setup wizard"
+          ],
+          "correct": 1,
+          "explanation": "kslearn automatically creates config files and the data directory structure on first run."
+        },
+        {
+          "question": "Which platforms does kslearn support?",
+          "options": [
+            "Android only",
+            "Linux and macOS only",
+            "Android, Linux, macOS, and Windows",
+            "Windows only"
+          ],
+          "correct": 2,
+          "explanation": "kslearn runs anywhere Python 3.7+ is available — Android (Termux), Linux, macOS, and Windows."
+        },
+        {
+          "question": "What Python libraries does kslearn require?",
+          "options": [
+            "Django and Flask",
+            "Rich and Click",
+            "NumPy and Pandas",
+            "Flask and SQLAlchemy"
+          ],
+          "correct": 1,
+          "explanation": "Rich provides the beautiful terminal UI (panels, tables, colors). Click handles CLI command routing."
+        },
+        {
+          "question": "How do you activate premium content?",
+          "options": [
+            "kslearn config",
+            "kslearn activate",
+            "kslearn premium",
+            "kslearn unlock"
+          ],
+          "correct": 1,
+          "explanation": "'kslearn activate' prompts for your purchase key and saves it to ~/.kslearn/licenses/content.key."
+        },
+        {
+          "question": "What is the minimum Python version for kslearn?",
+          "options": ["Python 3.5", "Python 3.6", "Python 3.7", "Python 3.10"],
+          "correct": 2,
+          "explanation": "kslearn requires Python 3.7 or higher. Most modern systems have 3.8+."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Study Modes & Features",
+      "questions": [
+        {
+          "question": "What is the recommended study order for best results?",
+          "options": ["Quiz first, then notes", "Notes first, then quiz", "Only flashcards", "Only tutorials"],
+          "correct": 1,
+          "explanation": "Study notes to understand the material first, then take quizzes to test and reinforce your knowledge."
+        },
+        {
+          "question": "Which feature stores your learning progress?",
+          "options": ["Settings", "My Progress", "Brain", "Data Store"],
+          "correct": 1,
+          "explanation": "'My Progress' (option 4) tracks quiz scores, accuracy, study streaks, and completed topics."
+        },
+        {
+          "question": "What is the purpose of flashcard mode?",
+          "options": ["Deep study of complex topics", "Quick review and memorization", "Writing practice", "Testing advanced knowledge"],
+          "correct": 1,
+          "explanation": "Flashcards are designed for quick review sessions to help memorize terms, definitions, and key facts."
+        },
+        {
+          "question": "How do you bookmark a topic while reading notes?",
+          "options": ["Press S", "Press B", "Press M", "Press *"],
+          "correct": 1,
+          "explanation": "Press 'B' while viewing a topic to save it to your bookmarks for later review."
+        },
+        {
+          "question": "What does the Knowledge Brain do?",
+          "options": [
+            "Plays music while you study",
+            "Stores Q&A pairs you can search offline",
+            "Generates random study topics",
+            "Connects to online AI"
+          ],
+          "correct": 1,
+          "explanation": "The Knowledge Brain stores pre-loaded Q&A pairs that you can search by keyword, even without internet."
+        },
+        {
+          "question": "What is spaced repetition?",
+          "options": [
+            "Studying the same topic every hour",
+            "Reviewing material at increasing intervals over time",
+            "Only studying at night",
+            "Skipping difficult topics"
+          ],
+          "correct": 1,
+          "explanation": "Spaced repetition means reviewing material after 1 day, then 3 days, then 7 days, etc. This is proven to improve long-term memory."
+        },
+        {
+          "question": "What's the difference between Notes and Tutorials?",
+          "options": [
+            "Notes are shorter than tutorials",
+            "Notes are reference material, tutorials are step-by-step guided lessons",
+            "Tutorials have no examples",
+            "Notes are only for beginners"
+          ],
+          "correct": 1,
+          "explanation": "Notes = comprehensive reference (read what you need). Tutorials = guided step-by-step lessons (follow in order)."
+        },
+        {
+          "question": "What does the 'R' key do in the main menu?",
+          "options": ["Reset progress", "Spaced Review", "Random quiz", "Restart app"],
+          "correct": 1,
+          "explanation": "'R' opens Spaced Review — it suggests topics you struggled with based on quiz performance."
+        },
+        {
+          "question": "How are quiz scores saved?",
+          "options": [
+            "Manually by the user",
+            "Automatically after each quiz session",
+            "Only when you press save",
+            "They aren't saved"
+          ],
+          "correct": 1,
+          "explanation": "Quiz progress is saved automatically to your config file after each quiz completes."
+        },
+        {
+          "question": "What should you do when you score below 60% on a quiz?",
+          "options": [
+            "Move on to the next topic",
+            "Review the notes and retake the quiz",
+            "Delete the quiz file",
+            "Change the difficulty setting"
+          ],
+          "correct": 1,
+          "explanation": "Below 60% means you need more study. Review the notes, focus on key points, then retake."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Commands & Configuration",
+      "questions": [
+        {
+          "question": "Which command shows all available CLI commands?",
+          "options": ["kslearn commands", "kslearn --help", "kslearn list", "kslearn show"],
+          "correct": 1,
+          "explanation": "'kslearn --help' displays all available commands with descriptions."
+        },
+        {
+          "question": "How do you edit kslearn settings?",
+          "options": [
+            "Edit a file manually",
+            "kslearn config --edit",
+            "kslearn settings",
+            "Press S in the menu"
+          ],
+          "correct": 1,
+          "explanation": "'kslearn config --edit' opens an interactive settings editor."
+        },
+        {
+          "question": "What command resets all settings to defaults?",
+          "options": ["kslearn config --reset", "kslearn reset", "kslearn clear", "kslearn defaults"],
+          "correct": 0,
+          "explanation": "'kslearn config --reset' restores all settings to their default values."
+        },
+        {
+          "question": "How do you configure the AI chat provider?",
+          "options": ["kslearn ai", "kslearn chat-config", "kslearn ai-config", "kslearn setup-ai"],
+          "correct": 2,
+          "explanation": "'kslearn ai-config' lets you choose and configure your AI provider (Anthropic, OpenAI, etc.)."
+        },
+        {
+          "question": "What does 'kslearn verify' do?",
+          "options": [
+            "Verifies your Python version",
+            "Checks content file integrity for tampering",
+            "Verifies your internet connection",
+            "Checks for app updates"
+          ],
+          "correct": 1,
+          "explanation": "'kslearn verify' checks all content files against the signed manifest to detect tampering."
+        },
+        {
+          "question": "Which command starts a random quiz?",
+          "options": ["kslearn quiz random", "kslearn quiz --random", "kslearn random", "kslearn rquiz"],
+          "correct": 1,
+          "explanation": "'kslearn quiz --random' picks a random quiz category and starts a quiz."
+        },
+        {
+          "question": "Where is the activation key stored?",
+          "options": [
+            "In the kslearn directory",
+            "~/.kslearn/licenses/content.key",
+            "In the data/config/ folder",
+            "In the .ksl file itself"
+          ],
+          "correct": 1,
+          "explanation": "The key is saved to ~/.kslearn/licenses/content.key (chmod 600 for security)."
+        },
+        {
+          "question": "How do you switch between user profiles?",
+          "options": ["Press P in menu", "Press D in menu", "kslearn profile", "kslearn switch"],
+          "correct": 1,
+          "explanation": "Press 'D' from the main menu to access the profile management screen."
+        },
+        {
+          "question": "What does 'kslearn track' show?",
+          "options": ["Your study streak", "All learning tracks and their systems", "Your progress", "Available quizzes"],
+          "correct": 1,
+          "explanation": "'kslearn track' displays all learning tracks (Programming, Web Dev, etc.) and their associated quiz systems."
+        },
+        {
+          "question": "Which key opens the help screen from the main menu?",
+          "options": ["H or ?", "F1", "Help", "M"],
+          "correct": 0,
+          "explanation": "Press 'H' or '?' from the main menu to see all keyboard shortcuts and CLI commands."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Content Creation (.ksl Packages)",
+      "questions": [
+        {
+          "question": "What tool creates .ksl content packages?",
+          "options": ["kslearn pack", "python ksl_tool.py", "kslearn create", "kslearn build"],
+          "correct": 1,
+          "explanation": "ksl_tool.py is the interactive packer tool that creates encrypted, signed .ksl packages from JSON."
+        },
+        {
+          "question": "What key format does the packer use for encryption?",
+          "options": ["Plain text in the file", "Obfuscated base64 parts in code", "Random key each time", "No encryption"],
+          "correct": 1,
+          "explanation": "The key 'kslearn2026' is stored as obfuscated base64 parts (_PARTS) in loader.py and ksl_tool.py."
+        },
+        {
+          "question": "What content types can a .ksl file contain?",
+          "options": [
+            "Only notes",
+            "Only quizzes",
+            "Notes, quizzes, flashcards, tutorials, or brain Q&A",
+            "Only JSON configs"
+          ],
+          "correct": 2,
+          "explanation": "A .ksl file can contain any combination: notes, quizzes, flashcards, tutorials. Brain is packaged separately."
+        },
+        {
+          "question": "Can users edit .ksl files after they're created?",
+          "options": [
+            "Yes, with any text editor",
+            "Yes, with the kslearn app",
+            "No, they are encrypted and signed",
+            "Only the notes inside them"
+          ],
+          "correct": 2,
+          "explanation": ".ksl files are encrypted and digitally signed. Only the creator with the key can rebuild them."
+        },
+        {
+          "question": "What happens when you change the encryption key?",
+          "options": [
+            "Nothing — old files still work",
+            "You must re-pack all .ksl files with the new key",
+            "The app auto-updates the key",
+            "Old files decrypt automatically"
+          ],
+          "correct": 1,
+          "explanation": "When you change _PARTS in the code, all existing .ksl files become unreadable. You must re-pack them."
+        },
+        {
+          "question": "What JSON keys does a combined package need?",
+          "options": [
+            "Only 'topics'",
+            "'notes', 'quiz_topics', 'flashcards', 'tutorials'",
+            "Only 'metadata'",
+            "'questions' and 'answers'"
+          ],
+          "correct": 1,
+          "explanation": "A combined package uses: 'notes' for study notes, 'quiz_topics' for quizzes, 'flashcards' for cards, 'tutorials' for guides."
+        },
+        {
+          "question": "Where does ksl_tool.py save output files?",
+          "options": ["Current directory", "data/ksl/", "Desktop", "/tmp/"],
+          "correct": 1,
+          "explanation": "The packer saves .ksl files to data/ksl/ — the same directory the app reads from."
+        },
+        {
+          "question": "What type option creates a brain.ksl?",
+          "options": ["Type 1", "Type 2", "Type brain", "Type combined"],
+          "correct": 1,
+          "explanation": "In interactive mode, Type 2 creates a brain.ksl package from JSON with a 'brain_qa' key."
+        },
+        {
+          "question": "What is the magic bytes header of a .ksl file?",
+          "options": ["KSLN", "KSL\\x01", "KSLEARN", "KSLPKG"],
+          "correct": 1,
+          "explanation": ".ksl files start with magic bytes b'KSL\\x01' (KSL + version byte 0x01) for format identification."
+        },
+        {
+          "question": "Why is brain.ksl packaged separately?",
+          "options": [
+            "It's too big to combine",
+            "It's optional — online AI is also available",
+            "It uses different encryption",
+            "It's for developers only"
+          ],
+          "correct": 1,
+          "explanation": "The brain is separate because it's not essential — users can use online AI instead. Keeps the main package smaller."
+        }
+      ]
+    }
+  ],
+
+  "flashcards": [
+    {
+      "front": "What does kslearn stand for?",
+      "back": "KSLearn — a terminal-based educational learning platform for studying any subject",
+      "category": "basics",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What are the 4 study modes in kslearn?",
+      "back": "📚 Notes (read), 📝 Quizzes (test), 🃏 Flashcards (review), 🎓 Tutorials (guided lessons)",
+      "category": "basics",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What is the shortcut command for kslearn?",
+      "back": "ksl (instead of typing the full 'kslearn' command)",
+      "category": "basics",
+      "difficulty": "easy"
+    },
+    {
+      "front": "Where do .ksl files go?",
+      "back": "data/ksl/ — the app auto-discovers all .ksl files in this directory on startup",
+      "category": "content",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What is a .ksl file?",
+      "back": "An encrypted, signed content package (AES-256) that holds notes, quizzes, flashcards, or tutorials. Only the creator can build them; users can only load them.",
+      "category": "content",
+      "difficulty": "medium"
+    },
+    {
+      "front": "How do you activate premium content?",
+      "back": "Run: kslearn activate → Enter your purchase key → Key is saved to ~/.kslearn/licenses/content.key",
+      "category": "premium",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What command shows all CLI commands?",
+      "back": "kslearn --help",
+      "category": "commands",
+      "difficulty": "easy"
+    },
+    {
+      "front": "How do you edit settings?",
+      "back": "kslearn config --edit (or press C in the main menu)",
+      "category": "commands",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What does the Knowledge Brain do?",
+      "back": "Stores pre-loaded Q&A pairs that you can search by keyword — works 100% offline",
+      "category": "features",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What is spaced repetition?",
+      "back": "Reviewing material at increasing intervals (1 day, 3 days, 7 days, etc.) to improve long-term memory retention",
+      "category": "learning",
+      "difficulty": "medium"
+    },
+    {
+      "front": "What should you do after getting a quiz question wrong?",
+      "back": "Read the explanation carefully, then review the related notes to understand the concept you missed",
+      "category": "learning",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What's the difference between Notes and Tutorials?",
+      "back": "Notes = comprehensive reference (read what you need). Tutorials = guided step-by-step lessons (follow in order)",
+      "category": "modes",
+      "difficulty": "medium"
+    },
+    {
+      "front": "What tool creates .ksl packages?",
+      "back": "python ksl_tool.py — an interactive tool that encrypts and signs JSON content into .ksl format",
+      "category": "creator",
+      "difficulty": "medium"
+    },
+    {
+      "front": "Can users edit .ksl files?",
+      "back": "No — they are encrypted with AES-256 and digitally signed. Only the creator with the key can rebuild them",
+      "category": "content",
+      "difficulty": "easy"
+    },
+    {
+      "front": "Where is your study progress saved?",
+      "back": "In config files — quiz scores, accuracy, streaks, and completed topics are all tracked automatically",
+      "category": "features",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What does 'kslearn verify' do?",
+      "back": "Checks all content files against the signed manifest to detect any unauthorized tampering",
+      "category": "commands",
+      "difficulty": "medium"
+    },
+    {
+      "front": "What platforms does kslearn support?",
+      "back": "Termux (Android), Linux, macOS, and Windows — anywhere Python 3.7+ is available",
+      "category": "basics",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What key press bookmarks a topic?",
+      "back": "Press B while reading any topic in notes mode",
+      "category": "features",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What does the 'R' key do in the main menu?",
+      "back": "Opens Spaced Review — suggests topics you struggled with based on your quiz performance",
+      "category": "features",
+      "difficulty": "medium"
+    },
+    {
+      "front": "What is the default encryption key?",
+      "back": "kslearn2026 — stored obfuscated as base64 parts in loader.py and ksl_tool.py",
+      "category": "creator",
+      "difficulty": "hard"
+    },
+    {
+      "front": "How do you reset all settings?",
+      "back": "kslearn config --reset",
+      "category": "commands",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What's the recommended study order?",
+      "back": "1. Read notes  2. Take quiz  3. Review flashcards  4. Repeat — study notes first for best quiz results",
+      "category": "learning",
+      "difficulty": "easy"
+    },
+    {
+      "front": "What Python libraries does kslearn use?",
+      "back": "Rich (beautiful terminal UI) and Click (CLI command routing)",
+      "category": "basics",
+      "difficulty": "medium"
+    },
+    {
+      "front": "Why is brain.ksl separate from content.ksl?",
+      "back": "Because it's optional — users can use online AI instead. Keeps the main package smaller and modular",
+      "category": "content",
+      "difficulty": "medium"
+    },
+    {
+      "front": "What key press opens the help screen?",
+      "back": "H or ? from the main menu",
+      "category": "basics",
+      "difficulty": "easy"
+    }
+  ],
+
+  "tutorials": [
+    {
+      "id": 1,
+      "title": "Getting Started with kslearn",
+      "icon": "🚀",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Install kslearn",
+          "content": "Get kslearn running on your system. The installation process is the same on all platforms.",
+          "code": "git clone https://github.com/kslearn/kslearn\ncd kslearn\npip install -e .\n\n# Verify installation\nkslearn --version",
+          "tip": "On Termux, run 'pkg install python git' first. On Windows, make sure Python is in your PATH."
+        },
+        {
+          "step": 2,
+          "title": "Launch the Interactive Menu",
+          "content": "Open the main menu to see all available features. Use 'ksl' as a quick shortcut.",
+          "code": "kslearn\n# or\nksl",
+          "tip": "The first run creates config files and the data/ksl/ directory automatically."
+        },
+        {
+          "step": 3,
+          "title": "Explore the Menu",
+          "content": "The main menu shows all features:\n  1. Study Notes — Browse and read learning materials\n  2. Take Quiz — Test your knowledge\n  3. AI Chat — Online or offline tutor\n  4. My Progress — Track your learning journey\n  5. Bookmarks — Saved topics for review\n  6. Knowledge Brain — Offline Q&A database\n  7. Data Store — Download additional content\n  8. Support kslearn — Credits and contact info\n  F. Flashcards — Quick review mode\n  T. Timed Quiz — 60-second speed challenge\n  G. Global Search — Search all notes\n  R. Spaced Review — Review weak areas\n  U. Tutorials — Guided lessons\n  V. Achievements — View your badges\n  E. Export Report — Progress summary\n  D. Profiles — Manage users\n  C. Settings — Customize your experience\n  H. Help — Usage information\n  0. Exit",
+          "tip": "Press H at any time from the main menu to see this list again."
+        },
+        {
+          "step": 4,
+          "title": "Add Content",
+          "content": "kslearn needs content to study. Place .ksl files in data/ksl/:\n\n1. If you have .ksl files: Copy them to data/ksl/\n2. If you have JSON: Pack them with python ksl_tool.py\n3. If you're a creator: Create JSON and pack with the tool",
+          "code": "# Copy existing .ksl files\ncp content.ksl data/ksl/\ncp brain.ksl data/ksl/\n\n# Or create from JSON\npython ksl_tool.py\n  → Follow the prompts",
+          "tip": "The app auto-discovers all .ksl files in data/ksl/ on every startup."
+        },
+        {
+          "step": 5,
+          "title": "Start Studying!",
+          "content": "With content in place, you're ready to learn:\n\n1. Press 1 to browse Study Notes\n2. Select a category and topic\n3. Read the content carefully\n4. Press Q to take the quiz\n5. Check your results in My Progress (4)\n6. Review with Flashcards (F) for quick review",
+          "tip": "Study notes BEFORE taking quizzes. Reading first dramatically improves quiz scores."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Mastering Quiz Mode",
+      "icon": "📝",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Browse Quiz Categories",
+          "content": "From the main menu, select option 2 (Take Quiz). You'll see all available quiz categories loaded from your .ksl files.",
+          "code": "Main Menu > 2. Take Quiz\n\nAvailable quizzes:\n  01  KSLearn — Complete User Guide  📚\n  02  Microsoft Office Quiz  🖥️\n  03  Science Quiz  🔬",
+          "tip": "No quizzes showing? Make sure you have .ksl files in data/ksl/ that contain quiz content."
+        },
+        {
+          "step": 2,
+          "title": "Select a Topic",
+          "content": "Each quiz category has multiple topics. Select one by number, or press R for a random topic.",
+          "code": "Select quiz: 1\n\nSelect Topic:\n  01  kslearn — Platform Basics (10 questions)\n  02  Study Modes & Features (10 questions)\n  03  Commands & Configuration (10 questions)\n  04  Content Creation (.ksl) (10 questions)\n\n  R  🎲 Random Topic\n  0  Back",
+          "tip": "Use R when you want a challenge or aren't sure which topic to start with."
+        },
+        {
+          "step": 3,
+          "title": "Answer Questions",
+          "content": "For each question:\n1. Read the question carefully\n2. Review ALL four options\n3. Type the number (1-4) of your answer\n4. Get instant feedback with explanation\n\nType 'q' at any time to end the quiz early.",
+          "code": "[1/10]  🔥 Streak: 0\n────────────────────────────\nWhat command launches kslearn's\ninteractive menu?\n\n  [1] kslearn\n  [2] kslearn start\n  [3] run kslearn\n  [4] ksl run\n\nYour answer: 1\n\n✓ Correct! +10 points\n💡 Simply typing 'kslearn' or the\n   shortcut 'ksl' opens the menu.",
+          "tip": "Don't guess! Read all options carefully. A wrong answer resets your streak."
+        },
+        {
+          "step": 4,
+          "title": "Review Your Results",
+          "content": "After the quiz, you'll see:\n• Questions answered\n• Correct answers count\n• Total score\n• Accuracy percentage\n• Best streak\n\nPerformance ratings:\n🏆 80%+ = Excellent — you've mastered this topic\n👍 60-79% = Good — keep practicing\n📚 40-59% = Review the material\n💪 Below 40% = Keep studying, try again",
+          "code": "📊 Quiz Results\n────────────────────────────\n  Questions:      10\n  Correct:        8\n  Score:          96\n  Accuracy:       80.0%\n  Best Streak:    5 🔥\n\n🏆 Excellent! You've mastered this topic!",
+          "tip": "Below 60%? Go back and study the notes for this topic, then retake the quiz."
+        },
+        {
+          "step": 5,
+          "title": "Track Your Progress",
+          "content": "Quiz results are saved automatically. View your progress:\n\n• Main menu > 4 (My Progress)\n• See quiz history, scores, accuracy, and streaks\n• Spaced Review (R) suggests topics to revisit\n• Export Report (E) generates a summary",
+          "code": "Main Menu > 4. My Progress\n\n📊 My Learning Progress\n  Quizzes Completed:  12\n  Total Score:        1,240\n  Overall Accuracy:   78.5%\n  Best Streak:        8 🔥\n  Current Streak:     3 days",
+          "tip": "Set a daily study goal in Settings (C) to build consistent learning habits."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Creating Your First .ksl Package",
+      "icon": "📦",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Prepare Your JSON Content",
+          "content": "Create a JSON file with your content. Use the templates from data/kslearn_package.json and data/kslearn_brain.json as references.\n\nYour JSON should include:\n• 'metadata' — title, description, icon, etc.\n• 'notes' — array of study note topics\n• 'quiz_topics' — array of quiz topic objects\n• 'flashcards' — array of flashcard objects\n• 'tutorials' — array of step-by-step tutorials\n• 'brain_qa' — array of Q&A pairs (for brain.ksl)",
+          "code": "{\n  \"metadata\": {\n    \"category\": \"my_topic\",\n    \"title\": \"My Study Topic\",\n    \"description\": \"Learn about...\",\n    \"icon\": \"📖\"\n  },\n  \"notes\": [\n    {\n      \"id\": 1,\n      \"title\": \"Introduction\",\n      \"icon\": \"🏠\",\n      \"content\": \"...\",\n      \"key_points\": [\"...\"],\n      \"examples\": []\n    }\n  ],\n  \"quiz_topics\": [\n    {\n      \"id\": 1,\n      \"title\": \"Basics\",\n      \"questions\": [...]\n    }\n  ],\n  \"flashcards\": [\n    {\"front\": \"...\", \"back\": \"...\", \"category\": \"...\"}\n  ],\n  \"tutorials\": [\n    {\"id\": 1, \"title\": \"Getting Started\", \"icon\": \"🚀\", \"steps\": [...]}\n  ]\n}",
+          "tip": "Use the existing data/kslearn_platform.json as a template — it has every content type filled in."
+        },
+        {
+          "step": 2,
+          "title": "Run the Packer Tool",
+          "content": "Use ksl_tool.py to convert your JSON into encrypted .ksl packages. The tool is interactive.",
+          "code": "python ksl_tool.py\n\n# The tool will ask:\n# 1. Type: [1] Combined or [2] Brain\n# 2. Package name/title\n# 3. JSON file paths (one per line)\n# 4. Saves to data/ksl/",
+          "tip": "Type 1 creates content.ksl (notes+quiz+flashcard+tutorial). Type 2 creates brain.ksl (Q&A only)."
+        },
+        {
+          "step": 3,
+          "title": "Verify the Package",
+          "content": "Check that your .ksl file was created correctly by inspecting its header info.",
+          "code": "python ksl_tool.py info data/ksl/content.ksl\n\n# Shows:\n# File, Size, Type, Title, Author, Created, Items, Version",
+          "tip": "The info command reads the header only — no decryption needed. Quick way to verify the package is valid."
+        },
+        {
+          "step": 4,
+          "title": "Test in kslearn",
+          "content": "Run kslearn and verify your content appears in the menus.",
+          "code": "kslearn\n\n# Check:\n# 1. Study Notes — your notes category appears\n# 2. Take Quiz — your quiz category appears\n# 3. Flashcards (F) — your flashcards load\n# 4. Tutorials (U) — your tutorials load",
+          "tip": "If content doesn't appear, check that your JSON keys match the expected format (notes, quiz_topics, flashcards, tutorials)."
+        },
+        {
+          "step": 5,
+          "title": "Distribute Your Package",
+          "content": "Share your .ksl file with others. They simply copy it to their data/ksl/ directory and kslearn loads it automatically.\n\nFor premium content:\n1. Encrypt with your master key\n2. Users run 'kslearn activate' with the key you give them\n3. Content decrypts in memory on their device",
+          "code": "# Share the file:\n# content.ksl → send to user\n\n# User installs it:\ncp content.ksl ~/kslearn/data/ksl/\nkslearn activate  # if premium\nkslearn  # content loads!",
+          "tip": "Never share your master key publicly. Give it only to paying customers for premium content."
+        }
+      ]
+    }
+  ]
+}

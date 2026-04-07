@@ -1,0 +1,542 @@
+{
+  "metadata": {
+    "title": "KSLearn Sample Courses",
+    "description": "Comprehensive sample hierarchical course content with all enrichment fields",
+    "version": "2.0",
+    "author": "kslearn"
+  },
+  "courses": [
+    {
+      "id": "python_intro",
+      "code": "PY/101",
+      "title": "Introduction to Python Programming",
+      "description": "Learn Python from scratch — variables, control flow, functions, and more",
+      "icon": "🐍",
+      "category": "programming",
+      "difficulty": "beginner",
+      "estimated_minutes": 240,
+      "credits": 3,
+      "version": "2.0",
+      "changelog": "v2.0 — Added control flow unit, assessment quizzes, and all enrichment fields.",
+      "prerequisites": [],
+      "tags": ["python", "programming", "beginner", "coding"],
+      "learning_styles": ["visual", "hands-on", "reading"],
+      "completion_requirements": {
+        "min_score": 60,
+        "must_complete_all": false
+      },
+      "instructor_notes": "Most students struggle with variable scope — spend extra time on that topic. Demo type() interactively — students love seeing dynamic typing in action.",
+      "glossary": [
+        {"term": "Variable", "definition": "A named location in memory that stores a value."},
+        {"term": "Function", "definition": "A reusable block of code that performs a specific task."},
+        {"term": "Loop", "definition": "A control structure that repeats a block of code."},
+        {"term": "List", "definition": "An ordered, mutable collection of elements in Python."},
+        {"term": "Interpreter", "definition": "Program that executes Python code line by line."},
+        {"term": "PEP 8", "definition": "Python's official style guide."}
+      ],
+      "media": [
+        {
+          "type": "video",
+          "title": "Python Setup Tutorial",
+          "url": "https://youtube.com/watch?v=example",
+          "description": "Step-by-step guide to installing Python"
+        }
+      ],
+      "resources": [
+        {
+          "name": "Python Cheat Sheet",
+          "url": "https://example.com/python-cheatsheet.pdf",
+          "description": "Quick reference for Python syntax"
+        }
+      ],
+      "categories": [
+        {
+          "id": "cat_basics",
+          "title": "Python Fundamentals",
+          "description": "Core concepts every Python programmer needs",
+          "estimated_minutes": 120,
+          "difficulty": "beginner",
+          "glossary": [
+            {"term": "Dynamic Typing", "definition": "Python infers variable types automatically."},
+            {"term": "Mutable", "definition": "An object whose value can be changed after creation."},
+            {"term": "Immutable", "definition": "An object whose value cannot be changed after creation."}
+          ],
+          "case_studies": [
+            {
+              "title": "Automating Daily Tasks",
+              "scenario": "A company spends 2 hours daily on manual file organization. How could Python help?",
+              "questions": [
+                "What Python modules would you use?",
+                "How would you structure the script?",
+                "What are the time savings if automated?"
+              ]
+            }
+          ],
+          "discussion_prompts": [
+            "Why is Python considered a good first language?",
+            "What are the trade-offs of dynamic typing?"
+          ],
+          "units": [
+            {
+              "id": "unit_variables",
+              "code": "PY/101/U1",
+              "title": "Variables and Data Types",
+              "description": "Understand how Python stores and manages data",
+              "estimated_minutes": 45,
+              "difficulty": "beginner",
+              "prerequisites": [],
+              "tools": ["Python 3.x", "Text editor or IDE"],
+              "equipment": ["Computer"],
+              "supplies": [],
+              "instructor_notes": "Demo type() interactively. Students love seeing dynamic typing in action.",
+              "glossary": [
+                {"term": "Dynamic Typing", "definition": "Python infers variable types automatically."},
+                {"term": "Mutable", "definition": "An object whose value can be changed after creation."},
+                {"term": "Immutable", "definition": "An object whose value cannot be changed after creation."}
+              ],
+              "performance_standards": [
+                "1.1 Variables are declared with appropriate names",
+                "1.2 Data types are correctly identified and used",
+                "1.3 Type conversion is performed correctly"
+              ],
+              "case_studies": [],
+              "media": [],
+              "resources": [],
+              "discussion_prompts": ["How does Python's type system compare to Java or C++?"],
+              "completion_requirements": {},
+              "learning_outcomes": [
+                {
+                  "id": "lo_what_is_var",
+                  "title": "Understand Variables and Data Types",
+                  "description": "Learn how to declare and use variables in Python",
+                  "estimated_minutes": 30,
+                  "min_score": 70,
+                  "must_complete_all": false,
+                  "difficulty": "beginner",
+                  "discussion_prompts": [
+                    "Why do variable naming conventions matter in team projects?"
+                  ],
+                  "case_studies": [],
+                  "media": [],
+                  "subtopics": [
+                    {
+                      "id": "sub_what_is_variable",
+                      "title": "What is a Variable?",
+                      "type": "content",
+                      "estimated_minutes": 10,
+                      "difficulty": "beginner",
+                      "learning_styles": ["reading", "visual"],
+                      "content": "A variable is a named location in memory that stores a value. In Python, you don't need to declare the type explicitly — Python infers it from the value you assign.\n\nVariables are created when you first assign a value to them.",
+                      "key_points": [
+                        "Variables store data values",
+                        "Python is dynamically typed",
+                        "Variable names must start with a letter or underscore",
+                        "Variable names are case-sensitive"
+                      ],
+                      "examples": [
+                        {
+                          "title": "Creating Variables",
+                          "explanation": "Here's how you create variables in Python:",
+                          "code": "name = \"John\"\nage = 25\nheight = 5.9\nis_student = True\n\nprint(name)    # Output: John\nprint(age)     # Output: 25"
+                        }
+                      ],
+                      "media": [
+                        {
+                          "type": "video",
+                          "title": "Variables Explained",
+                          "url": "https://example.com/variables-video",
+                          "description": "5-minute animated explanation"
+                        }
+                      ],
+                      "resources": [
+                        {
+                          "name": "Variable Naming Rules PDF",
+                          "url": "https://example.com/naming-rules.pdf",
+                          "description": "Printable reference"
+                        }
+                      ],
+                      "discussion_prompts": [
+                        "What makes a good variable name?"
+                      ]
+                    },
+                    {
+                      "id": "sub_data_types",
+                      "title": "Python Data Types",
+                      "type": "content",
+                      "estimated_minutes": 15,
+                      "difficulty": "beginner",
+                      "learning_styles": ["reading", "hands-on"],
+                      "content": "Python has several built-in data types:\n\n• str — Text strings: \"Hello\"\n• int — Whole numbers: 42\n• float — Decimal numbers: 3.14\n• bool — True or False\n• list — Ordered collection: [1, 2, 3]\n• dict — Key-value pairs: {\"name\": \"John\"}",
+                      "key_points": [
+                        "Use type() to check a variable's data type",
+                        "Strings are enclosed in quotes",
+                        "Integers have no decimal point",
+                        "Floats have decimal points"
+                      ],
+                      "examples": [
+                        {
+                          "title": "Checking Types",
+                          "explanation": "Use the type() function:",
+                          "code": "x = 10\ny = \"Hello\"\nz = 3.14\n\nprint(type(x))  # <class 'int'>\nprint(type(y))  # <class 'str'>\nprint(type(z))  # <class 'float'>"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "sub_practice_vars",
+                      "title": "Practice: Variables",
+                      "type": "activity",
+                      "estimated_minutes": 10,
+                      "difficulty": "beginner",
+                      "learning_styles": ["hands-on"],
+                      "content": "Try these exercises:\n\n1. Create variables for your name, age, and favorite color\n2. Print a message using all three\n3. Convert your age to a string and concatenate\n4. Try converting an invalid string to int and observe the error",
+                      "examples": [
+                        {
+                          "title": "Sample Solution",
+                          "explanation": "Here's one way to solve the exercises:",
+                          "code": "name = \"Alice\"\nage = 30\ncolor = \"blue\"\n\nprint(f\"Hi, I'm {name}, I'm {age} years old, and I like {color}\")\nprint(\"Age as string: \" + str(age))"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "sub_quiz_vars",
+                      "title": "Quick Quiz: Variables",
+                      "type": "assessment",
+                      "estimated_minutes": 5,
+                      "difficulty": "beginner",
+                      "content": "Test your understanding of variables and data types.",
+                      "quiz": [
+                        {
+                          "question": "What is the output of: x = 5; print(type(x))?",
+                          "options": ["<class 'str'>", "<class 'int'>", "<class 'float'>", "<class 'number'>"],
+                          "answer": 1,
+                          "explanation": "5 is an integer, so type(x) returns <class 'int'>"
+                        },
+                        {
+                          "question": "Which is a valid Python variable name?",
+                          "options": ["2nd_place", "my-name", "_student", "class"],
+                          "answer": 2,
+                          "explanation": "_student is valid. 2nd_place starts with a number, my-name has a hyphen, and 'class' is a reserved keyword."
+                        },
+                        {
+                          "question": "What type is: x = 3.14?",
+                          "options": ["int", "str", "float", "decimal"],
+                          "answer": 2,
+                          "explanation": "3.14 has a decimal point, making it a float."
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "lo_input_output",
+                  "title": "Input and Output Operations",
+                  "description": "Learn to read user input and display formatted output",
+                  "estimated_minutes": 25,
+                  "min_score": 60,
+                  "must_complete_all": false,
+                  "difficulty": "beginner",
+                  "subtopics": [
+                    {
+                      "id": "sub_print_basics",
+                      "title": "The print() Function",
+                      "type": "content",
+                      "estimated_minutes": 10,
+                      "difficulty": "beginner",
+                      "content": "The print() function outputs text to the console. You can print strings, numbers, variables, and combine them using f-strings.\n\nf-strings (formatted string literals) let you embed expressions inside string literals.",
+                      "key_points": [
+                        "print() outputs to the console",
+                        "f-strings use f\"...\" syntax with {variable} placeholders",
+                        "The sep and end parameters control formatting"
+                      ],
+                      "examples": [
+                        {
+                          "title": "f-strings in Action",
+                          "explanation": "Embed variables directly in strings:",
+                          "code": "name = \"World\"\nprint(f\"Hello, {name}!\")\n\nage = 25\nprint(f\"In 10 years, you'll be {age + 10}\")"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "sub_input_basics",
+                      "title": "The input() Function",
+                      "type": "content",
+                      "estimated_minutes": 10,
+                      "difficulty": "beginner",
+                      "content": "The input() function reads a line of text from the user. It always returns a string, so you need to convert it for numbers.",
+                      "key_points": [
+                        "input() always returns a string",
+                        "Use int() or float() to convert for math",
+                        "Always provide a helpful prompt"
+                      ],
+                      "examples": [
+                        {
+                          "title": "Getting User Input",
+                          "explanation": "Read and convert user input:",
+                          "code": "name = input(\"What is your name? \")\nage = int(input(\"How old are you? \"))\nprint(f\"Hi {name}, you are {age} years old.\")"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "sub_quiz_io",
+                      "title": "Quick Quiz: I/O",
+                      "type": "assessment",
+                      "estimated_minutes": 5,
+                      "difficulty": "beginner",
+                      "content": "Test your understanding of input and output.",
+                      "quiz": [
+                        {
+                          "question": "What does input() always return?",
+                          "options": ["An integer", "A string", "A float", "A list"],
+                          "answer": 1,
+                          "explanation": "input() always returns a string, even if the user types a number."
+                        },
+                        {
+                          "question": "Which converts a string to an integer?",
+                          "options": ["str()", "float()", "int()", "convert()"],
+                          "answer": 2,
+                          "explanation": "int() converts a string to an integer."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "unit_control_flow",
+              "code": "PY/101/U2",
+              "title": "Control Flow",
+              "description": "Learn if/else statements, loops, and program flow control",
+              "estimated_minutes": 60,
+              "difficulty": "intermediate",
+              "prerequisites": [{"unit": "unit_variables", "min_score": 70}],
+              "tools": ["Python 3.x", "IDE"],
+              "equipment": ["Computer"],
+              "supplies": [],
+              "instructor_notes": "Start with real-world examples of decision-making before introducing syntax.",
+              "glossary": [
+                {"term": "Conditional", "definition": "A statement that executes different code based on a boolean expression."},
+                {"term": "Iteration", "definition": "Repeating a block of code using a loop."},
+                {"term": "Break", "definition": "A statement that exits a loop immediately."}
+              ],
+              "performance_standards": [
+                "2.1 if/elif/else statements are used correctly",
+                "2.2 for and while loops are appropriately chosen",
+                "2.3 Loop control (break, continue) is used properly"
+              ],
+              "case_studies": [
+                {
+                  "title": "Building a Login System",
+                  "scenario": "A website needs a login system with 3 attempts before locking out.",
+                  "questions": [
+                    "How would you track failed attempts?",
+                    "What loop structure is best?",
+                    "How do you handle the lockout?"
+                  ]
+                }
+              ],
+              "media": [],
+              "resources": [
+                {
+                  "name": "Python Control Flow Docs",
+                  "url": "https://docs.python.org/3/tutorial/controlflow.html",
+                  "description": "Official Python documentation"
+                }
+              ],
+              "discussion_prompts": [
+                "When should you use a for loop vs a while loop?",
+                "What are the dangers of infinite loops?"
+              ],
+              "completion_requirements": {},
+              "learning_outcomes": [
+                {
+                  "id": "lo_conditionals",
+                  "title": "Write Conditional Statements",
+                  "description": "Use if, elif, and else to control program flow",
+                  "estimated_minutes": 30,
+                  "min_score": 70,
+                  "must_complete_all": false,
+                  "difficulty": "intermediate",
+                  "subtopics": [
+                    {
+                      "id": "sub_if_else",
+                      "title": "If, Elif, Else",
+                      "type": "content",
+                      "estimated_minutes": 15,
+                      "difficulty": "intermediate",
+                      "content": "Conditional statements let your program make decisions:\n\n• if — runs code if a condition is True\n• elif — checks another condition if the first is False\n• else — runs if no conditions matched",
+                      "key_points": [
+                        "Conditions evaluate to True or False",
+                        "Use == for comparison, not = (assignment)",
+                        "You can chain multiple elif statements",
+                        "else catches everything not matched above"
+                      ],
+                      "examples": [
+                        {
+                          "title": "Grade Calculator",
+                          "explanation": "Determine a letter grade from a score:",
+                          "code": "score = 85\n\nif score >= 90:\n    grade = \"A\"\nelif score >= 80:\n    grade = \"B\"\nelif score >= 70:\n    grade = \"C\"\nelse:\n    grade = \"F\"\n\nprint(f\"Grade: {grade}\")  # Grade: B"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "sub_quiz_conditionals",
+                      "title": "Quick Quiz: Conditionals",
+                      "type": "assessment",
+                      "estimated_minutes": 5,
+                      "difficulty": "intermediate",
+                      "content": "Test your understanding of conditional statements.",
+                      "quiz": [
+                        {
+                          "question": "What is the output?\nx = 10\nif x > 5:\n    print(\"A\")\nelif x > 8:\n    print(\"B\")\nelse:\n    print(\"C\")",
+                          "options": ["A", "B", "C", "A and B"],
+                          "answer": 0,
+                          "explanation": "x > 5 is True, so it prints 'A'. The elif is never checked because the first condition matched."
+                        },
+                        {
+                          "question": "Which operator checks if two values are equal?",
+                          "options": ["=", "==", "!=", "<>"],
+                          "answer": 1,
+                          "explanation": "== compares values. = assigns a value."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "webdev_basics",
+      "code": "WD/101",
+      "title": "Web Development Fundamentals",
+      "description": "Build your first website with HTML, CSS, and JavaScript",
+      "icon": "🌐",
+      "category": "web_development",
+      "difficulty": "beginner",
+      "estimated_minutes": 180,
+      "credits": 2,
+      "version": "1.0",
+      "changelog": "v1.0 — Initial release.",
+      "prerequisites": [],
+      "tags": ["html", "css", "javascript", "web", "beginner"],
+      "learning_styles": ["visual", "hands-on"],
+      "completion_requirements": {
+        "min_score": 50,
+        "must_complete_all": false
+      },
+      "instructor_notes": "Students should have a browser and a text editor ready.",
+      "glossary": [
+        {"term": "HTML", "definition": "HyperText Markup Language — structure of web pages."},
+        {"term": "CSS", "definition": "Cascading Style Sheets — styling and layout of web pages."}
+      ],
+      "media": [],
+      "resources": [
+        {
+          "name": "MDN Web Docs",
+          "url": "https://developer.mozilla.org",
+          "description": "Comprehensive web development reference"
+        }
+      ],
+      "categories": [
+        {
+          "id": "cat_html",
+          "title": "HTML Basics",
+          "description": "Learn the building blocks of web pages",
+          "estimated_minutes": 60,
+          "difficulty": "beginner",
+          "glossary": [
+            {"term": "Tag", "definition": "An HTML element enclosed in angle brackets, like <p>."},
+            {"term": "Attribute", "definition": "Additional information on an HTML element, like href in <a href=\"...\">."}
+          ],
+          "case_studies": [],
+          "discussion_prompts": [
+            "Why is semantic HTML important for accessibility?"
+          ],
+          "units": [
+            {
+              "id": "unit_html_structure",
+              "code": "WD/101/U1",
+              "title": "HTML Document Structure",
+              "description": "Understand the basic structure of an HTML document",
+              "estimated_minutes": 30,
+              "difficulty": "beginner",
+              "tools": ["Text editor", "Web browser"],
+              "equipment": ["Computer"],
+              "supplies": [],
+              "instructor_notes": "Show a rendered page alongside its source code.",
+              "glossary": [],
+              "performance_standards": [
+                "1.1 Correct DOCTYPE declaration",
+                "1.2 Proper html, head, body nesting"
+              ],
+              "case_studies": [],
+              "media": [],
+              "resources": [],
+              "discussion_prompts": [],
+              "completion_requirements": {},
+              "learning_outcomes": [
+                {
+                  "id": "lo_html_tags",
+                  "title": "Identify Common HTML Tags",
+                  "description": "Recognize and use common HTML elements",
+                  "estimated_minutes": 20,
+                  "min_score": 60,
+                  "must_complete_all": false,
+                  "difficulty": "beginner",
+                  "subtopics": [
+                    {
+                      "id": "sub_common_tags",
+                      "title": "Common HTML Elements",
+                      "type": "content",
+                      "estimated_minutes": 10,
+                      "difficulty": "beginner",
+                      "content": "HTML uses tags to structure content:\n\n• <h1> to <h6> — Headings\n• <p> — Paragraphs\n• <a> — Links\n• <img> — Images\n• <ul>/<ol> — Lists\n• <div> — Block containers",
+                      "key_points": [
+                        "Most tags come in pairs: <tag>content</tag>",
+                        "Some tags are self-closing: <img>, <br>",
+                        "Tags can nest inside each other"
+                      ],
+                      "examples": [
+                        {
+                          "title": "Basic HTML Page",
+                          "explanation": "A minimal HTML document:",
+                          "code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>My Page</title>\n</head>\n<body>\n    <h1>Hello World</h1>\n    <p>This is my first page.</p>\n</body>\n</html>"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "sub_quiz_html",
+                      "title": "Quick Quiz: HTML",
+                      "type": "assessment",
+                      "estimated_minutes": 5,
+                      "difficulty": "beginner",
+                      "content": "Test your HTML knowledge.",
+                      "quiz": [
+                        {
+                          "question": "What tag creates the largest heading?",
+                          "options": ["<heading>", "<h6>", "<h1>", "<head>"],
+                          "answer": 2,
+                          "explanation": "<h1> is the largest heading. <h6> is the smallest."
+                        },
+                        {
+                          "question": "Which tag is self-closing?",
+                          "options": ["<p>", "<div>", "<img>", "<h1>"],
+                          "answer": 2,
+                          "explanation": "<img> is self-closing — it doesn't need a closing tag."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

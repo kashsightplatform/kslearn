@@ -1,0 +1,155 @@
+{
+  "metadata": {
+    "category": "kslearn",
+    "title": "🧠 KSLearn Knowledge Brain",
+    "description": "Offline Q&A knowledge base — ask questions and get answers instantly without internet",
+    "icon": "🧠",
+    "difficulty": "all-levels",
+    "version": "1.0",
+    "author": "kslearn Team",
+    "created": "2026-04-03"
+  },
+
+  "brain_qa": [
+    {
+      "question": "What is kslearn?",
+      "answer": "kslearn is a terminal-based educational learning platform. It runs in your terminal and lets you study notes, take quizzes, review flashcards, and follow tutorials — all offline. It works on Android (Termux), Linux, macOS, and Windows.",
+      "category": "basics",
+      "tags": ["what is", "overview", "basics"],
+      "helpful_count": 0
+    },
+    {
+      "question": "How do I launch kslearn?",
+      "answer": "Simply type 'kslearn' or the shortcut 'ksl' in your terminal. This opens the interactive menu where you can study, quiz, review flashcards, and more.",
+      "category": "basics",
+      "tags": ["how to", "launch", "start"],
+      "helpful_count": 0
+    },
+    {
+      "question": "What are the study modes in kslearn?",
+      "answer": "kslearn has four study modes:\n1. 📚 Notes — Detailed reading with examples\n2. 📝 Quizzes — Multiple choice questions with instant feedback\n3. 🃏 Flashcards — Quick review and memorization\n4. 🎓 Tutorials — Step-by-step guided lessons",
+      "category": "basics",
+      "tags": ["modes", "study", "features"],
+      "helpful_count": 0
+    },
+    {
+      "question": "Can I use kslearn offline?",
+      "answer": "Yes! All content (notes, quizzes, flashcards) is stored locally on your device. The only feature that needs internet is the AI chat (if using online AI provider). Everything else works 100% offline.",
+      "category": "features",
+      "tags": ["offline", "internet", "online"],
+      "helpful_count": 0
+    },
+    {
+      "question": "How do I track my progress?",
+      "answer": "Select 'My Progress' (option 4) from the main menu. It shows your quiz scores, accuracy, study streak, and completed topics. Progress is saved automatically after each quiz session.",
+      "category": "features",
+      "tags": ["progress", "track", "stats"],
+      "helpful_count": 0
+    },
+    {
+      "question": "What is spaced repetition?",
+      "answer": "Spaced repetition is a learning technique where you review material at increasing intervals — 1 day, then 3 days, then 7 days, then 14 days. This is scientifically proven to improve long-term memory retention far better than cramming.",
+      "category": "learning",
+      "tags": ["spaced repetition", "study technique", "memory"],
+      "helpful_count": 0
+    },
+    {
+      "question": "How do I activate purchased content?",
+      "answer": "Run 'kslearn activate' and enter the key you received after purchase. The key is saved to ~/.kslearn/licenses/content.key and used automatically to decrypt premium .ksl content files.",
+      "category": "premium",
+      "tags": ["activate", "premium", "key", "purchase"],
+      "helpful_count": 0
+    },
+    {
+      "question": "What is a .ksl file?",
+      "answer": "A .ksl (KSLearn Package) file is an encrypted, digitally signed content package. It contains notes, quizzes, flashcards, or tutorials. Only the creator can build .ksl files. Users can load and study them but cannot edit or forge them.",
+      "category": "basics",
+      "tags": [".ksl", "package", "encrypted", "format"],
+      "helpful_count": 0
+    },
+    {
+      "question": "How do I create a .ksl file?",
+      "answer": "Use the ksl_tool.py tool:\n\n1. Create your content as a JSON file\n2. Run: python ksl_tool.py pack content.json --output course.ksl\n3. Distribute the .ksl file to users\n\nTo split content: python ksl_tool.py pack content.json --split --output-dir ./packages/",
+      "category": "creator",
+      "tags": ["create", "ksl tool", "pack", "creator"],
+      "helpful_count": 0
+    },
+    {
+      "question": "What platforms does kslearn support?",
+      "answer": "kslearn runs on:\n• Termux (Android)\n• Linux (Ubuntu, Debian, Fedora, etc.)\n• macOS\n• Windows\n\nAny system with Python 3.7+ can run kslearn.",
+      "category": "basics",
+      "tags": ["platforms", "supported", "systems"],
+      "helpful_count": 0
+    },
+    {
+      "question": "How do I install kslearn?",
+      "answer": "1. Clone the repo: git clone https://github.com/kashsight/kslearn\n2. cd kslearn\n3. pip install -e .\n4. Run: kslearn\n\nFor Termux:\n1. pkg install python\n2. Then the same steps as above.",
+      "category": "basics",
+      "tags": ["install", "setup", "termux"],
+      "helpful_count": 0
+    },
+    {
+      "question": "What is the Knowledge Brain?",
+      "answer": "The Knowledge Brain is kslearn's offline Q&A database. It stores pre-loaded questions and answers that you can search by keyword. When you ask a question, it finds the closest match from the stored Q&A pairs.",
+      "category": "features",
+      "tags": ["brain", "knowledge", "offline AI", "Q&A"],
+      "helpful_count": 0
+    },
+    {
+      "question": "How do I bookmark a topic?",
+      "answer": "While reading notes, press 'B' to bookmark the current topic. You can view all bookmarks from the main menu (option 5). Bookmarks are saved in your config file.",
+      "category": "features",
+      "tags": ["bookmark", "save", "topic"],
+      "helpful_count": 0
+    },
+    {
+      "question": "What is the recommended study order?",
+      "answer": "For best results:\n1. Read notes to understand the material\n2. Take quizzes to test your knowledge\n3. Review flashcards for quick memorization\n4. Repeat — retake quizzes to improve your score\n\nStudying notes first before quizzing is the most effective approach.",
+      "category": "learning",
+      "tags": ["study order", "recommendation", "best practice"],
+      "helpful_count": 0
+    },
+    {
+      "question": "How do I change my username or settings?",
+      "answer": "From the main menu, press 'C' for Settings. You can change your username, daily goal, notification preferences, and more. Or use CLI: kslearn config --edit",
+      "category": "features",
+      "tags": ["settings", "config", "username"],
+      "helpful_count": 0
+    },
+    {
+      "question": "Can I add my own content to kslearn?",
+      "answer": "Yes! Create a JSON file with the same structure as the existing content files (notes with topics, quizzes with questions, etc.), place it in the appropriate data/ directory, then pack it into a .ksl file using ksl_tool.py.",
+      "category": "creator",
+      "tags": ["custom content", "add content", "create"],
+      "helpful_count": 0
+    },
+    {
+      "question": "How do flashcards work?",
+      "answer": "Flashcards show a question on the front. You try to answer, then flip the card to see the answer. Mark each card as 'Know it' or 'Still learning'. It's a quick, low-pressure way to review key facts.",
+      "category": "features",
+      "tags": ["flashcards", "how to", "review"],
+      "helpful_count": 0
+    },
+    {
+      "question": "What is the Data Store?",
+      "answer": "The Data Store (option 7 in main menu) lets you browse and download additional content packages. Free content is available immediately. Premium content requires an activation key.",
+      "category": "features",
+      "tags": ["data store", "download", "content"],
+      "helpful_count": 0
+    },
+    {
+      "question": "How do I export my progress?",
+      "answer": "From the main menu, press 'E' to export a progress report. It generates a summary of your quiz scores, study streak, and completed topics. You can share this with teachers or track your growth over time.",
+      "category": "features",
+      "tags": ["export", "progress report", "share"],
+      "helpful_count": 0
+    },
+    {
+      "question": "What should I do if I score low on a quiz?",
+      "answer": "Don't worry! A low score means you've identified topics to review. Go back and re-read the notes for that topic, paying attention to the key points and examples. Then retake the quiz. Each attempt helps reinforce the material.",
+      "category": "learning",
+      "tags": ["low score", "review", "retake", "improve"],
+      "helpful_count": 0
+    }
+  ]
+}
