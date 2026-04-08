@@ -51,7 +51,12 @@ def set_master_key(secret: str) -> bool:
     if has_master_key():
         return False  # Key already exists, don't overwrite
     _MASTER_KEY_FILE.write_text(secret, encoding="utf-8")
-    os.chmod(str(_MASTER_KEY_FILE), 0o600)  # Only owner can read
+    # Set restrictive permissions on Unix (skip on Windows)
+    if os.name != "nt":
+        try:
+            os.chmod(str(_MASTER_KEY_FILE), 0o600)  # Only owner can read
+        except OSError:
+            pass  # Windows doesn't support chmod
     return True
 
 
@@ -115,7 +120,12 @@ def save_content_manifest(manifest: Dict) -> bool:
     manifest_path.write_text(
         json.dumps(manifest, indent=2), encoding="utf-8"
     )
-    os.chmod(str(manifest_path), 0o600)
+    # Set restrictive permissions on Unix (skip on Windows)
+    if os.name != "nt":
+        try:
+            os.chmod(str(manifest_path), 0o600)
+        except OSError:
+            pass
     return True
 
 

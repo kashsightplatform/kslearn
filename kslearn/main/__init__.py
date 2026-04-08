@@ -1,4 +1,4 @@
-"""kslearn - Educational Quiz Game Modules"""
+"""kslearn - Learning Engine Modules"""
 
 # Only import modules that exist in this directory
 from . import learning_notes

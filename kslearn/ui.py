@@ -72,7 +72,7 @@ def load_theme(theme_name=None):
         settings_path = _get_settings_path()
         if settings_path and settings_path.exists():
             try:
-                with open(settings_path, 'r') as f:
+                with open(settings_path, 'r', encoding='utf-8') as f:
                     settings = json.load(f)
                 theme_name = settings.get("theme", "sky_blue")
             except (json.JSONDecodeError, IOError):
@@ -87,7 +87,7 @@ def load_theme(theme_name=None):
         return COLORS
     
     try:
-        with open(theme_config_path, 'r') as f:
+        with open(theme_config_path, 'r', encoding='utf-8') as f:
             theme_config = json.load(f)
         
         themes = theme_config.get("themes", {})
@@ -126,7 +126,7 @@ def get_available_themes():
         return ["sky_blue", "green", "grey"]
     
     try:
-        with open(theme_config_path, 'r') as f:
+        with open(theme_config_path, 'r', encoding='utf-8') as f:
             theme_config = json.load(f)
         themes = theme_config.get("themes", {})
         return list(themes.keys())
@@ -140,7 +140,7 @@ def get_theme_info(theme_name=None):
         settings_path = _get_settings_path()
         if settings_path and settings_path.exists():
             try:
-                with open(settings_path, 'r') as f:
+                with open(settings_path, 'r', encoding='utf-8') as f:
                     settings = json.load(f)
                 theme_name = settings.get("theme", "sky_blue")
             except (json.JSONDecodeError, IOError):
@@ -151,7 +151,7 @@ def get_theme_info(theme_name=None):
     theme_config_path = _get_theme_config_path()
     if theme_config_path and theme_config_path.exists():
         try:
-            with open(theme_config_path, 'r') as f:
+            with open(theme_config_path, 'r', encoding='utf-8') as f:
                 theme_config = json.load(f)
             themes = theme_config.get("themes", {})
             if theme_name in themes:
@@ -174,9 +174,21 @@ load_theme()
 
 
 def clear_screen():
-    """Clear terminal screen - works on Termux and all platforms"""
-    # Use direct ANSI escape for better Termux compatibility
-    print("\033[2J\033[H", end="")
+    """Clear terminal screen - cross-platform compatible."""
+    import sys
+    import os
+    try:
+        if sys.platform == "win32":
+            os.system("cls")
+        else:
+            # Use ANSI escape for better compatibility on Unix-like systems
+            print("\033[2J\033[H", end="")
+    except Exception:
+        # Last resort fallback
+        try:
+            os.system("cls" if os.name == "nt" else "clear")
+        except Exception:
+            pass
     console.file.flush()
 
 
@@ -326,11 +338,11 @@ def create_menu_table(options: list, title: str = "Menu") -> Table:
     return table
 
 
-def create_game_grid(games: list) -> Table:
-    """Create a 2-column game grid"""
+def create_study_grid(activities: list) -> Table:
+    """Create a 2-column study activity grid"""
     primary_color = COLORS.get("primary", "cyan")
     border_color = COLORS.get("border", "cyan")
-    
+
     table = Table(
         box=ROUNDED,
         border_style=border_color,
@@ -338,20 +350,20 @@ def create_game_grid(games: list) -> Table:
         expand=True,
     )
 
-    table.add_column("Game", style=primary_color, ratio=1)
-    table.add_column("Game", style=primary_color, ratio=1)
+    table.add_column("Activity", style=primary_color, ratio=1)
+    table.add_column("Activity", style=primary_color, ratio=1)
 
     # Pad with empty string if odd number
-    if len(games) % 2 == 1:
-        games = games + [""]
+    if len(activities) % 2 == 1:
+        activities = activities + [""]
 
-    for i in range(0, len(games), 2):
+    for i in range(0, len(activities), 2):
         num_style = primary_color
         num1 = f"[{num_style}]{i+1:02d}[/{num_style}]"
-        num2 = f"[{num_style}]{i+2:02d}[/{num_style}]" if i+1 < len(games) else ""
-        game1 = f"{num1} {games[i]}" if games[i] else ""
-        game2 = f"{num2} {games[i+1]}" if i+1 < len(games) and games[i+1] else ""
-        table.add_row(game1, game2)
+        num2 = f"[{num_style}]{i+2:02d}[/{num_style}]" if i+1 < len(activities) else ""
+        item1 = f"{num1} {activities[i]}" if activities[i] else ""
+        item2 = f"{num2} {activities[i+1]}" if i+1 < len(activities) and activities[i+1] else ""
+        table.add_row(item1, item2)
 
     return table
 

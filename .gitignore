@@ -24,20 +24,28 @@ env/
 .DS_Store
 Thumbs.db
 
+# ── JSON files: BLOCK all by default ──
+# User config, progress, cache — never commit
+*.json
+# Exceptions: sample/template JSONs used for docs & distribution
+!data/kslearn_package.json
+!data/kslearn_brain.json
+!data/ksl/hierarchical_sample.json
+
+# ── KSL files: ALLOW all ──
+# KSL packages are the distributable content — commit them
+!*.ksl
+
 # User data (don't push personal progress)
-data/config/settings.json
-data/config/theme.json
-data/chat_history.json
-data/chat_settings.json
-data/knowledge_brain.json
-data/progress.json
+data/config/
+data/chat_history.*
+data/chat_settings.*
+data/knowledge_brain.*
+data/progress.*
 data/brain/
 
 # Generated files
 learnquest/
-*.ksl
-!data/ksl/
-!data/ksl/hierarchical_sample.json
 
 # Logs
 *.log

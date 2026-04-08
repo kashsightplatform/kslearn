@@ -20,15 +20,22 @@ def open_url(url: str) -> bool:
     """Open a URL in the device's default browser (cross-platform).
 
     Detects the OS and uses the appropriate method:
-    - Android/Termux: termux-open-url or am start intent
+    - Android/Termux: am start intent or termux-open-url
     - Linux: xdg-open
     - macOS: open
     - Windows: start
     """
     platform = sys.platform.lower()
 
+    def _is_android():
+        """Detect Android/Termux environment."""
+        return ("android" in platform or
+                os.path.exists("/dev/socket/qemud") or
+                os.environ.get("TERMUX_VERSION") is not None or
+                os.path.exists("/data/data/com.termux"))
+
     # Android / Termux
-    if "android" in platform or os.path.exists("/dev/socket/qemud"):
+    if _is_android():
         # Try termux-open-url first (termux-api package)
         try:
             result = subprocess.run(
@@ -74,7 +81,9 @@ def open_url(url: str) -> bool:
             import webbrowser
             return webbrowser.open(url)
 
-    return False
+    # If all native methods failed, try webbrowser module
+    import webbrowser
+    return webbrowser.open(url)
 
 
 # Social Media Links

@@ -37,7 +37,21 @@ TYPE_HIERARCHICAL = "hierarchical"  # Course → Category → Unit → Outcome �
 
 # ─── Default Output Directory ───────────────────────────────────────
 def _get_ksl_dir():
-    return Path(__file__).parent / "data" / "ksl"
+    """Resolve user-specific data directory per platform."""
+    import sys
+    repo_data = Path(__file__).parent / "data"
+    # If repo has data/ folder, prefer it (editable install)
+    if (repo_data / "ksl").exists() or repo_data.exists():
+        return repo_data / "ksl"
+    # Otherwise use platform-specific user data dir
+    if sys.platform == "win32":
+        appdata = Path(os.environ.get("APPDATA", Path.home() / "AppData" / "Roaming"))
+        return appdata / "kslearn" / "data" / "ksl"
+    elif sys.platform == "darwin":
+        return Path.home() / "Library" / "Application Support" / "kslearn" / "data" / "ksl"
+    else:
+        xdg = Path(os.environ.get("XDG_DATA_HOME", Path.home() / ".local" / "share"))
+        return xdg / "kslearn" / "data" / "ksl"
 
 def _ensure_ksl_dir():
     d = _get_ksl_dir()

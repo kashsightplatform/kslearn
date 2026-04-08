@@ -10,7 +10,7 @@ import sys
 import time
 import random
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import click
 from rich.console import Console
@@ -180,6 +180,7 @@ def play():
         tbl.add_row("🔖 6. Study Tools", "Bookmarks, global search & spaced review")
         tbl.add_row("🧠 7. Knowledge Brain", "Offline AI Q&A database")
         tbl.add_row("🏪 8. Data Store", "Download new content (Free & Premium)")
+        tbl.add_row("🌌 9. KSL-Verse", "Interactive multiverse learning game")
         tbl.add_row("❤️  S. Support kslearn", "Credits, email, website & GitHub")
         tbl.add_row("🎮 F. Study Modes", "Flashcards, timed quiz & tutorials")
         tbl.add_row("🏆 L. LearnQuest", "Answer quiz → JSON → submit & win rewards")
@@ -263,6 +264,13 @@ def play():
 
             elif choice == "8" or choice == "STORE" or choice == "DATASTORE":
                 run_datastore()
+
+            elif choice == "9" or choice == "VERSE" or choice == "V":
+                from kslearn.config import update_study_streak, update_daily_goal
+                update_study_streak()
+                update_daily_goal(5)
+                from kslearn.engines.verse_engine import run_verse_interactive
+                run_verse_interactive()
 
             elif choice == "S" or choice == "SUPPORT":
                 run_support()
@@ -471,7 +479,7 @@ def _run_learnquest():
     output_dir = Path.cwd() / "learnquest"
     output_dir.mkdir(exist_ok=True)
     output_file = output_dir / f"answers_{quest_id}.json"
-    with open(output_file, "w") as f:
+    with open(output_file, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2)
     console.print(f"[dim]Saved to: {output_file}[/dim]")
     console.print()
@@ -505,10 +513,47 @@ def _run_learnquest():
         console.print()
     elif act == "c":
         import subprocess
+        import sys as _sys
+        copied = False
+        # Try cross-platform clipboard approaches
+        # 1. Try pyperclip first (cross-platform Python library)
         try:
-            subprocess.run(["termux-clipboard-set", json_preview], timeout=5)
+            import pyperclip
+            pyperclip.copy(json_preview)
+            copied = True
+        except ImportError:
+            pass
+        # 2. Try pbcopy (macOS)
+        if not copied:
+            try:
+                if _sys.platform == "darwin":
+                    _p = subprocess.Popen(["pbcopy", "w"], stdin=subprocess.PIPE, text=True)
+                    _p.communicate(input=json_preview, timeout=5)
+                    copied = True
+                # 3. Try clip (Windows)
+                elif _sys.platform == "win32":
+                    _p = subprocess.Popen(["clip"], stdin=subprocess.PIPE, text=True)
+                    _p.communicate(input=json_preview, timeout=5)
+                    copied = True
+                # 4. Try xclip/xsel (Linux)
+                elif _sys.platform.startswith("linux"):
+                    for cmd in [["xclip", "-selection", "clipboard"], ["xsel", "--clipboard", "--input"]]:
+                        try:
+                            _p = subprocess.Popen(cmd, stdin=subprocess.PIPE, text=True)
+                            _p.communicate(input=json_preview, timeout=5)
+                            copied = True
+                            break
+                        except FileNotFoundError:
+                            continue
+                # 5. Try termux-clipboard-set (Android/Termux)
+                if _sys.platform.startswith("android") or not copied:
+                    subprocess.run(["termux-clipboard-set", json_preview], timeout=5)
+                    copied = True
+            except Exception:
+                pass
+        if copied:
             show_success("JSON copied to clipboard!")
-        except Exception:
+        else:
             show_info("Clipboard not available. Copy from the JSON above.")
         time.sleep(1.5)
 
@@ -1046,12 +1091,13 @@ def show_help():
 def show_analytics():
     """Visual analytics dashboard with charts and insights."""
     from kslearn.config import load_config
+    from datetime import datetime as _dt
 
     clear_screen()
     console.print(get_small_banner())
     console.print()
 
-    show_panel("📊 Analytics Dashboard", "Visual learning insights", "magenta")
+    show_panel("📊 Analytics Dashboard", "Comprehensive learning insights", "magenta")
     console.print()
 
     config = load_config()
@@ -1060,66 +1106,160 @@ def show_analytics():
     achievements = config.get("achievements", [])
     bookmarks = config.get("bookmarks", [])
     daily = config.get("daily_goal", {})
+    daily_goal_minutes = config.get("daily_goal_minutes", 30)
+    tutorial_progress = config.get("tutorial_progress", {})
+    timed_quiz_best = config.get("timed_quiz_best", 0)
+    review_queue = config.get("review_queue", {})
+    verse_progress = config.get("verse_progress", {})
 
-    # ─── Overall Stats ────────────────────────────────────────────
+    # ─── Aggregate Metrics ─────────────────────────────────────────
     quizzes_completed = len(progress)
     total_correct = sum(p.get("correct", p.get("last_score", 0)) for p in progress.values())
     total_questions = sum(p.get("questions", 0) for p in progress.values())
+    total_wrong = total_questions - total_correct
     overall_accuracy = (total_correct / total_questions * 100) if total_questions > 0 else 0
     best_streak = streak.get("best", 0)
     current_streak = streak.get("current", 0)
+    last_study_date = streak.get("last_study_date", "Never")
 
-    stats_table = Table(box=box.ROUNDED, border_style="magenta")
+    # Verse metrics
+    verse_xp = verse_progress.get("total_xp", 0)
+    verse_worlds = verse_progress.get("worlds", {})
+    verse_achievements = verse_progress.get("achievements", [])
+    verse_items = verse_progress.get("inventory", [])
+    verse_combo = verse_progress.get("combo_multiplier", 1.0)
+    verse_secrets = len(verse_progress.get("secrets_found", []))
+    verse_lore = len(verse_progress.get("lore_unlocked", []))
+    verse_prestige = verse_progress.get("prestige_level", 0)
+
+    # Tutorial metrics
+    tutorials_completed = sum(1 for v in tutorial_progress.values() if v.get("completed"))
+    tutorials_in_progress = sum(1 for v in tutorial_progress.values() if v.get("started") and not v.get("completed"))
+
+    # ─── SECTION 1: Overall Stats ──────────────────────────────────
+    stats_table = Table(box=box.DOUBLE_EDGE, border_style="magenta")
     stats_table.add_column("Metric", style="bold white", ratio=2)
     stats_table.add_column("Value", style="cyan", ratio=1, justify="right")
-    stats_table.add_row("Quizzes Completed", str(quizzes_completed))
-    stats_table.add_row("Questions Answered", str(total_questions))
-    stats_table.add_row("Correct Answers", f"[green]{total_correct}[/green]")
-    stats_table.add_row("Overall Accuracy", f"[{'green' if overall_accuracy >= 70 else 'yellow' if overall_accuracy >= 50 else 'red'}]{overall_accuracy:.0f}%[/{'green' if overall_accuracy >= 70 else 'yellow' if overall_accuracy >= 50 else 'red'}]")
-    stats_table.add_row("Current Streak", f"🔥 {current_streak} days")
-    stats_table.add_row("Best Streak", f"🔥 {best_streak} days")
-    stats_table.add_row("Achievements", f"{len(achievements)}/15")
-    stats_table.add_row("Bookmarks", str(len(bookmarks)))
+    stats_table.add_row("📝 Quizzes Completed", str(quizzes_completed))
+    stats_table.add_row("❓ Questions Answered", str(total_questions))
+    stats_table.add_row("✅ Correct Answers", f"[green]{total_correct}[/green]")
+    stats_table.add_row("❌ Wrong Answers", f"[red]{total_wrong}[/red]")
+    acc_color = "green" if overall_accuracy >= 70 else "yellow" if overall_accuracy >= 50 else "red"
+    stats_table.add_row("🎯 Overall Accuracy", f"[{acc_color}]{overall_accuracy:.0f}%[/{acc_color}]")
+    stats_table.add_row("🔥 Current Streak", f"{current_streak} days")
+    stats_table.add_row("🏆 Best Streak", f"{best_streak} days")
+    stats_table.add_row("📅 Last Studied", last_study_date)
+    stats_table.add_row("🏅 Achievements", f"{len(achievements)}/24")
+    stats_table.add_row("🔖 Bookmarks", str(len(bookmarks)))
+    stats_table.add_row("📚 Tutorials Completed", str(tutorials_completed))
+    stats_table.add_row("⏱️  Timed Quiz Best", f"{timed_quiz_best} questions")
     console.print(stats_table)
     console.print()
 
-    # ─── Score Bar Chart (per category) ───────────────────────────
+    # ─── SECTION 1b: KSL-Verse Stats ──────────────────────────────
+    if verse_xp > 0:
+        from kslearn.engines.verse_engine import get_rank
+        rank_title, _, next_xp = get_rank(verse_xp)
+        total_worlds = sum(1 for w in verse_worlds.values() if w.get("world_completed"))
+        total_bosses = sum(1 for w in verse_worlds.values() if w.get("boss_defeated"))
+
+        console.print("[bold magenta]🌌  KSL-Verse Progress:[/bold magenta]\n")
+        verse_table = Table(box=box.ROUNDED, border_style="magenta")
+        verse_table.add_column("Metric", style="bold white", ratio=2)
+        verse_table.add_column("Value", style="cyan", ratio=1, justify="right")
+        verse_table.add_row("⭐ Total XP", str(verse_xp))
+        verse_table.add_row("🎖️  Rank", rank_title)
+        verse_table.add_row("🔄 Combo Multiplier", f"{verse_combo:.1f}x")
+        verse_table.add_row("🌍 Worlds Completed", f"{total_worlds}")
+        verse_table.add_row("🏆 Bosses Defeated", f"{total_bosses}")
+        verse_table.add_row("🎒 Inventory Items", str(len(verse_items)))
+        verse_table.add_row("🕵️  Secrets Found", str(verse_secrets))
+        verse_table.add_row("📜 Lore Entries", str(verse_lore))
+        verse_table.add_row("🏅 Verse Achievements", str(len(verse_achievements)))
+        if verse_prestige > 0:
+            verse_table.add_row("✨ Prestige Level", str(verse_prestige))
+        console.print(verse_table)
+        console.print()
+
+    # ─── SECTION 2: Accuracy by Category (Bar Chart) ───────────────
+    categories = {}
     if progress:
-        categories = {}
         for key, data in progress.items():
             cat = data.get("category", "unknown")
             if cat not in categories:
-                categories[cat] = {"correct": 0, "total": 0, "sessions": 0}
+                categories[cat] = {"correct": 0, "total": 0, "sessions": 0, "accuracies": []}
             categories[cat]["correct"] += data.get("correct", data.get("last_score", 0))
             categories[cat]["total"] += data.get("questions", 0)
             categories[cat]["sessions"] += 1
+            acc = data.get("last_accuracy", 0)
+            if acc > 0:
+                categories[cat]["accuracies"].append(acc)
 
         console.print("[bold]📈 Accuracy by Category:[/bold]\n")
-        max_acc = 100
         for cat, vals in sorted(categories.items(), key=lambda x: x[1]["correct"] / max(x[1]["total"], 1) * 100, reverse=True):
             acc = (vals["correct"] / vals["total"] * 100) if vals["total"] > 0 else 0
-            bar_len = int(acc / 2.5)  # 40 chars max
-            bar_char = "█"
-            empty_char = "░"
+            bar_len = int(acc / 2.5)
             color = "green" if acc >= 70 else "yellow" if acc >= 50 else "red"
-            bar = f"[{color}]{bar_char * bar_len}[/{color}][dim]{empty_char * (40 - bar_len)}[/dim]"
+            bar = f"[{color}]{'█' * bar_len}[/{color}][dim]{'░' * (40 - bar_len)}[/dim]"
             cat_label = cat.replace("_", " ").title().ljust(20)
-            console.print(f"  {cat_label} [{color}]{acc:5.0f}%[/{color}] {bar}  ({vals['sessions']} sessions)")
+            avg_acc = (sum(vals["accuracies"]) / len(vals["accuracies"])) if vals["accuracies"] else 0
+            trend = "📈" if avg_acc > acc else "📉" if avg_acc < acc else "➡️"
+            console.print(f"  {cat_label} [{color}]{acc:5.0f}%[/{color}] {bar}  ({vals['sessions']} sessions) {trend}")
         console.print()
 
-    # ─── Study Streak Heatmap (last 28 days as text grid) ─────────
+    # ─── SECTION 3: Session Volume (Horizontal Bar) ────────────────
+    if categories:
+        console.print("[bold]📊 Session Volume by Category:[/bold]\n")
+        total_sessions = sum(v["sessions"] for v in categories.values())
+        sorted_cats = sorted(categories.items(), key=lambda x: x[1]["sessions"], reverse=True)
+        max_sessions = max(v["sessions"] for v in categories.values()) if categories else 1
+        bar_max = 30
+
+        for cat, vals in sorted_cats:
+            pct = (vals["sessions"] / max(total_sessions, 1)) * 100
+            bar_len = int((vals["sessions"] / max(max_sessions, 1)) * bar_max)
+            cat_label = cat.replace("_", " ").title().ljust(20)
+            bar = f"[blue]{'█' * bar_len}[/{'blue'}][dim]{'░' * (bar_max - bar_len)}[/dim]"
+            console.print(f"  {cat_label} [blue]{pct:5.0f}%[/blue] [{bar}] ({vals['sessions']})")
+        console.print()
+
+    # ─── SECTION 4: Performance Distribution (ASCII Histogram) ─────
+    if progress:
+        console.print("[bold]📉 Score Distribution:[/bold]\n")
+        buckets = {"0-20%": 0, "21-40%": 0, "41-60%": 0, "61-80%": 0, "81-100%": 0}
+        for _, data in progress.items():
+            acc = data.get("last_accuracy", 0)
+            if acc <= 20: buckets["0-20%"] += 1
+            elif acc <= 40: buckets["21-40%"] += 1
+            elif acc <= 60: buckets["41-60%"] += 1
+            elif acc <= 80: buckets["61-80%"] += 1
+            else: buckets["81-100%"] += 1
+
+        max_bucket = max(buckets.values()) if buckets else 1
+        bar_width = 25
+        for range_label, count in buckets.items():
+            bar_len = int((count / max(max_bucket, 1)) * bar_width)
+            color = "red" if "0-" in range_label or "21" in range_label else "yellow" if "41" in range_label else "green"
+            bar = f"[{color}]{'█' * bar_len}[/{color}][dim]{'░' * (bar_width - bar_len)}[/dim]"
+            console.print(f"  {range_label:>8} [{color}]{count:3d}[/{color}] {bar}")
+        console.print()
+
+    # ─── SECTION 5: Study Streak Heatmap ───────────────────────────
     console.print("[bold]📅 Study Activity (Last 28 Days):[/bold]\n")
     week_labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     console.print("       " + " ".join(f"[dim]{d}[/dim]" for d in week_labels))
 
-    # Collect all completed_at timestamps from learning_progress
     activity_days = set()
     for p in progress.values():
         ts = p.get("completed_at", 0)
         if ts > 0:
-            from datetime import datetime as _dt
             day_str = _dt.fromtimestamp(ts).strftime("%Y-%m-%d")
             activity_days.add(day_str)
+    # Also include streak calendar from verse
+    streak_cal = verse_progress.get("streak_calendar", {})
+    for d in streak_cal:
+        if streak_cal[d]:
+            activity_days.add(d)
 
     today = datetime.now()
     for week in range(4):
@@ -1137,9 +1277,20 @@ def show_analytics():
     console.print("       🟩 Active  ⬛ Rest")
     console.print()
 
-    # ─── Quiz Performance Trend ───────────────────────────────────
+    # ─── SECTION 6: Daily Goal Progress ────────────────────────────
+    from kslearn.config import get_daily_goal_progress
+    goal = get_daily_goal_progress()
+    console.print("[bold]🎯 Daily Goal Progress:[/bold]\n")
+    goal_pct = goal.get("percentage", 0)
+    goal_bar_len = int(goal_pct / 4)
+    goal_color = "green" if goal_pct >= 100 else "yellow" if goal_pct >= 50 else "red"
+    goal_bar = f"[{goal_color}]{'█' * goal_bar_len}[/{goal_color}][dim]{'░' * (25 - goal_bar_len)}[/dim]"
+    console.print(f"  {goal_bar} {goal['minutes']}/{goal['goal']}min ({goal_pct:.0f}%)")
+    console.print()
+
+    # ─── SECTION 7: Recent Quiz Scores (Timeline) ──────────────────
     if len(progress) >= 2:
-        console.print("[bold]📉 Recent Quiz Scores (Last 10):[/bold]\n")
+        console.print("[bold]📈 Recent Quiz Scores (Last 10):[/bold]\n")
         sorted_items = sorted(progress.items(), key=lambda x: x[1].get("completed_at", 0), reverse=True)[:10]
         sorted_items.reverse()
 
@@ -1153,42 +1304,140 @@ def show_analytics():
             bar_len = int((acc / max(max_score, 1)) * max_bar)
             bar = f"[{score_color}]{'█' * bar_len}[/{score_color}][dim]{'░' * (max_bar - bar_len)}[/dim]"
             topic_short = (topic[:18] + "..") if len(topic) > 18 else topic
-            console.print(f"  {topic_short.ljust(20)} [{score_color}]{acc:5.0f}%[/{score_color}] {bar}")
+            ts = data.get("completed_at", 0)
+            date_str = ""
+            if ts > 0:
+                date_str = _dt.fromtimestamp(ts).strftime("%m/%d")
+            console.print(f"  {topic_short.ljust(20)} [{score_color}]{acc:5.0f}%[/{score_color}] {bar}  [dim]{date_str}[/dim]")
         console.print()
 
-    # ─── Learning Distribution ────────────────────────────────────
-    if categories:
-        console.print("[bold]🕐 Time Distribution by Category:[/bold]\n")
-        total_sessions = sum(v["sessions"] for v in categories.values())
-        sorted_cats = sorted(categories.items(), key=lambda x: x[1]["sessions"], reverse=True)
-        max_sessions = max(v["sessions"] for v in categories.values()) if categories else 1
-        bar_max = 25
+    # ─── SECTION 8: Improvement Trend ──────────────────────────────
+    if len(progress) >= 3:
+        console.print("[bold]📊 Improvement Trend:[/bold]\n")
+        sorted_by_time = sorted(progress.items(), key=lambda x: x[1].get("completed_at", 0))
+        # Split into thirds
+        third = max(len(sorted_by_time) // 3, 1)
+        early = sorted_by_time[:third]
+        recent = sorted_by_time[-third:]
 
-        for cat, vals in sorted_cats:
-            pct = (vals["sessions"] / max(total_sessions, 1)) * 100
-            bar_len = int((vals["sessions"] / max(max_sessions, 1)) * bar_max)
-            cat_label = cat.replace("_", " ").title().ljust(20)
-            bar = f"[cyan]{'█' * bar_len}[/{'cyan'}][dim]{'░' * (bar_max - bar_len)}[/dim]"
-            console.print(f"  {cat_label} [cyan]{pct:5.0f}%[/cyan] [{bar}] ({vals['sessions']} sessions)")
+        early_avg = (sum(d.get("last_accuracy", 0) for _, d in early) / len(early)) if early else 0
+        recent_avg = (sum(d.get("last_accuracy", 0) for _, d in recent) / len(recent)) if recent else 0
+        diff = recent_avg - early_avg
+
+        trend_icon = "📈" if diff > 0 else "📉" if diff < 0 else "➡️"
+        trend_color = "green" if diff > 0 else "red" if diff < 0 else "white"
+        console.print(f"  Early avg:  [dim]{early_avg:.0f}%[/dim]")
+        console.print(f"  Recent avg: [{trend_color}]{recent_avg:.0f}%[/{trend_color}]")
+        console.print(f"  Change:     [{trend_color}]{trend_icon} {diff:+.0f}pp[/{trend_color}]")
+        if diff > 10:
+            console.print(f"  [bold green]🌟 Excellent improvement![/bold green]")
+        elif diff < -5:
+            console.print(f"  [bold yellow]⚠️  Performance declining — try reviewing weak areas[/bold yellow]")
+        else:
+            console.print(f"  [dim]Steady progress[/dim]")
         console.print()
 
-    # ─── Weak Areas ──────────────────────────────────────────────
+    # ─── SECTION 9: Mastery Levels ─────────────────────────────────
+    if progress:
+        console.print("[bold]🎖️  Mastery Levels:[/bold]\n")
+        mastery_items = []
+        for key, data in progress.items():
+            acc = data.get("last_accuracy", 0)
+            topic = data.get("topic", key)
+            if acc >= 90: icon, color = "💎", "magenta"
+            elif acc >= 75: icon, color = "🥇", "yellow"
+            elif acc >= 60: icon, color = "🥈", "white"
+            elif acc >= 40: icon, color = "🥉", "dim"
+            else: icon, color = "⬜", "red"
+            mastery_items.append((acc, icon, topic, color))
+        mastery_items.sort(reverse=True)
+
+        for acc, icon, topic, color in mastery_items[:12]:
+            topic_short = (topic[:22] + "..") if len(topic) > 22 else topic
+            console.print(f"  {icon} [{color}]{topic_short.ljust(24)} {acc:.0f}%[/{color}]")
+        if len(mastery_items) > 12:
+            console.print(f"  [dim]+ {len(mastery_items) - 12} more...[/dim]")
+        console.print()
+
+    # ─── SECTION 10: Weak Areas ────────────────────────────────────
     if progress:
         weak_areas = []
         for key, data in progress.items():
             acc = data.get("last_accuracy", 0)
             if acc < 60:
-                weak_areas.append((data.get("topic", key), acc))
+                weak_areas.append((data.get("topic", key), acc, data.get("sessions", 1)))
         if weak_areas:
             weak_areas.sort(key=lambda x: x[1])
-            console.print("[bold]⚠️  Areas Needing Review (Accuracy < 60%):[/bold]\n")
-            for topic, acc in weak_areas:
-                console.print(f"  [red]⚠[/red] {topic} — [red]{acc:.0f}%[/red]")
+            console.print("[bold red]⚠️  Areas Needing Review (Accuracy < 60%):[/bold red]\n")
+            for topic, acc, sessions in weak_areas:
+                urgency = "🔴" if acc < 30 else "🟡"
+                console.print(f"  {urgency} {topic} — [red]{acc:.0f}%[/red] ({sessions} sessions)")
             console.print()
         else:
             console.print("[bold green]✅ All topics above 60%! No weak areas.[/bold green]\n")
 
-    # ─── Insights ─────────────────────────────────────────────────
+    # ─── SECTION 11: Achievements Progress ─────────────────────────
+    console.print("[bold]🏅 Achievement Progress:[/bold]\n")
+    ach_rarity_counts = {"common": 0, "uncommon": 0, "rare": 0, "legendary": 0}
+    for ach in achievements:
+        r = ach.get("rarity", "common")
+        if r in ach_rarity_counts:
+            ach_rarity_counts[r] += 1
+
+    ach_total = 24  # 15 original + 9 verse
+    ach_earned = len(achievements)
+    ach_pct = (ach_earned / ach_total * 100) if ach_total > 0 else 0
+    ach_bar_len = int(ach_pct / 4)
+    ach_bar = f"[magenta]{'█' * ach_bar_len}[/{'magenta'}][dim]{'░' * (25 - ach_bar_len)}[/dim]"
+    console.print(f"  {ach_bar} {ach_earned}/{ach_total} ({ach_pct:.0f}%)\n")
+    for rarity, count in ach_rarity_counts.items():
+        r_icon = {"common": "⚪", "uncommon": "🟢", "rare": "🔵", "legendary": "🟣"}.get(rarity, "⚪")
+        r_total = sum(1 for a in __import__("kslearn.engines.achievements", fromlist=["ACHIEVEMENTS"]).ACHIEVEMENTS.values() if a.get("rarity") == rarity)
+        console.print(f"  {r_icon} {rarity.title():12s} {count}/{r_total}")
+    console.print()
+
+    # ─── SECTION 12: Study Time Estimates ──────────────────────────
+    console.print("[bold]⏱️  Study Time Estimates:[/bold]\n")
+    if progress:
+        timestamps = [p.get("completed_at", 0) for p in progress.values() if p.get("completed_at", 0) > 0]
+        if len(timestamps) >= 2:
+            timestamps.sort()
+            first_session = datetime.fromtimestamp(timestamps[0])
+            last_session = datetime.fromtimestamp(timestamps[-1])
+            span_days = (last_session - first_session).days + 1
+            avg_per_week = (quizzes_completed / max(span_days / 7, 1))
+            console.print(f"  First session:  {first_session.strftime('%Y-%m-%d')}")
+            console.print(f"  Latest session: {last_session.strftime('%Y-%m-%d')}")
+            console.print(f"  Active span:    {span_days} days")
+            console.print(f"  Avg quizzes/week: [cyan]{avg_per_week:.1f}[/cyan]")
+        else:
+            console.print("  [dim]Need at least 2 sessions for time estimates[/dim]")
+    else:
+        console.print("  [dim]No quiz data yet[/dim]")
+    console.print()
+
+    # ─── SECTION 13: Predictions ───────────────────────────────────
+    console.print("[bold]🔮 Predictions:[/bold]\n")
+    predictions = []
+    if quizzes_completed > 0:
+        quizzes_to_next_achievement = max(0, 25 - quizzes_completed)
+        if quizzes_to_next_achievement > 0:
+            predictions.append(f"📅 {quizzes_to_next_achievement} more quizzes for 'Quiz Master' achievement")
+        if current_streak > 0 and current_streak < 5:
+            predictions.append(f"🔥 {5 - current_streak} more day(s) for 'Hot Streak' achievement")
+        if overall_accuracy < 100:
+            predictions.append("💎 100% accuracy on your next quiz would earn 'Perfectionist'")
+    if verse_xp > 0:
+        next_rank_xp = 200 if verse_xp < 200 else 500 if verse_xp < 500 else 1000 if verse_xp < 1000 else 2000 if verse_xp < 2000 else 3500
+        remaining = next_rank_xp - verse_xp
+        predictions.append(f"⭐ {remaining} more XP for next Verse rank")
+    if not predictions:
+        predictions.append("Start studying to see predictions here!")
+    for pred in predictions:
+        console.print(f"  {pred}")
+    console.print()
+
+    # ─── SECTION 14: Insights ──────────────────────────────────────
     console.print("[bold]💡 Insights:[/bold]\n")
     insights = []
     if total_questions > 0:
@@ -1206,12 +1455,19 @@ def show_analytics():
         insights.append(f"🏆 {len(achievements)} achievements — you're a dedicated learner!")
     if bookmarks:
         insights.append(f"🔖 {len(bookmarks)} bookmarked topics ready for review.")
+    if verse_xp > 0:
+        insights.append(f"🌌 You have {verse_xp} XP in the KSL-Verse!")
+    if timed_quiz_best >= 10:
+        insights.append(f"⚡ Timed quiz best: {timed_quiz_best} — quick thinker!")
+    if tutorials_completed > 0:
+        insights.append(f"📚 {tutorials_completed} tutorial(s) completed!")
     if not insights:
         insights.append("Start your first quiz to see analytics here!")
     for insight in insights:
         console.print(f"  {insight}")
     console.print()
 
+    # ─── Footer ────────────────────────────────────────────────────
     console.print("  [green][0][/green] Back")
     console.print()
 
@@ -2618,6 +2874,13 @@ def verify_cmd():
                 console.print(f"  [dim]• {issue}[/dim]")
         console.print()
         show_info("Run 'kslearn protect' to re-sign content if you made legitimate changes.")
+
+
+@main.command(name="verse")
+def verse_cmd():
+    """Launch the KSL-Verse interactive learning game"""
+    from kslearn.engines.verse_engine import run_verse_interactive
+    run_verse_interactive()
 
 
 # Entry point

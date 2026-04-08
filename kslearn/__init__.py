@@ -1,4 +1,4 @@
-"""kslearn - Educational Quiz Games Collection"""
+"""kslearn - JSON-Powered Learning System | Learn Anything Through Study Notes, Quizzes, and AI"""
 
 __version__ = "1.0.0"
-__author__ = "kslearn"
+__author__ = "KashSight Platform"

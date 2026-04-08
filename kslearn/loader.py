@@ -18,7 +18,42 @@ from datetime import datetime
 # ALL .ksl content packages live in one flat folder: data/ksl/
 # .ksl files are self-describing (header tells their type).
 # Config stays in data/config/ (user prefs, not content).
-DATA_DIR = Path(__file__).parent.parent / "data"
+#
+# Platform-specific resolution:
+#   - If running from cloned repo (editable install): uses repo/data/ksl/
+#   - On Windows user install: uses %APPDATA%/kslearn/data/ksl/
+#   - On Linux/macOS user install: uses ~/.local/share/kslearn/data/ksl/
+
+def _get_platform_data_dir():
+    """Resolve user-specific data directory per platform."""
+    import sys
+    if sys.platform == "win32":
+        # Windows: %APPDATA%\kslearn\data\ksl
+        appdata = Path(os.environ.get("APPDATA", Path.home() / "AppData" / "Roaming"))
+        return appdata / "kslearn" / "data"
+    elif sys.platform == "darwin":
+        # macOS: ~/Library/Application Support/kslearn/data
+        return Path.home() / "Library" / "Application Support" / "kslearn" / "data"
+    else:
+        # Linux/Android/Termux: ~/.local/share/kslearn/data
+        xdg = Path(os.environ.get("XDG_DATA_HOME", Path.home() / ".local" / "share"))
+        return xdg / "kslearn" / "data"
+
+def _resolve_data_dir():
+    """
+    Return the data directory.
+    Priority: repo-adjacent data/  >  platform user data dir.
+    This lets editable installs (pip install -e .) use the repo's data/
+    while standalone installs use proper OS paths.
+    """
+    repo_data = Path(__file__).parent.parent / "data"
+    # If repo has a data/ folder, prefer it (editable install)
+    if (repo_data / "ksl").exists() or repo_data.exists():
+        return repo_data
+    # Otherwise fall back to platform-specific user data dir
+    return _get_platform_data_dir()
+
+DATA_DIR = _resolve_data_dir()
 KSL_DIR = DATA_DIR / "ksl"
 CONFIG_DIR = DATA_DIR / "config"
 

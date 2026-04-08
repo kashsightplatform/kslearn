@@ -19,7 +19,7 @@ try:
         show_warning,
         show_info,
         LoadingSpinner,
-        create_game_grid,
+        create_study_grid,
         print_divider,
     )
     USE_RICH = True
@@ -41,7 +41,19 @@ class Colors:
     RESET = "\033[0m"
 
 def clear_screen():
-    os.system("clear" if os.name != "nt" else "cls")
+    """Cross-platform screen clear — works on Windows, Linux, macOS, Termux."""
+    import sys
+    import os
+    try:
+        # Windows
+        if os.name == "nt":
+            os.system("cls")
+        # Unix-like (Linux, macOS, Termux, Android)
+        else:
+            os.system("clear")
+    except Exception:
+        # Fallback: print ANSI escape sequence
+        print("\033[2J\033[H", end="")
 
 def banner():
     if USE_RICH:
@@ -116,9 +128,9 @@ def grid_menu(title, options, cols=2):
         console.clear()
         console.print(get_small_banner())
         console.print()
-        show_panel(title, "Choose a game to start learning!\n", "cyan")
+        show_panel(title, "Choose an activity to start learning!\n", "cyan")
         
-        table = create_game_grid(options) if USE_RICH else None
+        table = create_study_grid(options) if USE_RICH else None
         if table:
             console.print(table)
     else:
@@ -405,7 +417,7 @@ def main_menu():
 
     all_options = games + extra_options
 
-    grid_menu("Select Quiz Game", all_options)
+    grid_menu("Select Study Mode", all_options)
     choice = input().strip()
 
     if choice == "0" or choice == "00":

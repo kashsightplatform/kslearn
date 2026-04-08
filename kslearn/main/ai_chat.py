@@ -84,7 +84,7 @@ class AIChat:
         """Load API keys from tgpt config"""
         if TGPT_API_KEYS_FILE.exists():
             try:
-                with open(TGPT_API_KEYS_FILE, "r") as f:
+                with open(TGPT_API_KEYS_FILE, "r", encoding="utf-8") as f:
                     for line in f:
                         line = line.strip()
                         if "=" in line:
@@ -101,7 +101,7 @@ class AIChat:
         
         if TGPT_API_KEYS_FILE.exists():
             try:
-                with open(TGPT_API_KEYS_FILE, "r") as f:
+                with open(TGPT_API_KEYS_FILE, "r", encoding="utf-8") as f:
                     for line in f:
                         line = line.strip()
                         if "=" in line:
@@ -112,11 +112,15 @@ class AIChat:
         
         keys[provider] = key
         
-        with open(TGPT_API_KEYS_FILE, "w") as f:
+        with open(TGPT_API_KEYS_FILE, "w", encoding="utf-8") as f:
             for k, v in keys.items():
                 f.write(f"{k}={v}\n")
-        
-        os.chmod(TGPT_API_KEYS_FILE, 0o600)
+        # Set restrictive permissions on Unix (skip on Windows)
+        if os.name != "nt":
+            try:
+                os.chmod(TGPT_API_KEYS_FILE, 0o600)
+            except OSError:
+                pass
 
     def get_providers(self) -> Dict[str, Dict]:
         """Get tgpt-supported providers"""
@@ -339,7 +343,7 @@ class AIChat:
         """Load chat history from file"""
         if CHAT_HISTORY_FILE.exists():
             try:
-                with open(CHAT_HISTORY_FILE, "r") as f:
+                with open(CHAT_HISTORY_FILE, "r", encoding="utf-8") as f:
                     self.chat_history = json.load(f)
             except (json.JSONDecodeError, IOError):
                 self.chat_history = []
@@ -351,7 +355,7 @@ class AIChat:
         try:
             if len(self.chat_history) > 50:
                 self.chat_history = self.chat_history[-50:]
-            with open(CHAT_HISTORY_FILE, "w") as f:
+            with open(CHAT_HISTORY_FILE, "w", encoding="utf-8") as f:
                 json.dump(self.chat_history, f, indent=2)
         except IOError:
             pass
@@ -371,7 +375,7 @@ class AIChat:
         settings_file = DATA_DIR / "chat_settings.json"
         if settings_file.exists():
             try:
-                with open(settings_file, "r") as f:
+                with open(settings_file, "r", encoding="utf-8") as f:
                     settings = json.load(f)
                     self.auto_save_to_brain = settings.get("auto_save_to_brain", True)
             except (json.JSONDecodeError, IOError):
@@ -387,7 +391,7 @@ class AIChat:
             "last_provider": self.provider,
         }
         try:
-            with open(settings_file, "w") as f:
+            with open(settings_file, "w", encoding="utf-8") as f:
                 json.dump(settings, f, indent=2)
         except IOError:
             pass

@@ -81,7 +81,7 @@ def load_config() -> dict:
     config_path = find_config()
     if config_path:
         try:
-            with open(config_path, "r") as f:
+            with open(config_path, "r", encoding="utf-8") as f:
                 user_config = json.load(f)
                 config = {**DEFAULT_CONFIG, **user_config}
 
@@ -123,8 +123,8 @@ def save_config(config: dict, path: Optional[Path] = None) -> Path:
         if key in config:
             config[data_key] = config[key]
 
-    with open(path, "w") as f:
-        json.dump(config, f, indent=2)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(config, f, indent=2, ensure_ascii=False)
 
     return path
 
@@ -261,7 +261,7 @@ def get_daily_goal_progress():
 _PROFILE_KEYS = [
     "learning_progress", "bookmarks", "achievements",
     "study_streak", "daily_goal", "review_queue",
-    "tutorial_progress", "timed_quiz_best",
+    "tutorial_progress", "timed_quiz_best", "verse_progress",
 ]
 
 
@@ -380,5 +380,35 @@ def get_profiled_config():
                 merged[key] = {} if key != "bookmarks" else []
             elif key == "timed_quiz_best":
                 merged[key] = 0
+            elif key == "verse_progress":
+                merged[key] = {
+                    "total_xp": 0,
+                    "worlds": {},
+                    "achievements": [],
+                    "combo_multiplier": 1.0,
+                    "combo_count": 0,
+                    "difficulty": "normal",
+                    "compact_mode": False,
+                    "animate_narrative": False,
+                    "lifelines": {"fifty_fifty": 3, "skip": 2, "hint": 3},
+                    "inventory": [],
+                    "weaknesses": {},
+                    "lore_unlocked": [],
+                    "speedrun_records": {},
+                    "daily_challenge": None,
+                    "npc_memory": {},
+                    "secrets_found": [],
+                    "session_stats": {"total_sessions": 0, "total_time": 0, "total_correct": 0, "total_wrong": 0, "history": []},
+                    "streak_calendar": {},
+                    "prestige_level": 0,
+                    "prestige_bonus": 0,
+                    "custom_questions": [],
+                    "mentor_active": False,
+                    "world_themes": {},
+                    "quote_index": 0,
+                    "journal": {},
+                    "sound_enabled": True,
+                    "daily_challenge_best": 0,
+                }
 
     return merged
