@@ -1,16 +1,43 @@
-# kslearn User Guide
+# 📖 kslearn User Guide
 
-## Main Menu
+> **Your complete reference for navigating and mastering kslearn.**
 
-Launch kslearn with:
+<p align="center">
+  <sub>📘 User Guide • Version 2.0 • kslearn 2.0.0</sub>
+</p>
+
+---
+
+## 📋 Table of Contents
+
+- [🚀 Launch](#-launch)
+- [📋 Main Menu](#-main-menu)
+- [📊 My Progress](#-my-progress-option-5--p)
+- [🔖 Study Tools](#-study-tools-option-6--t)
+- [🎮 Study Modes](#-study-modes-option-f--m)
+- [📂 Course Catalog Features](#-course-catalog-features)
+- [🔥 AI-Powered Suggestions](#-ai-powered-suggestions)
+- [🎨 Themes](#-themes)
+- [⌨️ Shortcut Key Reference](#%EF%B8%8F-shortcut-key-reference)
+- [🏪 Data Store](#-data-store)
+- [📊 Progress Tracking Keys](#-progress-tracking-keys)
+
+---
+
+## 🚀 Launch
+
 ```bash
 kslearn
 ```
 
-### Menu Structure
+> 💡 **Tip:** Run `kslearn verse` to launch KSL-Verse directly.
+
+---
+
+## 📋 Main Menu
 
 | # | Option | Shortcut | Description |
-|---|--------|----------|-------------|
+|:---:|:---|:---:|:---|
 | 1 | 📂 Course Catalog | `1` / `CC` | 6-level hierarchical courses with progression gating, AI tutor, mark-as-complete |
 | 2 | 📚 Study Notes | `2` / `N` | Browse comprehensive learning materials with reading time tracking |
 | 3 | 📝 Take Quiz | `3` / `Q` | Test your knowledge with interactive quizzes |
@@ -26,121 +53,228 @@ kslearn
 | H | ❓ Help | `H` | Show commands and usage info |
 | 0 | ❌ Exit | `0` | Leave kslearn (with confirmation) |
 
-### Sub-menus
+---
 
-#### 📊 My Progress (Option 5 / P)
+## 📊 My Progress (Option 5 / P)
+
+> **Your learning analytics dashboard.**
+
 | # | Option | Description |
-|---|--------|-------------|
-| 1 | 📈 Analytics Dashboard | Visual charts, heatmaps, weak areas, insights |
-| 2 | 📋 Quiz Scores | Detailed quiz history & accuracy |
-| 3 | 🏆 Achievements | Badges, milestones, rarity breakdown |
-| 4 | 📄 Export Report | Generate Markdown progress summary |
-| 0 | Back | Return to main menu |
+|:---:|:---|:---|
+| 1 | 📈 **Analytics Dashboard** | Visual charts, heatmaps, weak areas, insights |
+| 2 | 📋 **Quiz Scores** | Detailed quiz history & accuracy |
+| 3 | 🏆 **Achievements** | Badges, milestones, rarity breakdown |
+| 4 | 📄 **Export Report** | Generate Markdown progress summary |
+| 0 | **Back** | Return to main menu |
 
-#### 🔖 Study Tools (Option 6 / T)
+### Analytics Dashboard Features
+
+| Feature | Description |
+|:---|:---|
+| 📊 **Visual Charts** | Progress graphs and trend lines |
+| 🔥 **Heatmaps** | 30-day study calendar |
+| 🎯 **Weak Areas** | Topics scoring below 80% |
+| 💡 **Insights** | Personalized recommendations |
+
+---
+
+## 🔖 Study Tools (Option 6 / T)
+
+> **Your productivity toolkit.**
+
 | # | Option | Description |
-|---|--------|-------------|
-| 1 | 🔖 Bookmarks | Saved topics for quick review |
-| 2 | 🔍 Global Search | Search all notes at once |
-| 3 | 📅 Spaced Review | Revisit topics you struggled with |
-| 0 | Back | Return to main menu |
+|:---:|:---|:---|
+| 1 | 🔖 **Bookmarks** | Saved topics for quick review |
+| 2 | 🔍 **Global Search** | Search all notes at once |
+| 3 | 📅 **Spaced Review** | Revisit topics you struggled with |
+| 0 | **Back** | Return to main menu |
 
-#### 🎮 Study Modes (Option F / M)
+### Spaced Review System
+
+| Timing | Purpose |
+|:---|:---|
+| **1 day** | Initial retention check |
+| **3 days** | Short-term memory reinforcement |
+| **7 days** | Long-term consolidation |
+
+---
+
+## 🎮 Study Modes (Option F / M)
+
+> **Alternative ways to learn.**
+
 | # | Option | Description |
-|---|--------|-------------|
-| 1 | 🃏 Flashcards | Card-based review with flip reveal |
-| 2 | ⚡ Timed Quiz | 60-second speed challenge |
-| 3 | 🎓 Tutorials | Interactive step-by-step lessons |
-| 0 | Back | Return to main menu |
+|:---:|:---|:---|
+| 1 | 🃏 **Flashcards** | Card-based review with flip reveal |
+| 2 | ⚡ **Timed Quiz** | 60-second speed challenge |
+| 3 | 🎓 **Tutorials** | Interactive step-by-step lessons |
+| 0 | **Back** | Return to main menu |
 
-## Course Catalog Features
+---
+
+## 📂 Course Catalog Features
 
 When viewing a course, you have additional options:
 
-| Key | Action |
-|-----|--------|
-| `1-9` | Select a category |
-| `G` | 📖 View Glossary |
-| `C` | 📋 View Case Studies |
-| `M` | 🎬 View Media |
-| `R` | 📎 View Resources |
-| `D` | 💬 View Discussion Prompts |
-| `A` | 🤖 Ask AI about this course (offline/online) |
-| `S` | 📊 Course Stats |
-| `0` | Back to Course Catalog |
+### Course View Options
+
+| Key | Action | Description |
+|:---:|:---|:---|
+| `1-9` | **Select Category** | Navigate into a sub-category |
+| `G` | 📖 **View Glossary** | Course terminology and definitions |
+| `C` | 📋 **View Case Studies** | Real-world scenarios and applications |
+| `M` | 🎬 **View Media** | Videos, images, interactive content |
+| `R` | 📎 **View Resources** | External links and references |
+| `D` | 💬 **View Discussion Prompts** | Group learning questions |
+| `A` | 🤖 **Ask AI** | Get AI explanations about this course (offline/online) |
+| `S` | 📊 **Course Stats** | Your progress and performance metrics |
+| `0` | **Back** | Return to Course Catalog |
 
 ### Course Catalog Main Menu
-| Key | Action |
-|-----|--------|
-| `S` | Search courses by keyword |
-| `F` | Filter by difficulty (beginner/intermediate/advanced/expert) |
-| `L` | Continue where you left off (last visited course) |
-| `R` | Reset filters |
+
+| Key | Action | Description |
+|:---:|:---|:---|
+| `S` | **Search** | Search courses by keyword |
+| `F` | **Filter** | Filter by difficulty (`beginner`/`intermediate`/`advanced`/`expert`) |
+| `L` | **Continue** | Jump to last-visited course |
+| `R` | **Reset Filters** | Clear all active filters |
 
 ### Sub-topic Actions
+
+| Key | Action | Description |
+|:---:|:---|:---|
+| `X` | ✅ **Mark as Complete** | Hidden if already completed |
+| `B` | **Back** | Return to Sub-topics list |
+| `0` | **Main Menu** | Return to Main Menu |
+
+---
+
+## 🔥 AI-Powered Suggestions
+
+> **Personalized "What to Study Next" recommendations after every interaction.**
+
+### Where Suggestions Appear
+
+| Trigger | Icon | Detection | Suggestions |
+|:---|:---:|:---|:---|
+| **After AI Chat** | 💬 | Keyword matching across 10 topic areas | 3-4 cards with specific next steps |
+| **After Quiz** | 📝 | Score analysis — weak areas (<80%) | Review recommendations + related topics |
+| **After Course View** | 📂 | Course tags and category matching | Related courses with shared topics |
+| **After Sub-topic Complete** | ✅ | Course tags + progress momentum | Next logical step in learning path |
+| **After Global Search** | 🔍 | Search term + result categories | Related content based on search results |
+| **Streak ≥ 3 days** | 🔥 | `study_streak.current` in config | Timed quiz challenge |
+| **Spaced Review Due** | 📅 | 1-3 days since last completion | Review specific topics to lock memory |
+
+### Example Suggestion Display
+
+```
+✨ What to Study Next
+─────────────────────────────────────
+🤖 AI Tutor Says:
+
+Great effort! Here's what to focus on next:
+
+⚠️ Review: Variables and Data Types
+   You scored 65% — try again to reach 80%+
+   💡 Weak area — practice makes perfect!
+
+📚 Introduction to JavaScript
+   Shares 2 topic(s): programming, beginner
+   🔓 New • 180 min
+
+🔥 Streak Challenge
+   You're on a 3-day streak! Try a timed quiz
+   ⚡ You're on fire — push your limits!
+```
+
+### Suggestion Quick Actions
+
 | Key | Action |
-|-----|--------|
-| `X` | ✅ Mark as Complete (hidden if already completed) |
-| `B` | Back to Sub-topics |
-| `0` | Back to Main Menu |
+|:---:|:---|
+| `C` | Browse suggested courses |
+| `R` | Start spaced review immediately |
+| `T` | Take timed quiz challenge |
+| `S` | Show suggestions again |
+| `0` | Continue to main menu |
 
-## AI-Powered Suggestions
+> 📖 **Deep dive:** See [AI_SUGGESTIONS.md](AI_SUGGESTIONS.md) for full technical details.
 
-After every interaction, kslearn shows personalized "What to Study Next" suggestions:
+---
 
-- **After AI Chat** → "Based on your question, try these next..."
-- **After Quiz** → "You scored X% — here's what to focus on"
-- **After Course View** → "Since you're exploring this topic, check these out..."
-- **After Sub-topic Complete** → "You're making progress! Keep going with..."
-- **After Search** → "Based on your search, here's what might interest you..."
-- **Streak ≥ 3 days** → "🔥 Streak Challenge — try a timed quiz!"
-- **Spaced Review Due** → "📅 X topics are due for review today"
+## 🎨 Themes
 
-See [AI_SUGGESTIONS.md](AI_SUGGESTIONS.md) for full details.
+> **Customize your terminal experience.**
 
-## Themes
+| Theme | Icon | Description | Preview |
+|:---|:---:|:---|:---|
+| `sky_blue` | 🔵 | Clean, bright blue tones **(Default)** | Calm and professional |
+| `green` | 🟢 | Forest green, nature-inspired | Natural and refreshing |
+| `grey` | ⚪ | Minimalist monochrome | Focused and distraction-free |
 
-kslearn supports 3 UI themes. Change in Settings (C) → edit `theme`:
+### How to Change Theme
 
-| Theme | Description |
-|-------|-------------|
-| `sky_blue` | Clean, bright blue tones (default) |
-| `green` | Forest green, nature-inspired |
-| `grey` | Minimalist monochrome |
+1. Press `C` → Settings
+2. Edit `theme` value
+3. Save — **changes apply immediately**
 
-> **Note:** Theme changes apply immediately when you save settings.
+> 💡 **Tip:** No restart required — theme updates are instant.
 
-## Shortcut Key Reference
+---
 
-All shortcut keys are unique — no collisions:
+## ⌨️ Shortcut Key Reference
 
-| Key | Routes To |
-|-----|-----------|
-| `1` / `CC` | Course Catalog |
-| `2` / `N` | Study Notes |
-| `3` / `Q` | Take Quiz |
-| `4` | AI Chat |
-| `5` / `P` | My Progress (merged) |
-| `6` / `T` | Study Tools (merged) |
-| `7` / `B` | Knowledge Brain |
-| `8` | Data Store |
-| `S` | Support |
-| `F` / `M` | Study Modes (merged) |
-| `D` | Profiles |
-| `C` | Settings |
-| `H` / `?` | Help |
-| `0` | Exit |
+> **All shortcut keys are unique — no collisions.**
 
-## Data Store
+| Key | Routes To | Category |
+|:---:|:---|:---|
+| `1` / `CC` | 📂 Course Catalog | Learning |
+| `2` / `N` | 📚 Study Notes | Learning |
+| `3` / `Q` | 📝 Take Quiz | Assessment |
+| `4` | 🤖 AI Chat | AI |
+| `5` / `P` | 📊 My Progress | Analytics |
+| `6` / `T` | 🔖 Study Tools | Productivity |
+| `7` / `B` | 🧠 Knowledge Brain | AI |
+| `8` | 🏪 Data Store | Content |
+| `S` | ❤️ Support | Help |
+| `F` / `M` | 🎮 Study Modes | Learning |
+| `D` | 👤 Profiles | Account |
+| `C` | ⚙️ Settings | Configuration |
+| `H` / `?` | ❓ Help | Help |
+| `0` | ❌ Exit | System |
 
-Download new courses from: `https://kashsight-4cbb8.web.app/kslearn.html`
+---
 
-## Progress Tracking Keys
+## 🏪 Data Store
+
+> **Download new courses and content.**
+
+| Source | URL |
+|:---|:---|
+| **Website** | https://kashsight-4cbb8.web.app/kslearn.html |
+| **In-App** | Option 8 → Data Store |
+
+### Available Content
+
+| Type | Icon | Description |
+|:---|:---:|:---|
+| **Free Courses** | 🆓 | Community-contributed content |
+| **Premium Content** | 💎 | Professional-grade courses |
+| **Updates** | 🔄 | Patches and improvements |
+
+---
+
+## 📊 Progress Tracking Keys
 
 | Key Pattern | Type | Stored When |
-|-------------|------|-------------|
+|:---|:---|:---|
 | `hier_{subtopic_id}` | Sub-topic completion | User presses `[X]` Mark as Complete |
 | `hier_outcome_{outcome_id}` | Outcome quiz result | Assessment quiz completed |
 | `reading_{category}_{topic}` | Reading time | User leaves a notes topic (5s+ spend) |
 | `notes_quiz_{category}_{timestamp}` | Notes quiz result | Notes quiz completed |
 | `profile_{name}_{key}` | Profile-scoped data | When using user profiles |
+
+---
+
+<p align="center">
+  <sub>📚 kslearn Documentation • <a href="https://github.com/kashsightplatform/kslearn">GitHub</a> • <a href="https://kash-sight.web.app">Website</a></sub>
+</p>

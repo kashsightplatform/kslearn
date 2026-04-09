@@ -1,26 +1,61 @@
-# AI-Powered "What to Study Next" — kslearn
+# 🤖 AI-Powered "What to Study Next"
 
-## Overview
+> **kslearn's proactive suggestion engine — making learning addictive by always showing the logical next step.**
 
-kslearn features an **AI-powered suggestion engine** that proactively recommends what to learn next after every interaction. The goal is to make learning **addictive** — always showing you the logical next step so you never run out of momentum.
+<p align="center">
+  <sub>🧠 AI Engine • Version 1.0 • kslearn 2.0.0</sub>
+</p>
 
-## How It Works
+---
 
-The suggestion engine analyzes your current context and generates personalized recommendations based on:
+## 📋 Table of Contents
 
-1. **Topic Detection** — Keywords in your question/quiz/search
-2. **Quiz Performance** — Weak areas scored below 80%
-3. **Study Streak** — Momentum-based challenges
-4. **Spaced Review Timing** — Topics due for review (1-3 days since completion)
-5. **Course Relationships** — Shared tags and categories
-6. **Beginner Defaults** — If no data, suggest popular starter courses
+- [📊 Overview](#-overview)
+- [⚙️ How It Works](#%EF%B8%8F-how-it-works)
+- [📍 Where Suggestions Appear](#-where-suggestions-appear)
+- [🎯 Topic Detection Matrix](#-topic-detection-matrix)
+- [📦 Suggestion Types](#-suggestion-types)
+- [⚡ Quick Actions](#-quick-actions)
+- [📁 Files Involved](#-files-involved)
+- [🔧 Customization](#-customization)
 
-## Where Suggestions Appear
+---
 
-### 1. After AI Chat 💬
-**Trigger:** You ask the AI tutor a question  
-**Detection:** Keyword matching across 10 topic areas  
-**Suggestions:** 3-4 cards with specific next steps
+## 📊 Overview
+
+| Attribute | Detail |
+|:---|:---|
+| **Purpose** | Proactively recommend what to learn next after every interaction |
+| **Goal** | Make learning **addictive** — never run out of momentum |
+| **Trigger** | After every user action (chat, quiz, course, search, etc.) |
+| **Personalization** | Based on quiz performance, study patterns, streaks, and spaced review timing |
+
+---
+
+## ⚙️ How It Works
+
+The suggestion engine analyzes your current context and generates personalized recommendations:
+
+| Factor | Description |
+|:---|:---|
+| **1. Topic Detection** | Keyword matching across 10 topic areas |
+| **2. Quiz Performance** | Weak areas scoring below 80% |
+| **3. Study Streak** | Momentum-based challenges |
+| **4. Spaced Review Timing** | Topics due for review (1-3 days since completion) |
+| **5. Course Relationships** | Shared tags and categories |
+| **6. Beginner Defaults** | If no data, suggest popular starter courses |
+
+---
+
+## 📍 Where Suggestions Appear
+
+### 1. 💬 After AI Chat
+
+| Property | Value |
+|:---|:---|
+| **Trigger** | You ask the AI tutor a question |
+| **Detection** | Keyword matching across 10 topic areas |
+| **Output** | 3-4 cards with specific next steps |
 
 **Example:**
 ```
@@ -43,10 +78,15 @@ Based on your question, here's a great next step:
    Apply what you've learned in practice
 ```
 
-### 2. After Quiz Completion 📝
-**Trigger:** You finish any quiz  
-**Detection:** Score analysis — identifies weak areas (<80%)  
-**Suggestions:** Review recommendations + related topics
+---
+
+### 2. 📝 After Quiz Completion
+
+| Property | Value |
+|:---|:---|
+| **Trigger** | You finish any quiz |
+| **Detection** | Score analysis — identifies weak areas (<80%) |
+| **Output** | Review recommendations + related topics |
 
 **Example:**
 ```
@@ -70,122 +110,81 @@ Great effort! Here's what to focus on next:
 🔥 Streak Challenge
    You're on a 3-day streak! Try a timed quiz
    ⚡ You're on fire — push your limits!
-
-Quick actions:
-[R] Start spaced review
-[T] Take timed quiz challenge
-[0] Continue
 ```
 
-### 3. After Course Viewing 📂
-**Trigger:** You browse a hierarchical course  
-**Detection:** Course tags and category matching  
-**Suggestions:** Related courses with shared topics
+---
 
-**Example:**
-```
-📂 Introduction to Python Programming
+### 3. 📂 After Course Viewing
 
-✨ What to Study Next
-─────────────────────────────────────
-🤖 AI Tutor Says:
+| Property | Value |
+|:---|:---|
+| **Trigger** | You browse a hierarchical course |
+| **Detection** | Course tags and category matching |
+| **Output** | Related courses with shared topics |
 
-Since you're exploring this topic, check these out:
+---
 
-🐍 Advanced Python Programming
-   Shares 2 topic(s): python, programming
-   🔓 New • 240 min
+### 4. ✅ After Sub-topic Complete
 
-🌐 Web Development Fundamentals
-   Shares 1 topic(s): programming, beginner
-   ✅ In Progress • 180 min
-```
+| Property | Value |
+|:---|:---|
+| **Trigger** | You press "Mark as Complete" `[X]` |
+| **Detection** | Course tags + progress momentum |
+| **Output** | Next logical step in learning path |
 
-### 4. After Sub-topic Complete ✅
-**Trigger:** You press "Mark as Complete" `[X]`  
-**Detection:** Course tags + progress momentum  
-**Suggestions:** Next logical step in learning path
+---
 
-**Example:**
-```
-✅ Marked as complete!
+### 5. 🔍 After Global Search
 
-✨ What to Study Next
-─────────────────────────────────────
-🤖 AI Tutor Says:
+| Property | Value |
+|:---|:---|
+| **Trigger** | You search all notes |
+| **Detection** | Search term + result categories |
+| **Output** | Related content based on search results |
 
-You're making progress! Keep the momentum going:
+---
 
-📝 Quick Quiz: Variables
-   Test your understanding before moving on
-   🔓 New • 5 min
+### 6. 🔥 Streak Challenge
 
-📅 Spaced Review
-   1 topic(s) are due for review today
-   🧠 Perfect timing — review now to lock it in memory
-```
+| Property | Value |
+|:---|:---|
+| **Trigger** | Study streak ≥ 3 days |
+| **Detection** | `study_streak.current` in config |
+| **Output** | Timed quiz challenge |
 
-### 5. After Global Search 🔍
-**Trigger:** You search all notes  
-**Detection:** Search term + result categories  
-**Suggestions:** Related content based on search results
+---
 
-**Example:**
-```
-🔍 Global Search
-Search term: python
+### 7. 📅 Spaced Review Reminder
 
-Found 5 result(s):
+| Property | Value |
+|:---|:---|
+| **Trigger** | 1-3 days since last completion |
+| **Detection** | `completed_at` timestamps in `learning_progress` |
+| **Output** | Review specific topics to lock in memory |
 
-  1. Programming > Variables
-     ...Python has several built-in data types...
+---
 
-  2. Programming > Functions
-     ...A function is a reusable block of code...
-
-✨ What to Study Next
-─────────────────────────────────────
-🤖 AI Tutor Says:
-
-Based on your search, here's what might interest you:
-
-📚 Web Development Fundamentals
-   Shares 1 topic(s): programming
-   🔓 New • 180 min
-
-📝 Take a Programming Quiz
-   Test your knowledge
-```
-
-### 6. Streak Challenge 🔥
-**Trigger:** Study streak ≥ 3 days  
-**Detection:** `study_streak.current` in config  
-**Suggestions:** Timed quiz challenge
-
-### 7. Spaced Review Reminder 📅
-**Trigger:** 1-3 days since last completion of a sub-topic  
-**Detection:** `completed_at` timestamps in `learning_progress`  
-**Suggestions:** Review specific topics to lock in memory
-
-## Topic Detection Matrix
+## 🎯 Topic Detection Matrix
 
 | Topic | Keywords Detected |
-|-------|------------------|
-| Python | `python`, `variable`, `function`, `loop`, `class`, `object`, `list`, `dict`, `code` |
-| Math | `math`, `algebra`, `calculus`, `equation`, `derivative`, `integral`, `geometry` |
-| Science | `physics`, `chemistry`, `biology`, `atom`, `molecule`, `cell`, `energy` |
-| Web Dev | `html`, `css`, `javascript`, `react`, `node`, `web`, `browser`, `frontend` |
-| Data Science | `data`, `analysis`, `statistics`, `probability`, `pandas`, `numpy`, `ml` |
-| History | `history`, `war`, `empire`, `civilization`, `ancient`, `medieval`, `revolution` |
-| Psychology | `psychology`, `mind`, `behavior`, `cognitive`, `therapy`, `mental`, `emotion` |
-| Music | `music`, `chord`, `scale`, `rhythm`, `melody`, `harmony`, `instrument` |
-| Business | `business`, `marketing`, `sales`, `revenue`, `profit`, `startup`, `strategy` |
-| Language | `grammar`, `vocabulary`, `language`, `learn english`, `speak`, `pronounce` |
+|:---|:---|
+| 🐍 **Python** | `python`, `variable`, `function`, `loop`, `class`, `object`, `list`, `dict`, `code` |
+| 🔢 **Math** | `math`, `algebra`, `calculus`, `equation`, `derivative`, `integral`, `geometry` |
+| 🔬 **Science** | `physics`, `chemistry`, `biology`, `atom`, `molecule`, `cell`, `energy` |
+| 🌐 **Web Dev** | `html`, `css`, `javascript`, `react`, `node`, `web`, `browser`, `frontend` |
+| 📊 **Data Science** | `data`, `analysis`, `statistics`, `probability`, `pandas`, `numpy`, `ml` |
+| 📜 **History** | `history`, `war`, `empire`, `civilization`, `ancient`, `medieval`, `revolution` |
+| 🧠 **Psychology** | `psychology`, `mind`, `behavior`, `cognitive`, `therapy`, `mental`, `emotion` |
+| 🎵 **Music** | `music`, `chord`, `scale`, `rhythm`, `melody`, `harmony`, `instrument` |
+| 💼 **Business** | `business`, `marketing`, `sales`, `revenue`, `profit`, `startup`, `strategy` |
+| 🗣️ **Language** | `grammar`, `vocabulary`, `language`, `learn english`, `speak`, `pronounce` |
 
-## Suggestion Types
+---
+
+## 📦 Suggestion Types
 
 | Type | Icon | When Shown |
-|------|------|------------|
+|:---|:---:|:---|
 | Related Course | 📚 | Tag/category overlap detected |
 | Weak Area Review | 📝 | Quiz score < 80% |
 | Practice/Project | 🔧 | After learning new concept |
@@ -195,38 +194,52 @@ Based on your search, here's what might interest you:
 | Spaced Review | 📅 | 1-3 days since completion |
 | Beginner Default | 🌟 | No data available |
 
-## Quick Actions
+---
 
-After suggestions are displayed, you can:
+## ⚡ Quick Actions
+
+After suggestions are displayed:
 
 | Key | Action |
-|-----|--------|
+|:---:|:---|
 | `C` | Browse suggested courses |
 | `R` | Start spaced review immediately |
 | `T` | Take timed quiz challenge |
 | `S` | Show suggestions again |
 | `0` | Continue to main menu |
 
-## Files Involved
+---
+
+## 📁 Files Involved
 
 | File | Purpose |
-|------|---------|
-| `kslearn/engines/notes_viewer.py` | `show_ai_suggestions()` — main suggestion engine for courses |
+|:---|:---|
+| `kslearn/engines/notes_viewer.py` | `show_ai_suggestions()` — main engine for courses |
 | `kslearn/engines/notes_viewer.py` | `search_all_notes()` — global search across all content |
 | `kslearn/main/ai_chat.py` | `_generate_learning_suggestions()` — AI chat suggestions |
 | `kslearn/cli.py` | `_run_global_search()` — search with AI suggestions |
 | `kslearn/cli.py` | `_run_quiz_interactive()` — quiz with post-quiz suggestions |
-| `kslearn/cli.py` | `_run_my_progress()` — merged progress menu |
-| `kslearn/cli.py` | `_run_study_tools()` — merged study tools menu |
-| `kslearn/cli.py` | `_run_study_modes()` — merged study modes menu |
 
-## Customization
+---
+
+## 🔧 Customization
 
 Suggestions are driven by:
-- **Course tags** — Add more tags to your `.ksl` courses for better matching
-- **Quiz performance** — The more you quiz, the better the weak-area detection
-- **Study patterns** — Streaks and spaced review timing are personalized
 
-To extend topic detection, add new entries to the `topic_keywords` dict in:
+| Factor | How to Improve |
+|:---|:---|
+| **Course tags** | Add more tags to your `.ksl` courses for better matching |
+| **Quiz performance** | The more you quiz, the better the weak-area detection |
+| **Study patterns** | Streaks and spaced review timing are personalized |
+
+### Extending Topic Detection
+
+Add new entries to the `topic_keywords` dict in:
 - `kslearn/engines/notes_viewer.py` (`show_ai_suggestions`)
 - `kslearn/main/ai_chat.py` (`_generate_learning_suggestions`)
+
+---
+
+<p align="center">
+  <sub>📚 kslearn Documentation • <a href="https://github.com/kashsightplatform/kslearn">GitHub</a> • <a href="https://kash-sight.web.app">Website</a></sub>
+</p>

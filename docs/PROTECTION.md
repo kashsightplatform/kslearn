@@ -1,26 +1,52 @@
 # 🔐 kslearn Content Selling Guide
 
-## Your Business Model
+> **Your complete guide to monetizing educational content with kslearn.**
 
-```
-Open Source App (MIT)  +  Sold Encrypted Content
-```
-
-Like: Free Kindle app, paid ebooks. The **code is free**, the **content costs money**.
-
-- Your GitHub repo is public (MIT license)
-- Anyone can clone and run the app
-- But the **notes/quizzes JSON files are encrypted**
-- Buyers get a unique **activation key** to unlock what they purchased
+<p align="center">
+  <sub>💰 Business Guide • Version 1.0 • kslearn 2.0.0</sub>
+</p>
 
 ---
 
-## How It Works
+## 📋 Table of Contents
+
+- [💼 Business Model](#-business-model)
+- [⚙️ How It Works](#%EF%B8%8F-how-it-works)
+- [📦 Preparing Content for Sale](#-preparing-content-for-sale)
+- [🔐 Encryption Levels](#-encryption-levels)
+- [📋 Commands Reference](#-commands-reference)
+- [📁 Directory Structure](#-directory-structure-what-buyers-get)
+- [🛡️ Security Reality](#%EF%B8%8F-security-reality)
+- [🎯 Recommended Setup](#-recommended-setup-for-selling)
+
+---
+
+## 💼 Business Model
+
+> **The code is free. The content costs money.**
+
+```
+┌─────────────────────┐     ┌──────────────────────┐
+│  Open Source App    │  +  │  Sold Encrypted      │
+│  (MIT License)      │     │  Content (.enc)      │
+└─────────────────────┘     └──────────────────────┘
+```
+
+| Component | Status | Access |
+|:---|:---:|:---|
+| **App code** | 🆓 Free & Open Source | Anyone can clone and run |
+| **Notes/Quizzes** | 💎 Encrypted & Sold | Requires activation key |
+
+> **Analogy:** Free Kindle app, paid ebooks. The reader is free — the books cost money.
+
+---
+
+## ⚙️ How It Works
 
 ### For You (the seller)
 
 ```bash
-# 1. You create/edit notes as plain JSON
+# 1. Create/edit notes as plain JSON
 nano data/notes/advanced_physics.json
 
 # 2. Encrypt the content you want to sell
@@ -32,32 +58,32 @@ python encrypt_content.py decrypt --key "YOUR-MASTER-KEY" --dry
 # 4. Delete backups after confirming
 find data/ -name '*.bak' -delete
 
-# 5. The .enc files are what you distribute to buyers
-# The .json files stay on YOUR machine only
+# 5. The .enc files are what you distribute
+#    The .json files stay on YOUR machine only
 ```
 
 ### For Buyers (your users)
 
 ```bash
-# 1. They clone and install your app (free, open source)
-git clone https://github.com/kashsight/kslearn
+# 1. Clone and install the app (free)
+git clone https://github.com/kashsightplatform/kslearn
 cd kslearn
 pip install .
 
-# 2. They get the encrypted .enc files from you
-#    (downloaded after purchase, or included in the repo)
+# 2. They get encrypted .enc files from you
+#    (downloaded after purchase, or included in repo)
 
-# 3. They activate with the key you gave them
+# 3. Activate with the key you gave them
 kslearn activate
-# Enter: ABC123-DEF456-789 (the key you sold them)
+# Enter: ABC123-DEF456-789
 
-# 4. Content unlocks automatically — they can study now
+# 4. Content unlocks automatically
 kslearn
 ```
 
 ---
 
-## Step-by-Step: Preparing Content for Sale
+## 📦 Preparing Content for Sale
 
 ### Step 0: Your Content Key
 
@@ -67,14 +93,12 @@ The default key is `kslearn2026` — stored obfuscated in `kslearn/loader.py`:
 _PARTS = [b'a3NlYXJu', b'MjAyNg==']  # base64 of "kslearn" + "2026"
 ```
 
-**To change the key for future updates:**
+#### To change the key:
 
 ```bash
-# Generate new base64 parts for your new key
 python3 -c "
 import base64
 key = 'your-new-key-here'
-# Split key into 2 parts and base64-encode each
 mid = len(key) // 2
 p1 = base64.b64encode(key[:mid].encode()).decode()
 p2 = base64.b64encode(key[mid:].encode()).decode()
@@ -84,11 +108,11 @@ print(f'Your key: {key}')
 ```
 
 Then:
-1. Update `_PARTS` in `kslearn/loader.py` with the new parts
+1. Update `_PARTS` in `kslearn/loader.py`
 2. Decrypt content with old key
 3. Re-encrypt with new key
 
-### Step 1: Create your content as normal JSON
+### Step 1: Create Content (Plain JSON)
 
 ```
 data/notes/advanced_physics.json   ← your work
@@ -96,7 +120,7 @@ data/notes/python_mastery.json     ← your work
 data/quizzes/physics_quiz.json     ← your work
 ```
 
-### Step 2: Encrypt the premium content
+### Step 2: Encrypt Premium Content
 
 ```bash
 # Dry run first (safe — previews only)
@@ -106,19 +130,17 @@ python encrypt_content.py encrypt --key "kslearn-premium-2026" --dry
 python encrypt_content.py encrypt --key "kslearn-premium-2026"
 ```
 
-Result:
-```
-data/notes/advanced_physics.json.enc   ← encrypted (useless without key)
-data/notes/python_mastery.json.enc     ← encrypted (useless without key)
-data/notes/basic_math.json             ← free (still plain JSON)
-```
+**Result:**
 
-### Step 3: Generate unique keys per buyer (optional but recommended)
+| File | Status |
+|:---|:---|
+| `data/notes/advanced_physics.json.enc` | 🔒 Encrypted |
+| `data/notes/python_mastery.json.enc` | 🔒 Encrypted |
+| `data/notes/basic_math.json` | 🆓 Free (plain JSON) |
 
-Instead of one master key, generate unique keys per customer:
+### Step 3: Generate Unique Keys per Buyer (Optional)
 
 ```python
-# Generate a unique key for each buyer
 import hashlib
 import secrets
 
@@ -130,90 +152,42 @@ def generate_buyer_key(buyer_email):
 
 # Example:
 key = generate_buyer_key("customer@email.com")
-print(key)  # e.g., "A3F8B2C9D1E4F7A0B5C8D2E6"
+# Output: "A3F8B2C9D1E4F7A0B5C8D2E6"
 ```
 
-**Important:** If you use unique keys per buyer, you need to encrypt the content separately for each key. The simpler approach is **one master key** for all buyers.
+| Approach | Pros | Cons |
+|:---|:---|:---|
+| **One master key** | Simple, one encryption step | If leaked, everyone can use it |
+| **Unique key per buyer** | Revocable, breach-contained | Must encrypt separately per buyer |
 
 ### Step 4: Distribute
 
 | What | Where |
-|---|---|
-| App code (`.py` files) | GitHub (public, MIT license) |
-| Free content (plain `.json`) | GitHub (public) |
-| Premium content (`.enc` files) | GitHub or download after purchase |
-| Activation key | Sent to buyer after payment (email, receipt page) |
+|:---|:---|
+| 📦 App code (`.py` files) | GitHub (public, MIT license) |
+| 🆓 Free content (plain `.json`) | GitHub (public) |
+| 🔒 Premium content (`.enc` files) | GitHub or download after purchase |
+| 🔑 Activation key | Sent to buyer after payment (email, receipt) |
 
-### Step 5: Buyer activates
+### Step 5: Buyer Activates
 
 ```bash
 kslearn activate --key "A3F8B2C9D1E4F7A0B5C8D2E6"
 ```
 
-The key is saved to `~/.kslearn/licenses/content.key` and used automatically every time the app runs.
+The key is saved to `~/.kslearn/licenses/content.key` and used automatically.
 
 ---
 
-## Encryption Levels
+## 🔐 Encryption Levels
 
-### Option A: One master key for all buyers (simplest)
+| Level | Description | Best For |
+|:---|:---|:---|
+| **A. Master Key** | One key for all buyers | Small operations, trusted audience |
+| **B. Unique Keys** | Separate key per buyer | Higher security, revocable access |
+| **C. Tiered Content** | Mix of free + encrypted | Recommended — attract users with free content |
 
-```bash
-# You encrypt content once with your master key
-python encrypt_content.py encrypt --key "kslearn-master-key"
-
-# Every buyer uses the same key
-kslearn activate --key "kslearn-master-key"
-```
-
-**Pros:** Simple, one encryption step
-**Cons:** If one buyer leaks the key, everyone can use it
-
-### Option B: Unique key per buyer (more secure)
-
-```bash
-# For each buyer, encrypt with their unique key
-python encrypt_content.py encrypt --key "BUYER-UNIQUE-KEY-ABC123"
-
-# Only this buyer can decrypt
-kslearn activate --key "BUYER-UNIQUE-KEY-ABC123"
-```
-
-**Pros:** If one buyer leaks, others aren't affected. You can revoke individuals.
-**Cons:** You must encrypt separately for each buyer
-
-### Option C: Tiered content
-
-```
-Free tier:    Plain JSON files (in the repo, anyone can read)
-Premium tier: Encrypted .enc files (need activation key)
-```
-
-This is the recommended approach. Include some free content to attract users, sell the premium content.
-
----
-
-## Commands Reference
-
-### For you (seller)
-
-| Command | Purpose |
-|---|---|
-| `python encrypt_content.py encrypt --key SECRET` | Encrypt premium content |
-| `python encrypt_content.py decrypt --key SECRET` | Decrypt to edit content |
-| `python encrypt_content.py status` | See which files are encrypted |
-| `python encrypt_content.py encrypt --key SECRET --dry` | Preview before encrypting |
-| `find data/ -name '*.bak' -delete` | Clean up backup files |
-
-### For buyers (users)
-
-| Command | Purpose |
-|---|---|
-| `kslearn activate` | Enter their purchased activation key |
-| `kslearn activate --key ABC123` | Activate directly |
-| `kslearn` | Run app — encrypted content auto-unlocks |
-
-### What buyers see without a key
+### What Buyers See Without a Key
 
 ```
 ┌──────────────────────────────────────────┐
@@ -228,23 +202,43 @@ This is the recommended approach. Include some free content to attract users, se
 
 ---
 
-## How the Auto-Decrypt Works
+## 📋 Commands Reference
 
-When the app loads notes or quizzes:
+### For You (Seller)
+
+| Command | Purpose |
+|:---|:---|
+| `python encrypt_content.py encrypt --key SECRET` | Encrypt premium content |
+| `python encrypt_content.py decrypt --key SECRET` | Decrypt to edit content |
+| `python encrypt_content.py status` | See which files are encrypted |
+| `python encrypt_content.py encrypt --key SECRET --dry` | Preview before encrypting |
+| `find data/ -name '*.bak' -delete` | Clean up backup files |
+
+### For Buyers (Users)
+
+| Command | Purpose |
+|:---|:---|
+| `kslearn activate` | Enter purchased activation key |
+| `kslearn activate --key ABC123` | Activate directly |
+| `kslearn` | Run app — encrypted content auto-unlocks |
+
+---
+
+## 🔓 How Auto-Decrypt Works
 
 ```
 1. Loader finds: data/notes/advanced_physics.json.enc
 2. Reads user's key from: ~/.kslearn/licenses/content.key
 3. Decrypts in memory (never writes decrypted to disk)
-4. Returns the content to the app normally
+4. Returns content to app normally
 5. User sees notes/quizzes like nothing is encrypted
 ```
 
-The encrypted files **never get written to disk as plain JSON**. Decryption happens entirely in memory.
+> ✅ **Encrypted files never get written to disk as plain JSON.** Decryption happens entirely in memory.
 
 ---
 
-## Directory Structure (what buyers get)
+## 📁 Directory Structure (What Buyers Get)
 
 ```
 kslearn/
@@ -254,12 +248,12 @@ kslearn/
 │   └── ...
 ├── data/
 │   ├── notes/
-│   │   ├── basic_math.json        ← FREE (plain JSON)
-│   │   ├── advanced_physics.json.enc  ← PREMIUM (encrypted)
-│   │   └── python_mastery.json.enc    ← PREMIUM (encrypted)
+│   │   ├── basic_math.json             ← 🆓 FREE
+│   │   ├── advanced_physics.json.enc   ← 🔒 PREMIUM
+│   │   └── python_mastery.json.enc     ← 🔒 PREMIUM
 │   └── quizzes/
-│       ├── general_quiz.json      ← FREE (plain JSON)
-│       └── physics_quiz.json.enc  ← PREMIUM (encrypted)
+│       ├── general_quiz.json           ← 🆓 FREE
+│       └── physics_quiz.json.enc       ← 🔒 PREMIUM
 ├── encrypt_content.py      ← Your encryption tool
 ├── PROTECTION.md           ← This file
 └── README.md
@@ -267,36 +261,46 @@ kslearn/
 
 ---
 
-## Security Reality
+## 🛡️ Security Reality
 
-| Who | What they can do |
-|---|---|
-| Random person cloning your repo | Can read the app code ✅ but NOT the encrypted content ❌ |
-| Buyer who purchased | Can read content they paid for ✅ |
-| Buyer who shares their key | Others can use that key (unless you use unique keys) |
-| Skilled developer | Can eventually reverse-engineer if they really try |
+| Who | What They Can Do |
+|:---|:---|
+| Random person cloning repo | ✅ Read app code • ❌ NOT encrypted content |
+| Buyer who purchased | ✅ Read content they paid for |
+| Buyer who shares their key | Others can use that key (unless unique keys) |
+| Skilled developer | Can eventually reverse-engineer if determined |
 
-**Bottom line:** This stops ~95% of unauthorized access. A determined attacker with Python skills can eventually extract the key, but most people just want to use the app, not crack it.
+> **Bottom line:** This stops **~95%** of unauthorized access. A determined attacker with Python skills can eventually extract the key, but most people just want to use the app.
 
 ---
 
-## Recommended Setup for Selling
+## 🎯 Recommended Setup for Selling
 
-1. **Keep one master encryption key** (store it securely, not in git)
-2. **Encrypt premium content once** with that key
-3. **Include .enc files in the repo** (they're useless without the key)
-4. **Send the key only to paying customers** (via email, receipt page, etc.)
-5. **Keep free content as plain JSON** to attract users
-6. **Never commit the master key to git** (add it to `.gitignore`)
+1. ✅ **Keep one master encryption key** (store securely, NOT in git)
+2. ✅ **Encrypt premium content once** with that key
+3. ✅ **Include .enc files in the repo** (useless without the key)
+4. ✅ **Send the key only to paying customers** (email, receipt page)
+5. ✅ **Keep free content as plain JSON** to attract users
+6. ✅ **Never commit the master key to git** (add to `.gitignore`)
 
-### Your workflow:
+### Your Workflow
 
 ```
-Create content → Encrypt with master key → Push .enc to GitHub
-                                               ↓
-                                    Buyer purchases → Gets key
-                                               ↓
-                                    Buyer runs: kslearn activate
-                                               ↓
-                                    Content unlocks ✅
+Create content
+     ↓
+Encrypt with master key
+     ↓
+Push .enc to GitHub
+     ↓
+Buyer purchases → Gets key
+     ↓
+Buyer runs: kslearn activate
+     ↓
+Content unlocks ✅
 ```
+
+---
+
+<p align="center">
+  <sub>📚 kslearn Documentation • <a href="https://github.com/kashsightplatform/kslearn">GitHub</a> • <a href="https://kash-sight.web.app">Website</a></sub>
+</p>

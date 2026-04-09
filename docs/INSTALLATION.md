@@ -1,46 +1,63 @@
 # 🚀 kslearn Installation Guide
 
-Complete installation instructions for all platforms - from scratch to fully working!
+> **Complete installation instructions for all platforms — from scratch to fully working!**
+
+<p align="center">
+  <sub>📦 Installation Guide • Version 2.0 • kslearn 2.0.0</sub>
+</p>
 
 ---
 
 ## 📋 Table of Contents
 
-1. [Quick Start](#quick-start)
-2. [Android (Termux)](#android-termux)
-3. [Linux (Ubuntu/Debian)](#linux-ubuntudebian)
-4. [macOS](#macos)
-5. [Windows](#windows)
-6. [Installation Methods](#installation-methods)
-7. [Verification](#verification)
-8. [Troubleshooting](#troubleshooting)
-9. [Uninstallation](#uninstallation)
+- [⚡ Quick Start](#-quick-start)
+- [📱 Android (Termux)](#-android-termux)
+- [🐧 Linux (Ubuntu/Debian)](#-linux-ubuntudebian)
+- [🍎 macOS](#-macos)
+- [🪟 Windows](#-windows)
+- [📥 Installation Methods](#-installation-methods)
+- [✅ Verification](#-verification)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [🗑️ Uninstallation](#%EF%B8%8F-uninstallation)
+- [📊 Installation Comparison](#-installation-comparison)
+- [🎯 Post-Installation](#-post-installation)
+- [📞 Getting Help](#-getting-help)
 
 ---
 
 ## ⚡ Quick Start
 
-**Already have Python? Install in 30 seconds:**
+> **Already have Python? Install in 30 seconds.**
+
+### Method 1: Git Clone (Recommended)
 
 ```bash
-# Method 1: Git Clone (Recommended)
+# Clone repository
 git clone https://github.com/kashsightplatform/kslearn.git
 cd kslearn
-pip install -e .
-kslearn
 
-# v1.1.0 — 13 streamlined features, AI-powered suggestions, hierarchical courses
-```
-
-# Method 2: ZIP Download
-# Download from GitHub → Code → Download ZIP
-# Extract and run:
-cd kslearn
+# Install in editable mode
 pip install -e .
 
 # Start learning!
 kslearn
 ```
+
+### Method 2: ZIP Download
+
+```bash
+# Download from GitHub → Code → Download ZIP
+# Extract and navigate to folder
+cd kslearn
+
+# Install
+pip install -e .
+
+# Start learning!
+kslearn
+```
+
+> 💡 **Tip:** v2.0.0 includes 13+ features, AI-powered suggestions, hierarchical courses, and KSL-Verse game.
 
 ---
 
@@ -48,8 +65,11 @@ kslearn
 
 ### Prerequisites
 
-- Android device
-- Termux app (from F-Droid recommended, or Play Store)
+| Requirement | Details |
+|:---|:---|
+| **Device** | Android phone/tablet |
+| **App** | Termux (F-Droid recommended, or Play Store) |
+| **Python** | 3.7+ |
 
 ### Step-by-Step Installation
 
@@ -85,54 +105,42 @@ pip install -e .
 
 **Option B: ZIP Download**
 
-1. Open browser in Termux:
-   ```bash
-   pkg install wget -y
-   ```
+```bash
+# Install wget and unzip
+pkg install wget unzip -y
 
-2. Download ZIP:
-   ```bash
-   wget https://github.com/kashsightplatform/kslearn/archive/refs/heads/main.zip
-   ```
+# Download ZIP
+wget https://github.com/kashsightplatform/kslearn/archive/refs/heads/main.zip
 
-3. Install unzip and extract:
-   ```bash
-   pkg install unzip -y
-   unzip main.zip
-   cd kslearn-main
-   pip install -e .
-   ```
+# Extract and install
+unzip main.zip
+cd kslearn-main
+pip install -e .
+```
 
-#### 5. (Optional) Install AI Chat - tgpt
+#### 5. (Optional) Install AI Chat
 
 For offline AI chat feature:
 
 ```bash
-# Install termux-ai for AI chat
+# Install termux-ai
 pkg install termux-ai -y
 
 # Or install tgpt directly
 curl -sL https://is.gd/Termux_Ai | bash
 ```
 
-#### 6. Verify Installation
+#### 6. Verify & Launch
 
 ```bash
+# Check version
 kslearn --version
-```
 
-#### 7. Launch kslearn
-
-```bash
+# Launch
 kslearn
 ```
 
-Or use the shortcut:
-```bash
-ksl
-```
-
-### Termux Quick Install (One-Liner)
+### 🏃 Termux Quick Install (One-Liner)
 
 ```bash
 pkg update && pkg upgrade -y && pkg install python git -y && git clone https://github.com/kashsightplatform/kslearn.git && cd kslearn && pip install -e . && kslearn
@@ -140,22 +148,11 @@ pkg update && pkg upgrade -y && pkg install python git -y && git clone https://g
 
 ### Termux Troubleshooting
 
-**Problem:** `pip` not found
-```bash
-pkg install python-pip -y
-```
-
-**Problem:** Permission denied
-```bash
-chmod +x setup.py
-pip install --user -e .
-```
-
-**Problem:** Installation fails
-```bash
-pip install --upgrade pip
-pip install -e . --no-cache-dir
-```
+| Problem | Solution |
+|:---|:---|
+| `pip` not found | `pkg install python-pip -y` |
+| Permission denied | `chmod +x setup.py && pip install --user -e .` |
+| Installation fails | `pip install --upgrade pip && pip install -e . --no-cache-dir` |
 
 ---
 
@@ -163,8 +160,10 @@ pip install -e . --no-cache-dir
 
 ### Prerequisites
 
-- Ubuntu 20.04+ / Debian 10+ / Linux Mint 20+
-- Terminal access
+| Requirement | Details |
+|:---|:---|
+| **OS** | Ubuntu 20.04+ / Debian 10+ / Linux Mint 20+ |
+| **Access** | Terminal with sudo |
 
 ### Step-by-Step Installation
 
@@ -195,37 +194,24 @@ source kslearn-env/bin/activate
 
 #### 5. Install kslearn
 
-**Option A: Git Clone**
-
 ```bash
+# Clone repository
 git clone https://github.com/kashsightplatform/kslearn.git
 cd kslearn
+
+# Install
 pip install -e .
 ```
 
-**Option B: ZIP Download**
-
-1. Download from GitHub:
-   - Go to https://github.com/kashsightplatform/kslearn
-   - Click "Code" → "Download ZIP"
-   - Extract the ZIP file
-
-2. Install:
-   ```bash
-   cd kslearn-main
-   pip install -e .
-   ```
-
 #### 6. Create Alias (Optional)
 
-Add to your `~/.bashrc` or `~/.zshrc`:
-
 ```bash
+# Add to your shell config
 echo 'alias ksl="kslearn"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-#### 7. Verify and Launch
+#### 7. Verify & Launch
 
 ```bash
 kslearn --version
@@ -234,7 +220,9 @@ kslearn
 
 ### Linux Distribution Specific
 
-**Fedora/RHEL:**
+<details>
+<summary><strong>Fedora/RHEL</strong></summary>
+
 ```bash
 sudo dnf install python3 python3-pip git -y
 git clone https://github.com/kashsightplatform/kslearn.git
@@ -242,7 +230,11 @@ cd kslearn
 pip3 install -e .
 ```
 
-**Arch Linux:**
+</details>
+
+<details>
+<summary><strong>Arch Linux</strong></summary>
+
 ```bash
 sudo pacman -S python python-pip git
 git clone https://github.com/kashsightplatform/kslearn.git
@@ -250,7 +242,11 @@ cd kslearn
 pip install -e .
 ```
 
-**openSUSE:**
+</details>
+
+<details>
+<summary><strong>openSUSE</strong></summary>
+
 ```bash
 sudo zypper install python3 python3-pip git
 git clone https://github.com/kashsightplatform/kslearn.git
@@ -258,14 +254,18 @@ cd kslearn
 pip3 install -e .
 ```
 
+</details>
+
 ---
 
 ## 🍎 macOS
 
 ### Prerequisites
 
-- macOS 10.15 (Catalina) or later
-- Terminal app
+| Requirement | Details |
+|:---|:---|
+| **OS** | macOS 10.15 (Catalina) or later |
+| **Access** | Terminal app |
 
 ### Step-by-Step Installation
 
@@ -289,28 +289,16 @@ brew install git
 
 #### 4. Install kslearn
 
-**Option A: Git Clone**
-
 ```bash
+# Clone repository
 git clone https://github.com/kashsightplatform/kslearn.git
 cd kslearn
+
+# Install
 pip3 install -e .
 ```
 
-**Option B: ZIP Download**
-
-1. Download from GitHub:
-   - Visit https://github.com/kashsightplatform/kslearn
-   - Click "Code" → "Download ZIP"
-   - Double-click to extract
-
-2. Install via Terminal:
-   ```bash
-   cd ~/Downloads/kslearn-main
-   pip3 install -e .
-   ```
-
-#### 5. Verify and Launch
+#### 5. Verify & Launch
 
 ```bash
 kslearn --version
@@ -319,16 +307,10 @@ kslearn
 
 ### macOS Troubleshooting
 
-**Problem:** Permission denied
-```bash
-pip3 install --user -e .
-```
-
-**Problem:** Command not found
-```bash
-export PATH="$HOME/.local/bin:$PATH"
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
-```
+| Problem | Solution |
+|:---|:---|
+| Permission denied | `pip3 install --user -e .` |
+| Command not found | Add `export PATH="$HOME/.local/bin:$PATH"` to `~/.zshrc` |
 
 ---
 
@@ -336,14 +318,16 @@ echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
 
 ### Prerequisites
 
-- Windows 10/11
-- Administrator access
+| Requirement | Details |
+|:---|:---|
+| **OS** | Windows 10/11 |
+| **Access** | Administrator access |
 
 ### Method 1: Standard Installation
 
 #### 1. Install Python
 
-1. Download Python from https://python.org
+1. Download from https://python.org
 2. Run installer
 3. ✅ **CHECK** "Add Python to PATH"
 4. Click "Install Now"
@@ -353,32 +337,16 @@ echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
 1. Download from https://git-scm.com/download/win
 2. Run installer with default options
 
-#### 3. Open Command Prompt or PowerShell
-
-Press `Win + R`, type `cmd`, press Enter
-
-#### 4. Install kslearn
-
-**Option A: Git Clone**
+#### 3. Install kslearn
 
 ```cmd
+# Open Command Prompt or PowerShell
 git clone https://github.com/kashsightplatform/kslearn.git
 cd kslearn
 pip install -e .
 ```
 
-**Option B: ZIP Download**
-
-1. Download ZIP from GitHub
-2. Extract to a folder (e.g., `C:\Users\YourName\Downloads\kslearn`)
-3. Open Command Prompt in that folder:
-   - Hold Shift + Right-click → "Open PowerShell window here"
-4. Install:
-   ```cmd
-   pip install -e .
-   ```
-
-#### 5. Verify and Launch
+#### 4. Verify & Launch
 
 ```cmd
 kslearn --version
@@ -387,23 +355,17 @@ kslearn
 
 ### Method 2: Windows Subsystem for Linux (WSL)
 
-For better compatibility:
-
-#### 1. Install WSL
+> **Recommended for better compatibility.**
 
 ```powershell
+# Install WSL
 wsl --install
 ```
 
-Restart computer when prompted.
-
-#### 2. Open Ubuntu (WSL)
-
-Search "Ubuntu" in Start Menu
-
-#### 3. Follow Linux Instructions
+Restart when prompted, then:
 
 ```bash
+# Open Ubuntu (WSL) from Start Menu
 sudo apt update
 sudo apt install python3 python3-pip git -y
 git clone https://github.com/kashsightplatform/kslearn.git
@@ -414,38 +376,26 @@ kslearn
 
 ### Windows Troubleshooting
 
-**Problem:** `pip` not recognized
-```cmd
-python -m pip install -e .
-```
-
-**Problem:** Permission denied
-```cmd
-pip install --user -e .
-```
-
-**Problem:** Long path errors
-```cmd
-# Enable long paths in Registry
-reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
-```
+| Problem | Solution |
+|:---|:---|
+| `pip` not recognized | `python -m pip install -e .` |
+| Permission denied | `pip install --user -e .` |
+| Long path errors | Enable long paths in Registry (see full guide) |
 
 ---
 
 ## 📥 Installation Methods
 
+### Comparison
+
+| Method | Pros | Cons | Best For |
+|:---|:---:|:---:|:---|
+| **Git Clone** | ✅ Easy updates, latest features, smaller download | ❌ Requires Git | Developers, contributors |
+| **ZIP Download** | ✅ No Git needed, simple | ❌ Manual updates, larger download | Beginners, one-time users |
+| **pip Install** | ✅ Cleanest, PyPI standard | ❌ Not yet available | Future releases |
+
 ### Method 1: Git Clone (Recommended)
 
-**Pros:**
-- ✅ Easy to update (`git pull`)
-- ✅ Get latest features
-- ✅ Can contribute to project
-- ✅ Smaller download size
-
-**Cons:**
-- ❌ Requires Git installed
-
-**Commands:**
 ```bash
 git clone https://github.com/kashsightplatform/kslearn.git
 cd kslearn
@@ -454,33 +404,11 @@ pip install -e .
 
 ### Method 2: ZIP Download
 
-**Pros:**
-- ✅ No Git needed
-- ✅ Works on any device with browser
-- ✅ Simple for beginners
-
-**Cons:**
-- ❌ Larger download
-- ❌ Manual updates (re-download)
-- ❌ No version control
-
-**Steps:**
-1. Go to https://github.com/kashsight/kslearn
-2. Click "Code" button
-3. Click "Download ZIP"
-4. Extract ZIP file
-5. Open terminal in extracted folder
-6. Run: `pip install -e .`
-
-### Method 3: pip Install (Future)
-
-When published to PyPI:
-
-```bash
-pip install kslearn
-```
-
-*Note: Not yet available on PyPI*
+1. Go to https://github.com/kashsightplatform/kslearn
+2. Click **"Code"** → **"Download ZIP"**
+3. Extract ZIP file
+4. Open terminal in extracted folder
+5. Run: `pip install -e .`
 
 ---
 
@@ -489,30 +417,19 @@ pip install kslearn
 ### Check Installation
 
 ```bash
-# Check version
 kslearn --version
-
-# Should output: kslearn v1.0.0
+# Should output: kslearn v2.0.0
 ```
 
 ### Test All Features
 
-```bash
-# 1. Launch interactive mode
-kslearn
-
-# 2. Test Study Notes
-kslearn study
-
-# 3. Test Quiz
-kslearn quiz --random
-
-# 4. Test Knowledge Brain
-kslearn brain
-
-# 5. Test AI Chat (if tgpt installed)
-kslearn chat
-```
+| Command | Description |
+|:---|:---|
+| `kslearn` | Launch interactive mode |
+| `kslearn study` | Test Study Notes |
+| `kslearn quiz --random` | Test Quiz system |
+| `kslearn brain` | Test Knowledge Brain |
+| `kslearn chat` | Test AI Chat (if tgpt installed) |
 
 ### Expected Output
 
@@ -533,95 +450,23 @@ kslearn chat
 
 ## 🔧 Troubleshooting
 
-### Common Installation Issues
+### Common Issues
 
-#### "pip: command not found"
-
-**Linux/macOS:**
-```bash
-python3 -m pip install -e .
-```
-
-**Windows:**
-```cmd
-python -m pip install -e .
-```
-
-**Termux:**
-```bash
-pkg install python-pip -y
-```
-
-#### "Permission denied"
-
-**Solution 1: User install**
-```bash
-pip install --user -e .
-```
-
-**Solution 2: Virtual environment**
-```bash
-python -m venv venv
-source venv/bin/activate  # Linux/macOS
-venv\Scripts\activate     # Windows
-pip install -e .
-```
-
-#### "No module named 'rich'"
-
-Missing dependencies. Reinstall:
-```bash
-pip install -r requirements.txt
-pip install -e . --force-reinstall
-```
-
-#### "kslearn: command not found" after install
-
-**Linux/macOS:**
-```bash
-export PATH="$HOME/.local/bin:$PATH"
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
-```
-
-**Windows:**
-Add to PATH manually:
-1. Search "Environment Variables"
-2. Edit PATH
-3. Add: `C:\Users\YourName\AppData\Roaming\Python\Python3X\Scripts`
-
-#### Installation hangs or fails
-
-```bash
-# Upgrade pip first
-pip install --upgrade pip
-
-# Clear cache
-pip cache purge
-
-# Install without cache
-pip install -e . --no-cache-dir
-```
+| Problem | Solution |
+|:---|:---|
+| **"pip: command not found"** | `python3 -m pip install -e .` (Linux/macOS) or `python -m pip install -e .` (Windows) |
+| **"Permission denied"** | `pip install --user -e .` or use virtual environment |
+| **"No module named 'rich'"** | `pip install -r requirements.txt` then `pip install -e . --force-reinstall` |
+| **"kslearn: command not found"** | Add `$HOME/.local/bin` to PATH |
+| **Installation hangs** | `pip install --upgrade pip && pip cache purge && pip install -e . --no-cache-dir` |
 
 ### Platform-Specific Issues
 
-#### Termux: "Wheel building failed"
-
-```bash
-pkg install build-essential -y
-pkg install libffi -y
-pip install -e .
-```
-
-#### macOS: "Xcode required"
-
-```bash
-xcode-select --install
-```
-
-#### Windows: "Visual C++ required"
-
-Download: https://visualstudio.microsoft.com/visual-cpp-build-tools/
+| Platform | Problem | Solution |
+|:---|:---|:---|
+| **Termux** | Wheel building failed | `pkg install build-essential libffi -y` |
+| **macOS** | Xcode required | `xcode-select --install` |
+| **Windows** | Visual C++ required | Download from https://visualstudio.microsoft.com/visual-cpp-build-tools/ |
 
 ---
 
@@ -642,37 +487,33 @@ rm -rf ~/.kslearn
 rm ~/.kslearnrc
 ```
 
-### Remove Virtual Environment (if created)
+### Remove Virtual Environment
 
 ```bash
 rm -rf kslearn-env  # Linux/macOS
 rmdir /s kslearn-env  # Windows
 ```
 
-### Remove from PATH (if added)
+### Remove from PATH
 
-**Linux/macOS:**
-Edit `~/.bashrc` or `~/.zshrc` and remove:
+**Linux/macOS:** Edit `~/.bashrc` or `~/.zshrc` and remove:
 ```bash
 alias ksl="kslearn"
 ```
 
-**Windows:**
-1. Search "Environment Variables"
-2. Edit PATH
-3. Remove kslearn entries
+**Windows:** Search "Environment Variables" → Edit PATH → Remove kslearn entries
 
 ---
 
 ## 📊 Installation Comparison
 
-| Platform | Difficulty | Time | Commands |
-|----------|-----------|------|----------|
-| **Termux** | Easy | 2 min | 5 |
-| **Ubuntu** | Easy | 3 min | 6 |
-| **macOS** | Easy | 3 min | 6 |
-| **Windows** | Medium | 5 min | 6 |
-| **WSL** | Medium | 5 min | 7 |
+| Platform | Difficulty | Time | Commands | Notes |
+|:---|:---:|:---:|:---:|:---|
+| **Termux** | 🟢 Easy | ~2 min | 5 | Fastest setup |
+| **Ubuntu** | 🟢 Easy | ~3 min | 6 | Standard Linux |
+| **macOS** | 🟢 Easy | ~3 min | 6 | Requires Homebrew |
+| **Windows** | 🟡 Medium | ~5 min | 6 | Check PATH option |
+| **WSL** | 🟡 Medium | ~5 min | 7 | Best compatibility |
 
 ---
 
@@ -687,76 +528,40 @@ alias ksl="kslearn"
 
 2. **Take the tour:**
    - Press `H` for Help
-   - Explore Study Notes (Option 1)
-   - Try a Quiz (Option 2)
+   - Explore Study Notes (Option 2)
+   - Try a Quiz (Option 3)
 
 3. **Configure settings:**
-   ```bash
-   kslearn config --edit
-   ```
+   - Press `C` → Settings
+   - Customize theme, daily goal, AI provider
 
 4. **Start learning!**
-   - Begin with Study Notes
+   - Begin with Course Catalog (Option 1)
    - Take quizzes to test knowledge
-   - Track progress (Option 4)
+   - Track progress (Option 5)
 
 ### Optional Enhancements
 
-**Install AI Chat (tgpt):**
-```bash
-# Termux
-pkg install termux-ai -y
-
-# Other platforms - see tgpt documentation
-```
-
-**Create Desktop Shortcut:**
-
-**Linux:**
-```bash
-echo '[Desktop Entry]
-Name=kslearn
-Exec=kslearn
-Type=Application
-Terminal=true
-Categories=Education;' > ~/.local/share/applications/kslearn.desktop
-```
-
-**Windows:**
-Create shortcut on desktop pointing to:
-```
-C:\path\to\python.exe -m kslearn
-```
+| Enhancement | Command/Action |
+|:---|:---|
+| **Install AI Chat** | See Termux AI section above |
+| **Create Desktop Shortcut (Linux)** | Create `.desktop` file in `~/.local/share/applications/` |
+| **Create Desktop Shortcut (Windows)** | Point shortcut to `python.exe -m kslearn` |
 
 ---
 
 ## 📞 Getting Help
 
-### Resources
-
-- **Documentation:** See `ADDING_CONTENT.md` for adding content
-- **GitHub Issues:** https://github.com/kashsightplatform/kslearn/issues
-- **Discussions:** https://github.com/kashsightplatform/kslearn/discussions
-
-### Support
-
-- **Report a Bug:** `kslearn --help` → GitHub Issues
-- **Request Feature:** GitHub Issues → Feature Request
-- **Ask Question:** GitHub Discussions
+| Resource | Link |
+|:---|:---|
+| 📖 **Documentation** | See [ADDING_CONTENT.md](ADDING_CONTENT.md) for adding content |
+| 🐛 **Bug Reports** | https://github.com/kashsightplatform/kslearn/issues |
+| 💬 **Discussions** | https://github.com/kashsightplatform/kslearn/discussions |
+| 📧 **Email** | kashsightplatform@gmail.com |
+| 🌐 **Website** | https://kash-sight.web.app |
 
 ---
 
-## 🎉 Success!
-
-If you see the kslearn banner, you're ready to learn! 📚✨
-
-```bash
-kslearn
-```
-
-**Happy Learning!** 🚀
-
----
-
-*Made with ❤️ for learners everywhere*
-*kslearn v1.0.0 - JSON-Powered Educational Learning System*
+<p align="center">
+  <sub>📚 kslearn Documentation • <a href="https://github.com/kashsightplatform/kslearn">GitHub</a> • <a href="https://kash-sight.web.app">Website</a></sub>
+</p>
