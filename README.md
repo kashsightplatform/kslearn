@@ -13,7 +13,7 @@
     <img src="https://img.shields.io/badge/python-3.7+-blue.svg?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.7+" />
   </a>
   <a href="https://opensource.org/licenses/MIT">
-    <img src="https://img.shields.io/badge/License-Proprietary-red.svg?style=for-the-badge" alt="License" />
+    <img src="https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge" alt="License" />
   </a>
   <a href="https://termux.dev/">
     <img src="https://img.shields.io/badge/Termux-✓-green.svg?style=for-the-badge&logo=termux&logoColor=white" alt="Termux Compatible" />
@@ -63,16 +63,21 @@
 
 | Feature | Icon | Description |
 |:---|:---:|:---|
-| **Course Catalog** | 📂 | 6-level hierarchical courses with progression gating & AI tutor |
+| **Course Catalog** | 📂 | 1-6 level hierarchical courses with progression gating & AI tutor |
 | **Study Notes** | 📚 | 50+ topics across multiple subjects with reading time tracking |
 | **Quizzes** | 📝 | Multiple-choice with explanations, timed mode, assessments |
+| **KSL-Verse** | 🌌 | RPG-style multiverse learning game with 10+ game modes |
 | **AI Chat** | 🤖 | 11 AI providers (5 free) with proactive "What to Study Next" |
 | **My Progress** | 📊 | Analytics dashboard, quiz scores, achievements, export report |
 | **Study Tools** | 🔖 | Bookmarks, global search, spaced review system |
 | **Knowledge Brain** | 🧠 | Offline Q&A database with auto-save from AI chat |
 | **Data Store** | 🏪 | Download free & premium content packages |
-| **Profiles** | 👤 | Multiple users, separate progress, profile-scoped data |
+| **Profile & Account** | 👤 | Online login, cloud sync, friends, local profile switching |
+| **Study Modes** | 🎮 | Flashcards, timed quiz, step-by-step tutorials |
+| **LearnQuest** | 🏆 | Quiz → JSON → submit & win rewards |
+| **Online Hub** | 🌐 | Friends, leaderboards, shared worlds, multiplayer Verse |
 | **Settings** | ⚙️ | Theme, daily goal, API provider, spaced review limit |
+| **Support & Help** | ❤️ | Credits, social links, usage info |
 
 ---
 
@@ -150,6 +155,7 @@
 | 7 | 🧠 Knowledge Brain | `7` / `B` | Offline Q&A database |
 | 8 | 🏪 Data Store | `8` | Download content |
 | 9 | 🌌 KSL-Verse | `9` / `V` | **Multiverse learning game** |
+| O | 🌐 Online Mode | `O` | **Friends, leaderboards, share worlds** |
 | S | ❤️ Support | `S` | Credits, email, website |
 | F | 🎮 Study Modes | `F` / `M` | Flashcards, timed quiz, tutorials |
 | D | 👤 Profiles | `D` | Switch or manage profiles |
@@ -162,14 +168,14 @@
 ## 📦 Quick Start
 
 ```bash
-# Install (30 seconds)
-pip install -e .
+# Install with online features (recommended)
+pip install kslearn[online]
 
 # Launch
 kslearn
 
-# Launch KSL-Verse directly
-kslearn verse
+# Play KSL-Verse with friends
+kslearn online
 ```
 
 ---
@@ -220,6 +226,49 @@ kslearn
 ```
 
 > 📖 **Full installation guide:** See [docs/INSTALLATION.md](docs/INSTALLATION.md) for detailed instructions, troubleshooting, and all platforms.
+
+---
+
+## 🌐 Online Features — Play with Friends Worldwide
+
+kslearn connects to Firebase RTDB for global multiplayer features:
+
+### What You Can Do Online
+
+| Feature | Description |
+|:---|:---|
+| **👥 Friends** | Add friends, see who's online, send invites |
+| **🎮 Multiplayer Verse** | Host or join KSL-Verse sessions with friends |
+| **🏆 Leaderboards** | Compete globally on XP and scores |
+| **🌍 Share Worlds** | Upload/download community-created worlds |
+| **📊 Cross-Device Sync** | Login from anywhere, progress follows you |
+
+### Quick Commands
+
+```bash
+# Open online mode
+kslearn online
+
+# Join friend's game
+kslearn online join ksverse_abc123
+
+# Upload your world
+kslearn share --world my_world
+
+# View leaderboards
+kslearn leaderboard --xp
+```
+
+### Setup (One-Time)
+
+kslearn comes pre-configured with the `kash-sight` Firebase project. Just run:
+
+```bash
+kslearn online
+# Choose "Continue as guest" or "Create account"
+```
+
+> 📖 **Full guide:** See [docs/ONLINE_MODE.md](docs/ONLINE_MODE.md) for detailed setup instructions.
 
 ---
 

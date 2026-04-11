@@ -361,7 +361,7 @@ def decode_difficulty_config(diff: str) -> Dict:
 class VerseEngine:
     """Core engine for the KSL-Verse interactive learning game — v2.0 with all features."""
 
-    def __init__(self):
+    def __init__(self, multiplayer=False, session_id=None, firebase=None):
         self.config = load_config()
         self.verse_progress = self.config.get("verse_progress", {})
         self.total_xp = self.verse_progress.get("total_xp", 0)
@@ -369,6 +369,12 @@ class VerseEngine:
         self.session_streak = 0
         self.session_xp = 0
         self.sound_enabled = self.verse_progress.get("sound_enabled", True)
+        
+        # Multiplayer support
+        self.multiplayer = multiplayer
+        self.session_id = session_id
+        self.firebase = firebase
+        
         self._sync_state()
 
     # ─── Content Loading ─────────────────────────────────────────────
@@ -1972,8 +1978,45 @@ class VerseEngine:
 
     # ─── Mentor System ───────────────────────────────────────────────
 
+    def _get_course_mentor_advice(self):
+        """Get advice from hierarchical course content based on current world."""
+        if not self.current_world:
+            return None
+
+        world_id = self.current_world.get("id", "")
+        source_course = self.current_world.get("source_course", "")
+
+        # Map verse world IDs to course concepts for advice
+        # Pull key_points from hierarchical course content
+        from kslearn.loader import content_loader
+        courses = content_loader.load_hierarchical_courses()
+
+        # Find advice based on concepts in the current world
+        world_concepts = self.current_world.get("concepts", [])
+        all_key_points = []
+
+        # courses is a list, iterate directly
+        for course in courses:
+            for cat in course.get("categories", []):
+                for unit in cat.get("units", []):
+                    for lo in unit.get("learning_outcomes", []):
+                        for sub in lo.get("subtopics", []):
+                            kp = sub.get("key_points", [])
+                            if kp:
+                                for point in kp:
+                                    # Match course concepts to world concepts
+                                    for wc in world_concepts:
+                                        if any(word.lower() in point.lower() for word in wc.lower().split()):
+                                            all_key_points.append(point)
+
+        if all_key_points:
+            import random
+            return random.choice(all_key_points)
+
+        return None
+
     def _show_mentor_advice(self):
-        """Personalized advice based on player's weaknesses and progress."""
+        """Personalized advice based on player's weaknesses and current world context."""
         console.clear()
         console.print()
         show_panel("🧙  Mentor Advice", "Personalized guidance", "magenta")
@@ -1986,10 +2029,18 @@ class VerseEngine:
             console.print(f"  [dim]Got it wrong {weakest[1]['count']} time(s)[/dim]")
             console.print()
 
-        # NPC mentor advice
-        npcs_shown = []
-        for world_id, npc_keys in {"webdev_cosmos": ["the_builder", "the_stylist", "the_code_keeper", "the_dom_warden", "the_chrono_sage"]}.items():
-            for npc_key in npc_keys:
+        # Course-based advice from hierarchical content
+        course_advice = self._get_course_mentor_advice()
+        if course_advice:
+            console.print("  [bold cyan]📚 Course Mentor advises:[/bold cyan]")
+            console.print(f"  [dim italic]\"{course_advice}\"[/dim italic]")
+            console.print()
+
+        # NPC mentor advice (fallback for verse worlds with NPCs)
+        world_id = self.current_world.get("id", "") if self.current_world else ""
+        world_npcs = WORLD_NPCS.get(world_id, [])
+        if world_npcs:
+            for npc_key in world_npcs:
                 npc = NPCS_DB.get(npc_key)
                 if npc and npc.get("mentor_advice"):
                     console.print(f"  {npc['icon']} [bold cyan]{npc['name']}[/bold cyan] advises:")
@@ -3936,7 +3987,7 @@ class VerseEngine:
             except KeyboardInterrupt: return
 
 
-def run_verse_interactive():
+def run_verse_interactive(multiplayer=False, session_id=None, firebase=None):
     """Main entry point for the KSL-Verse game."""
-    engine = VerseEngine()
+    engine = VerseEngine(multiplayer=multiplayer, session_id=session_id, firebase=firebase)
     engine.show_verse_menu()

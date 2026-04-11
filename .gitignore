@@ -1,6 +1,11 @@
 # Website - NOT pushed to GitHub
 website/
 
+# Environment variables (Firebase creds for custom projects)
+.env
+.env.local
+.env.*.local
+
 # Python
 __pycache__/
 *.pyc

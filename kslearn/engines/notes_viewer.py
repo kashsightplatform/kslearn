@@ -15,6 +15,7 @@ from rich.rule import Rule
 from rich import box
 
 from kslearn.loader import content_loader, KSL_DIR, CONFIG_DIR
+from kslearn.ksl_loader import get_ksl_content_type, get_ksl_metadata, extract_notes, extract_combined_content, TYPE_COMBINED
 from kslearn.ui import console, show_panel, show_success, show_error, show_info, show_warning, print_divider, clear_screen
 from kslearn.config import load_config, set_config_value, save_config
 from datetime import datetime
@@ -2523,8 +2524,8 @@ class HierarchicalNotesViewer:
     def _get_all_courses(self):
         """Get all available hierarchical courses."""
         all_courses = []
-        for ksl_file in self.loader.ksl_files:
-            data = self.loader._load_json_file(ksl_file)
+        for ksl_file in self.loader._discover_ksl_files():
+            data = self.loader._load_ksl_data(ksl_file)
             if data and "courses" in data:
                 for c in data["courses"]:
                     c["_source"] = str(ksl_file)
@@ -2572,14 +2573,22 @@ class HierarchicalNotesViewer:
                                     "breadcrumb": [course.get("title", ""), cat_title, unit_title, outcome_title, sub_title],
                                     "type": sub.get("type", "content"),
                                 })
-        # Also search flat notes
-        for notes_file in self.loader.notes_files:
-            data = self.loader._load_json_file(notes_file)
-            if not data or "topics" not in data:
+        # Also search flat notes (from combined/notes ksl files)
+        for notes_file in self.loader._discover_ksl_files():
+            data = self.loader._load_ksl_data(notes_file)
+            if not data:
                 continue
-            cat_meta = data.get("metadata", {})
+            ctype = get_ksl_content_type(data)
+            if ctype == TYPE_COMBINED:
+                combined = extract_combined_content(data)
+                topics = combined.get("notes", [])
+            else:
+                topics = extract_notes(data)
+            if not topics:
+                continue
+            cat_meta = get_ksl_metadata(data)
             cat_name = cat_meta.get("category", cat_meta.get("title", str(notes_file.stem)))
-            for topic in data["topics"]:
+            for topic in topics:
                 t_title = topic.get("title", "")
                 t_content = topic.get("content", "")
                 searchable = f"{t_title} {t_content}"

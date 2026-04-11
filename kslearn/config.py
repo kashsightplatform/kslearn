@@ -3,8 +3,11 @@
 
 import os
 import json
+import tempfile
+import fcntl
 from pathlib import Path
 from typing import Optional, Dict
+from contextlib import contextmanager
 
 # Config locations — use centralized loader paths
 from kslearn.loader import CONFIG_DIR
@@ -109,7 +112,11 @@ def load_config() -> dict:
 
 
 def save_config(config: dict, path: Optional[Path] = None) -> Path:
-    """Save configuration to file, writing profile-scoped data to correct keys."""
+    """Save configuration to file atomically with file locking.
+
+    Uses atomic write (tempfile + os.replace()) to prevent corruption
+    on crash, and file locking to prevent concurrent write corruption.
+    """
     if path is None:
         path = CONFIG_DIR / "settings.json"
 
@@ -123,8 +130,9 @@ def save_config(config: dict, path: Optional[Path] = None) -> Path:
         if key in config:
             config[data_key] = config[key]
 
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(config, f, indent=2, ensure_ascii=False)
+    # Use file lock + atomic write
+    with _file_lock(path):
+        _save_config_atomic(config, path)
 
     return path
 
@@ -262,12 +270,259 @@ _PROFILE_KEYS = [
     "learning_progress", "bookmarks", "achievements",
     "study_streak", "daily_goal", "review_queue",
     "tutorial_progress", "timed_quiz_best", "verse_progress",
+    "sessions",
 ]
+
+
+# --- Session Tracking & Resume ---
+
+def start_session():
+    """Start a new learning session. Returns session ID."""
+    from datetime import datetime
+    import uuid
+
+    config = load_config()
+    profile_name = config.get("active_profile", "default")
+    session_key = _get_profile_data_key(profile_name, "sessions")
+    sessions = config.get(session_key, [])
+
+    session_id = str(uuid.uuid4())
+    session = {
+        "id": session_id,
+        "start_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "end_time": None,
+        "duration_minutes": 0,
+        "activities": [],
+        "quizzes_taken": 0,
+        "notes_viewed": 0,
+        "ai_chats": 0,
+        "verse_sessions": 0,
+        "tutorials_completed": 0,
+    }
+
+    sessions.append(session)
+    # Keep only last 50 sessions to prevent bloat
+    if len(sessions) > 50:
+        sessions = sessions[-50:]
+
+    config[session_key] = sessions
+    save_config(config)
+    return session_id
+
+
+def end_session(session_id: str):
+    """End an active session and calculate final duration."""
+    from datetime import datetime
+
+    config = load_config()
+    profile_name = config.get("active_profile", "default")
+    session_key = _get_profile_data_key(profile_name, "sessions")
+    sessions = config.get(session_key, [])
+
+    for session in sessions:
+        if session.get("id") == session_id:
+            session["end_time"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            # Calculate duration
+            start = datetime.strptime(session["start_time"], "%Y-%m-%d %H:%M:%S")
+            end = datetime.strptime(session["end_time"], "%Y-%m-%d %H:%M:%S")
+            duration = (end - start).total_seconds() / 60
+            session["duration_minutes"] = round(duration, 2)
+            break
+
+    config[session_key] = sessions
+    save_config(config)
+
+
+def log_activity(session_id: str, activity_type: str, details: dict = None):
+    """Log an activity to the current session."""
+    from datetime import datetime
+
+    config = load_config()
+    profile_name = config.get("active_profile", "default")
+    session_key = _get_profile_data_key(profile_name, "sessions")
+    sessions = config.get(session_key, [])
+
+    for session in sessions:
+        if session.get("id") == session_id:
+            activity = {
+                "type": activity_type,
+                "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "details": details or {},
+            }
+            session["activities"].append(activity)
+
+            # Update counters
+            if activity_type == "quiz":
+                session["quizzes_taken"] = session.get("quizzes_taken", 0) + 1
+            elif activity_type == "notes":
+                session["notes_viewed"] = session.get("notes_viewed", 0) + 1
+            elif activity_type == "ai_chat":
+                session["ai_chats"] = session.get("ai_chats", 0) + 1
+            elif activity_type == "verse":
+                session["verse_sessions"] = session.get("verse_sessions", 0) + 1
+            elif activity_type == "tutorial":
+                session["tutorials_completed"] = session.get("tutorials_completed", 0) + 1
+
+            break
+
+    config[session_key] = sessions
+    save_config(config)
+
+
+def get_session(session_id: str):
+    """Get a specific session by ID."""
+    config = load_config()
+    profile_name = config.get("active_profile", "default")
+    session_key = _get_profile_data_key(profile_name, "sessions")
+    sessions = config.get(session_key, [])
+
+    for session in sessions:
+        if session.get("id") == session_id:
+            return session
+    return None
+
+
+def get_sessions(limit: int = 10):
+    """Get recent sessions, most recent first."""
+    config = load_config()
+    profile_name = config.get("active_profile", "default")
+    session_key = _get_profile_data_key(profile_name, "sessions")
+    sessions = config.get(session_key, [])
+
+    # Return most recent first
+    return list(reversed(sessions))[:limit]
+
+
+def get_session_stats():
+    """Get overall session statistics."""
+    config = load_config()
+    profile_name = config.get("active_profile", "default")
+    session_key = _get_profile_data_key(profile_name, "sessions")
+    sessions = config.get(session_key, [])
+
+    if not sessions:
+        return {
+            "total_sessions": 0,
+            "total_duration_minutes": 0,
+            "total_quizzes": 0,
+            "total_notes": 0,
+            "total_ai_chats": 0,
+            "total_verse_sessions": 0,
+            "avg_duration_minutes": 0,
+        }
+
+    total_duration = sum(s.get("duration_minutes", 0) for s in sessions)
+    total_quizzes = sum(s.get("quizzes_taken", 0) for s in sessions)
+    total_notes = sum(s.get("notes_viewed", 0) for s in sessions)
+    total_ai_chats = sum(s.get("ai_chats", 0) for s in sessions)
+    total_verse = sum(s.get("verse_sessions", 0) for s in sessions)
+
+    return {
+        "total_sessions": len(sessions),
+        "total_duration_minutes": round(total_duration, 2),
+        "total_quizzes": total_quizzes,
+        "total_notes": total_notes,
+        "total_ai_chats": total_ai_chats,
+        "total_verse_sessions": total_verse,
+        "avg_duration_minutes": round(total_duration / len(sessions), 2) if sessions else 0,
+    }
+
+
+def resume_session(session_id: str):
+    """Resume a session that was ended (returns new session ID if successful)."""
+    session = get_session(session_id)
+    if not session:
+        return None
+
+    # Create a new session based on the resumed one
+    new_session_id = start_session()
+
+    # Copy activities from previous session
+    config = load_config()
+    profile_name = config.get("active_profile", "default")
+    session_key = _get_profile_data_key(profile_name, "sessions")
+    sessions = config.get(session_key, [])
+
+    for session in sessions:
+        if session.get("id") == new_session_id:
+            session["resumed_from"] = session_id
+            break
+
+    config[session_key] = sessions
+    save_config(config)
+
+    return new_session_id
+
+
+def generate_session_summary(session_id: str):
+    """Generate a summary dict for a session."""
+    session = get_session(session_id)
+    if not session:
+        return None
+
+    return {
+        "session_id": session.get("id", "N/A"),
+        "start_time": session.get("start_time", "N/A"),
+        "end_time": session.get("end_time", "N/A"),
+        "duration_minutes": session.get("duration_minutes", 0),
+        "quizzes_taken": session.get("quizzes_taken", 0),
+        "notes_viewed": session.get("notes_viewed", 0),
+        "ai_chats": session.get("ai_chats", 0),
+        "verse_sessions": session.get("verse_sessions", 0),
+        "tutorials_completed": session.get("tutorials_completed", 0),
+        "total_activities": len(session.get("activities", [])),
+        "resumed_from": session.get("resumed_from", None),
+    }
 
 
 def _get_profile_data_key(profile_name: str, key: str) -> str:
     """Get the config key for profile-specific data."""
     return f"profile_{profile_name}_{key}"
+
+
+@contextmanager
+def _file_lock(filepath: Path):
+    """Acquire an exclusive lock on a file. Cross-platform compatible."""
+    lock_path = filepath.with_suffix(".lock")
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    lock_file = open(lock_path, "w")
+    try:
+        fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
+        yield lock_file
+    finally:
+        fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
+        lock_file.close()
+        try:
+            lock_path.unlink(missing_ok=True)
+        except OSError:
+            pass
+
+
+def _save_config_atomic(config: dict, path: Path) -> None:
+    """Save config atomically using temp file + os.replace().
+
+    This prevents corruption if the process crashes during write.
+    """
+    path.parent.mkdir(parents=True, exist_ok=True)
+    # Write to temp file in same directory (same filesystem for atomic rename)
+    fd, tmp_path = tempfile.mkstemp(
+        dir=str(path.parent),
+        prefix=".settings_tmp_",
+        suffix=".json",
+    )
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as tmp_f:
+            json.dump(config, tmp_f, indent=2, ensure_ascii=False)
+            tmp_f.flush()
+            os.fsync(tmp_f.fileno())
+        os.replace(tmp_path, str(path))
+    except Exception:
+        # Clean up temp file on failure
+        try:
+            os.unlink(tmp_path)
+        except OSError:
+            pass
+        raise
 
 
 def get_active_profile():

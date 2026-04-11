@@ -34,7 +34,40 @@ from kslearn.ui import (
     clear_screen,
 )
 from kslearn.config import load_config, init_config, save_config, set_config_value, DEFAULT_CONFIG
+from kslearn.config import start_session, end_session, log_activity, generate_session_summary
 from kslearn.loader import content_loader, ContentLoader
+from kslearn.update_checker import check_updates_async
+
+
+# ─── Global update state ─────────────────────────────────────────────
+_update_result = None
+
+
+def _on_update_check_complete(result):
+    """Callback when update check finishes."""
+    global _update_result
+    _update_result = result
+
+
+def _show_update_notification(result):
+    """Display update notification in the banner area."""
+    if result is None or not result.get("update_available"):
+        return
+
+    current = result.get("current_version", "?")
+    latest = result.get("latest_version", "?")
+    source = result.get("source", "unknown")
+
+    console.print(Panel(
+        f"[bold green]🔄 Update available![/bold green] "
+        f"v{current} → [bold cyan]v{latest}[/bold cyan] "
+        f"(via {source})\n"
+        f"[dim]Run: pip install --upgrade kslearn[/dim]",
+        box=box.ROUNDED,
+        border_style="green",
+        padding=(0, 1),
+    ))
+    console.print()
 
 
 def get_learning_tracks():
@@ -159,11 +192,25 @@ def play():
     with LoadingSpinner("Loading learning content..."):
         time.sleep(0.5)
 
+    # Start a new session
+    global _current_session_id
+    _current_session_id = start_session()
+    session_id = _current_session_id
+
     from kslearn.ui import COLORS
 
     def _build_main_menu_table():
-        """Rebuild the options table every loop so theme changes apply."""
+        """Rebuild the options table every loop so theme changes apply.
+        
+        New consistent structure:
+        - 1-4: Core learning (Catalog, Notes, Quiz, Verse)
+        - 5-7: AI & Progress (AI Chat, Progress, Tools)
+        - 8-10: Content & Account (Brain, Store, Profile)
+        - F-L-O: Special modes (Study Modes, LearnQuest, Online)
+        - S-C-H-0: System (Settings, Support, Help, Exit)
+        """
         from kslearn.ui import COLORS
+        from kslearn.constants import VERSION
         tbl = Table(
             box=box.ROUNDED,
             border_style=COLORS.get("border", "cyan"),
@@ -172,22 +219,27 @@ def play():
         )
         tbl.add_column("Option", style=COLORS.get("primary", "cyan"), ratio=1)
         tbl.add_column("Description", style=COLORS.get("muted", "dim"), ratio=2)
+        # Core learning
         tbl.add_row("📂 1. Course Catalog", "Hierarchical courses with progression & AI tutor")
         tbl.add_row("📚 2. Study Notes", "Browse comprehensive learning materials")
         tbl.add_row("📝 3. Take Quiz", "Test your knowledge")
-        tbl.add_row("🤖 4. AI Chat", "Chat with AI tutor (online & offline)")
-        tbl.add_row("📊 5. My Progress", "Analytics, achievements, quiz scores & export")
-        tbl.add_row("🔖 6. Study Tools", "Bookmarks, global search & spaced review")
-        tbl.add_row("🧠 7. Knowledge Brain", "Offline AI Q&A database")
-        tbl.add_row("🏪 8. Data Store", "Download new content (Free & Premium)")
-        tbl.add_row("🌌 9. KSL-Verse", "Interactive multiverse learning game")
-        tbl.add_row("❤️  S. Support kslearn", "Credits, email, website & GitHub")
+        tbl.add_row("🌌 4. KSL-Verse", "Interactive multiverse learning game")
+        # AI & Progress
+        tbl.add_row("🤖 5. AI Chat", "Chat with AI tutor (online & offline)")
+        tbl.add_row("📊 6. My Progress", "Analytics, achievements, quiz scores & export")
+        tbl.add_row("🔖 7. Study Tools", "Bookmarks, global search & spaced review")
+        # Content & Account
+        tbl.add_row("🧠 8. Knowledge Brain", "Offline AI Q&A database")
+        tbl.add_row("🏪 9. Data Store", "Download new content (Free & Premium)")
+        tbl.add_row("👤 10. Profile & Account", "Login, sync, friends, local profiles")
+        # Special modes
         tbl.add_row("🎮 F. Study Modes", "Flashcards, timed quiz & tutorials")
         tbl.add_row("🏆 L. LearnQuest", "Answer quiz → JSON → submit & win rewards")
-        tbl.add_row("👤 D. Profiles", "Switch or manage user profiles")
-        tbl.add_row("⚙️  Settings (C)", "Configure your experience")
-        tbl.add_row("❓ Help (H)", "Show commands and usage info")
-        tbl.add_row("❌ Exit (0)", "Leave kslearn")
+        tbl.add_row("🌐 O. Online Hub", "Friends, leaderboards, shared worlds (if logged in)")
+        # System
+        tbl.add_row("⚙️  S. Settings", "Configure your experience")
+        tbl.add_row("❤️  H. Support & Help", "Credits, social links, help info")
+        tbl.add_row("❌ 0. Exit", "Leave kslearn")
         return tbl
 
     while True:
@@ -223,11 +275,15 @@ def play():
 
         try:
             prompt_color = COLORS.get("success", "bright_green")
-            choice = console.input(f"[bold {prompt_color}]╰─► Your choice (1-9, S, F, L, D, C, H, 0):[/bold {prompt_color}] ").strip().upper()
+            choice = console.input(f"[bold {prompt_color}]╰─► Your choice (1-10, F, L, O, S, H, 0):[/bold {prompt_color}] ").strip().upper()
 
             if choice == "0" or choice == "EXIT":
                 if Confirm.ask("Are you sure you want to exit?", default=False):
+                    end_session(session_id)
+                    summary = generate_session_summary(session_id)
                     console.print()
+                    from kslearn.ui import show_session_end_card
+                    show_session_end_card(summary)
                     show_panel("Thanks for learning!", "Come back soon! 🎓")
                     sys.exit(0)
 
@@ -235,6 +291,7 @@ def play():
                 from kslearn.config import update_study_streak, update_daily_goal
                 update_study_streak()
                 update_daily_goal(5)
+                log_activity(session_id, "notes", {"type": "hierarchical"})
                 from kslearn.engines.notes_viewer import run_hierarchical_notes
                 run_hierarchical_notes()
 
@@ -242,56 +299,63 @@ def play():
                 from kslearn.config import update_study_streak, update_daily_goal
                 update_study_streak()
                 update_daily_goal(5)
+                log_activity(session_id, "notes")
                 run_learning_notes()
 
             elif choice == "3" or choice == "Q" or choice == "QUIZ":
                 from kslearn.config import update_study_streak, update_daily_goal
                 update_study_streak()
                 update_daily_goal(5)
+                log_activity(session_id, "quiz")
                 _run_quiz_interactive()
 
-            elif choice == "4" or choice == "AI" or choice == "CHAT":
-                run_ai_chat()
-
-            elif choice == "5" or choice == "P" or choice == "PROGRESS":
-                _run_my_progress()
-
-            elif choice == "6" or choice == "T" or choice == "TOOLS":
-                _run_study_tools()
-
-            elif choice == "7" or choice == "B" or choice == "BRAIN":
-                show_brain_stats()
-
-            elif choice == "8" or choice == "STORE" or choice == "DATASTORE":
-                run_datastore()
-
-            elif choice == "9" or choice == "VERSE" or choice == "V":
+            elif choice == "4" or choice == "VERSE" or choice == "V":
                 from kslearn.config import update_study_streak, update_daily_goal
                 update_study_streak()
                 update_daily_goal(5)
+                log_activity(session_id, "verse")
                 from kslearn.engines.verse_engine import run_verse_interactive
                 run_verse_interactive()
 
-            elif choice == "S" or choice == "SUPPORT":
-                run_support()
+            elif choice == "5" or choice == "AI" or choice == "CHAT":
+                log_activity(session_id, "ai_chat")
+                run_ai_chat()
+
+            elif choice == "6" or choice == "P" or choice == "PROGRESS":
+                _run_my_progress()
+
+            elif choice == "7" or choice == "T" or choice == "TOOLS":
+                _run_study_tools()
+
+            elif choice == "8" or choice == "B" or choice == "BRAIN":
+                show_brain_stats()
+
+            elif choice == "9" or choice == "STORE" or choice == "DATASTORE":
+                run_datastore()
+
+            elif choice == "10" or choice == "PROFILE" or choice == "ACCOUNT":
+                manage_profiles()
 
             elif choice == "F" or choice == "M" or choice == "MODES":
-                _run_study_modes()
+                _run_study_modes(session_id)
 
             elif choice == "L" or choice == "LEARNQUEST":
                 _run_learnquest()
 
-            elif choice == "D" or choice == "PROFILES":
-                manage_profiles()
+            elif choice == "O" or choice == "ONLINE":
+                from kslearn.online.online_mode import run_online_mode
+                run_online_mode()
 
-            elif choice == "C" or choice == "SETTINGS":
+            elif choice == "S" or choice == "SETTINGS":
                 edit_config_interactive(load_config())
 
-            elif choice == "H" or choice == "HELP" or choice == "?":
+            elif choice == "H" or choice == "HELP" or choice == "?" or choice == "SUPPORT":
+                # Show both support and help info
+                run_support()
                 show_help()
 
             else:
-                show_warning("Invalid option! Choose 1-9, S, F, L, D, C, H, or 0")
+                show_warning("Invalid option! Choose 1-10, F, L, O, S, H, or 0")
                 continue
 
             # After returning from sub-menu, redraw the main menu
@@ -1493,6 +1557,7 @@ def _run_my_progress():
         tbl.add_row("2", "📋 Quiz Scores", "Detailed quiz history & accuracy")
         tbl.add_row("3", "🏆 Achievements", "Badges, milestones, rarity breakdown")
         tbl.add_row("4", "📄 Export Report", "Generate Markdown progress summary")
+        tbl.add_row("5", "🕒 Session History", "View past sessions & resume")
         tbl.add_row("0", "Back", "Return to main menu")
         console.print(tbl)
         console.print()
@@ -1510,6 +1575,8 @@ def _run_my_progress():
             show_achievements()
         elif ch == "4":
             export_progress_report()
+        elif ch == "5":
+            _run_session_history()
 
 
 def _run_global_search():
@@ -1603,8 +1670,13 @@ def _run_study_tools():
             run_spaced_review()
 
 
-def _run_study_modes():
+# Global current session ID
+_current_session_id = None
+
+
+def _run_study_modes(session_id=None):
     """Merged menu: Flashcards + Timed Quiz + Tutorials + LearnQuest."""
+    sid = session_id or _current_session_id
     while True:
         clear_screen()
         console.print(get_small_banner())
@@ -1630,11 +1702,14 @@ def _run_study_modes():
             return
         elif ch == "1":
             from kslearn.engines.notes_viewer import run_flashcards
+            log_activity(sid, "notes", {"type": "flashcards"})
             run_flashcards()
         elif ch == "2":
+            log_activity(sid, "quiz", {"type": "timed"})
             _run_timed_quiz()
         elif ch == "3":
             from kslearn.engines.tutorials import run_tutorials_interactive
+            log_activity(sid, "tutorial")
             run_tutorials_interactive()
         elif ch == "4" or ch == "Q" or ch == "QUEST":
             _run_learnquest()
@@ -2233,6 +2308,115 @@ def export_progress_report():
     console.input("[bold green]╰─► Press Enter to continue...[/bold green]")
 
 
+def _run_session_history():
+    """View session history and resume past sessions."""
+    from kslearn.config import get_sessions, get_session_stats, resume_session, generate_session_summary
+    from kslearn.ui import show_session_end_card
+
+    while True:
+        clear_screen()
+        console.print(get_small_banner())
+        console.print()
+        show_panel("🕒 Session History", "View and resume past sessions", "cyan")
+        console.print()
+
+        # Show overall stats
+        stats = get_session_stats()
+        if stats["total_sessions"] > 0:
+            console.print(f"[dim]Total Sessions: {stats['total_sessions']} | Total Time: {stats['total_duration_minutes']:.1f}m | Avg: {stats['avg_duration_minutes']:.1f}m[/dim]")
+            console.print(f"[dim]Quizzes: {stats['total_quizzes']} | Notes: {stats['total_notes']} | AI Chats: {stats['total_ai_chats']} | Verse: {stats['total_verse_sessions']}[/dim]")
+            console.print()
+
+        # Get recent sessions
+        sessions = get_sessions(10)
+        if not sessions:
+            console.print(Panel("[yellow]No sessions recorded yet.[/yellow]", box=box.ROUNDED, border_style="yellow"))
+            console.print()
+            console.input("[bold green]╰─► Press Enter to continue...[/bold green]")
+            return
+
+        # Display sessions table
+        tbl = Table(box=box.ROUNDED, border_style="cyan")
+        tbl.add_column("#", style="yellow", width=4)
+        tbl.add_column("Session ID", style="cyan", width=12)
+        tbl.add_column("Date", style="white", width=12)
+        tbl.add_column("Duration", style="green", width=10)
+        tbl.add_column("Activities", style="dim", width=20)
+        tbl.add_column("Status", style="white", width=10)
+
+        for i, session in enumerate(sessions, 1):
+            session_id = session.get("id", "")
+            session_id_short = session_id[:8] if session_id else "N/A"
+
+            start_time = session.get("start_time", "N/A")
+            date_str = start_time.split(" ")[0] if start_time != "N/A" else "N/A"
+
+            duration = session.get("duration_minutes", 0)
+            if duration > 0:
+                duration_str = f"{duration:.1f}m"
+            else:
+                duration_str = "Active"
+
+            activities = []
+            if session.get("quizzes_taken", 0) > 0:
+                activities.append(f"Q:{session['quizzes_taken']}")
+            if session.get("notes_viewed", 0) > 0:
+                activities.append(f"N:{session['notes_viewed']}")
+            if session.get("ai_chats", 0) > 0:
+                activities.append(f"AI:{session['ai_chats']}")
+            if session.get("verse_sessions", 0) > 0:
+                activities.append(f"V:{session['verse_sessions']}")
+            activities_str = " ".join(activities) if activities else "—"
+
+            is_ended = session.get("end_time") is not None
+            status = "Ended" if is_ended else "[green]Active[/green]"
+
+            resumed_from = session.get("resumed_from")
+            if resumed_from:
+                status += " ↩️"
+
+            tbl.add_row(str(i), session_id_short, date_str, duration_str, activities_str, status)
+
+        console.print(tbl)
+        console.print()
+        console.print("[green][1-10][/green] [dim]View session details[/dim]")
+        console.print("[green][R][/green] [dim]Resume a session[/dim]")
+        console.print("[green][0][/green] [dim]Back[/dim]")
+        console.print()
+
+        try:
+            ch = console.input("[bold green]╰─► Your choice:[/bold green] ").strip().upper()
+        except (KeyboardInterrupt, EOFError):
+            return
+
+        if ch == "0":
+            return
+        elif ch == "R":
+            # Resume a session
+            try:
+                session_num = console.input("[bold green]╰─► Session number to resume:[/bold green] ").strip()
+                if session_num.isdigit():
+                    idx = int(session_num) - 1
+                    if 0 <= idx < len(sessions):
+                        session = sessions[idx]
+                        session_id_to_resume = session.get("id")
+                        new_session_id = resume_session(session_id_to_resume)
+                        if new_session_id:
+                            show_panel(f"[green]✓ Session resumed![/green]", f"New session ID: {new_session_id[:8]}", "green")
+                        else:
+                            show_error("Failed to resume session")
+            except (KeyboardInterrupt, EOFError, ValueError):
+                pass
+        elif ch.isdigit():
+            idx = int(ch) - 1
+            if 0 <= idx < len(sessions):
+                session = sessions[idx]
+                summary = generate_session_summary(session.get("id"))
+                console.print()
+                show_session_end_card(summary)
+                console.input("[bold green]╰─► Press Enter to continue...[/bold green]")
+
+
 def show_bookmarks():
     """Show bookmarked topics"""
     from kslearn.config import load_config, set_config_value
@@ -2695,26 +2879,38 @@ def show_achievements():
 
 
 def manage_profiles():
-    """Manage user profiles — create, switch, list."""
+    """Manage user profiles — login online or manage local profiles."""
     from kslearn.config import list_profiles, create_profile, switch_profile, get_active_profile, load_config
+    from kslearn.online.online_mode import run_online_mode
+    from kslearn.online.firebase_rtdb import get_firebase
 
     clear_screen()
     console.print(get_small_banner())
     console.print()
 
-    show_panel("👤 User Profiles", "Manage learner accounts", "cyan")
+    show_panel("👤 Profile & Account", "Login online or manage local profiles", "cyan")
     console.print()
 
+    firebase = get_firebase()
+    is_logged_in = firebase.load_session() and firebase.is_logged_in()
+
+    if is_logged_in:
+        console.print(f"[bold cyan]🌐 Online:[/bold cyan] Logged in as [bold white]{firebase.user_data.get('username', 'User')}[/bold white]")
+        console.print(f"[dim]   XP: {firebase.user_data.get('total_xp', 0)} | Level: {firebase.user_data.get('level', 1)}[/dim]\n")
+    else:
+        console.print("[yellow]🌐 Online:[/yellow] Not logged in")
+        console.print("[dim]   Login to sync stats, play with friends, share worlds[/dim]\n")
+
+    # Show local profiles
     profiles = list_profiles()
     active = get_active_profile()
     cfg = load_config()
 
-    console.print(f"[bold]Active Profile:[/bold] [cyan]{cfg.get('profiles', {}).get(cfg.get('active_profile', 'default'), {}).get('name', 'Default User')}[/cyan]\n")
-
     if profiles:
-        table = Table(box=box.ROUNDED, border_style="cyan")
+        console.print(f"[bold]Active Local Profile:[/bold] [cyan]{cfg.get('profiles', {}).get(cfg.get('active_profile', 'default'), {}).get('name', 'Default User')}[/cyan]\n")
+        table = Table(box=box.ROUNDED, border_style="dim")
         table.add_column("#", style="yellow", width=4)
-        table.add_column("Name", style="bold white")
+        table.add_column("Name", style="white")
         table.add_column("Created", style="dim")
         table.add_column("Active", style="green")
 
@@ -2725,8 +2921,20 @@ def manage_profiles():
         console.print(table)
 
     console.print()
-    console.print("  [green][1-9][/green] Switch to profile")
-    console.print("  [green][N][/green] New profile")
+    console.print("  [green][1][/green] [dim]Login to online account (sync stats, play online)[/dim]")
+    console.print("  [green][2][/green] [dim]Create new online account[/dim]")
+    if is_logged_in:
+        console.print("  [green][3][/green] [dim]Open online menu[/dim]")
+        console.print("  [green][4][/green] [dim]Logout from online[/dim]")
+        start_local = 5
+    else:
+        console.print("  [green][3][/green] [dim]Continue as guest[/dim]")
+        start_local = 4
+
+    if profiles:
+        console.print(f"  [green][{start_local}][/green] [dim]Switch local profile[/dim]")
+        console.print(f"  [green][{start_local+1}][/green] [dim]Create local profile[/dim]")
+
     console.print("  [green][0][/green] Back")
     console.print()
 
@@ -2737,37 +2945,85 @@ def manage_profiles():
 
     if choice == "0":
         return
-    elif choice == "N":
-        try:
-            name = console.input("[bold yellow]Profile ID (no spaces):[/bold yellow] ").strip().lower()
-            display = console.input("[bold yellow]Display Name:[/bold yellow] ").strip()
-            if name and display:
-                result = create_profile(name, display)
-                if result:
-                    show_success(f"Profile '{display}' created!")
-                else:
-                    show_error("Profile already exists!")
-                time.sleep(2)
-            else:
-                show_error("Name and display name required!")
-                time.sleep(1)
-        except KeyboardInterrupt:
-            pass
+    elif choice == "1":
+        from kslearn.online.online_mode import run_online_mode
+        run_online_mode()
+    elif choice == "2":
+        from kslearn.online.firebase_rtdb import FirebaseRTDB, read_password_masked
+        from rich.prompt import Prompt
+        fb = get_firebase()
+        username = Prompt.ask("Username").strip()
+        email = Prompt.ask("Email").strip()
+        password = read_password_masked("Password").strip()
+        confirm = read_password_masked("Confirm").strip()
+        if password != confirm:
+            show_error("Passwords do not match")
+            console.input("[dim]Press Enter...[/dim]")
+            return
+        if len(password) < 6:
+            show_error("Password must be at least 6 characters")
+            console.input("[dim]Press Enter...[/dim]")
+            return
+        with console.status("[bold cyan]Creating account...", spinner="dots"):
+            ok = fb.signup(email, password, username)
+        if ok:
+            with console.status("[bold cyan]Syncing offline stats...", spinner="dots"):
+                fb.sync_offline_stats()
+            show_success(f"Account created! Welcome {username}!")
+        console.input("[dim]Press Enter...[/dim]")
+    elif choice == "3" and is_logged_in:
+        run_online_mode()
+    elif choice == "4" and is_logged_in:
+        firebase.logout()
+        show_info("Logged out successfully")
+        console.input("[dim]Press Enter...[/dim]")
+    elif choice == "3" and not is_logged_in:
+        firebase.login_anonymous()
+        show_info(f"Guest mode: {firebase.user_data.get('username', 'Guest')}")
+        console.input("[dim]Press Enter...[/dim]")
     else:
-        try:
-            idx = int(choice) - 1
-            profile_keys = list(profiles.keys())
-            if 0 <= idx < len(profile_keys):
-                key = profile_keys[idx]
-                if switch_profile(key):
-                    show_success(f"Switched to '{profiles[key]['name']}'!")
-                    time.sleep(1)
-                else:
-                    show_error("Failed to switch!")
-                    time.sleep(1)
-        except ValueError:
+        idx_map = {}
+        if profiles:
+            if is_logged_in:
+                idx_map[str(5)] = "switch"
+                idx_map[str(6)] = "create"
+            else:
+                idx_map[str(4)] = "switch"
+                idx_map[str(5)] = "create"
+
+        if choice in idx_map:
+            action = idx_map[choice]
+            if action == "switch":
+                profile_keys = list(profiles.keys())
+                try:
+                    idx = int(console.input("[bold green]╰─► Profile number:[/bold green] ").strip()) - 1
+                    if 0 <= idx < len(profile_keys):
+                        key = profile_keys[idx]
+                        if switch_profile(key):
+                            show_success(f"Switched to '{profiles[key]['name']}'!")
+                        else:
+                            show_error("Failed to switch!")
+                except ValueError:
+                    show_error("Invalid selection!")
+                console.input("[dim]Press Enter...[/dim]")
+            elif action == "create":
+                try:
+                    name = console.input("[bold yellow]Profile ID (no spaces):[/bold yellow] ").strip().lower()
+                    display = console.input("[bold yellow]Display Name:[/bold yellow] ").strip()
+                    if name and display:
+                        result = create_profile(name, display)
+                        if result:
+                            show_success(f"Profile '{display}' created!")
+                        else:
+                            show_error("Profile already exists!")
+                    else:
+                        show_error("Name and display name required!")
+                except KeyboardInterrupt:
+                    pass
+                console.input("[dim]Press Enter...[/dim]")
+        else:
             show_error("Invalid selection!")
-            time.sleep(1)
+            console.input("[dim]Press Enter...[/dim]")
 
 
 @main.command(name="chat")
@@ -2881,6 +3137,114 @@ def verse_cmd():
     """Launch the KSL-Verse interactive learning game"""
     from kslearn.engines.verse_engine import run_verse_interactive
     run_verse_interactive()
+
+
+@main.command(name="online")
+@click.argument("action", required=False)
+@click.argument("session_id", required=False)
+def online_cmd(action, session_id):
+    """
+    Online mode - Connect with friends and compete globally.
+    
+    Actions:
+      (none)  - Open online mode menu
+      join    - Join a game session
+      status  - Show online status
+    """
+    if action == "join":
+        if not session_id:
+            from rich.prompt import Prompt
+            session_id = Prompt.ask("Enter session ID")
+        
+        if not session_id:
+            show_error("Session ID required")
+            return
+        
+        from kslearn.online.firebase_rtdb import get_firebase
+        from kslearn.online.online_mode import _join_game_session
+        
+        firebase = get_firebase()
+        if not firebase.load_session():
+            show_error("Not logged in. Run 'kslearn online' to login first.")
+            return
+        
+        _join_game_session(firebase)
+    elif action == "status":
+        from kslearn.online.firebase_rtdb import get_firebase
+        firebase = get_firebase()
+        
+        if firebase.load_session():
+            show_success(f"Logged in as: {firebase.user_data.get('username', 'Unknown')}")
+            console.print(f"[dim]User ID: {firebase.user_id}[/dim]")
+            console.print(f"[dim]Status: {firebase.user_data.get('status', 'offline')}[/dim]")
+        else:
+            show_warning("Not logged in")
+    else:
+        from kslearn.online.online_mode import run_online_mode
+        run_online_mode()
+
+
+@main.command(name="share")
+@click.option("--world", "-w", type=str, help="World ID to share")
+def share_world_cmd(world):
+    """Upload a world to the ksverse for others to download"""
+    from kslearn.online.firebase_rtdb import get_firebase
+    from kslearn.online.online_mode import _upload_world
+    
+    firebase = get_firebase()
+    if not firebase.load_session():
+        show_error("Not logged in. Run 'kslearn online' to login first.")
+        return
+    
+    if world:
+        # Upload specific world
+        from pathlib import Path
+        data_dir = Path.home() / ".kslearn" / "data" / "ksl"
+        world_file = data_dir / f"{world}_verse.json"
+        
+        if not world_file.exists():
+            show_error(f"World file not found: {world_file}")
+            return
+        
+        from rich.prompt import Prompt
+        title = Prompt.ask("World title")
+        description = Prompt.ask("Description", default="")
+        
+        import json
+        with open(world_file, "r") as f:
+            world_data = json.load(f)
+        
+        with console.status("[bold cyan]Uploading world...", spinner="dots"):
+            success = firebase.upload_world(world, world_data, title, description)
+        
+        if success:
+            show_success(f"World '{title}' uploaded to ksverse!")
+        else:
+            show_error("Failed to upload world")
+    else:
+        _upload_world(firebase)
+
+
+@main.command(name="leaderboard")
+@click.option("--xp", is_flag=True, help="Show XP leaderboard")
+@click.option("--scores", is_flag=True, help="Show scores leaderboard")
+def leaderboard_cmd(xp, scores):
+    """View global leaderboards"""
+    from kslearn.online.firebase_rtdb import get_firebase
+    from kslearn.online.online_mode import _show_xp_leaderboard, _show_scores_leaderboard
+    
+    firebase = get_firebase()
+    if not firebase.load_session():
+        show_error("Not logged in. Run 'kslearn online' to login first.")
+        return
+    
+    if xp:
+        _show_xp_leaderboard(firebase)
+    elif scores:
+        _show_scores_leaderboard(firebase)
+    else:
+        from kslearn.online.online_mode import _show_leaderboards
+        _show_leaderboards(firebase)
 
 
 # Entry point

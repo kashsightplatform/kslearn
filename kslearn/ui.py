@@ -40,6 +40,67 @@ DEFAULT_COLORS = {
 COLORS = DEFAULT_COLORS.copy()
 
 
+def show_session_end_card(session_summary):
+    """Display a session summary end card similar to agent interaction summary."""
+    if not session_summary:
+        return
+
+    from datetime import datetime
+
+    # Calculate duration display
+    duration_mins = session_summary.get("duration_minutes", 0)
+    if duration_mins < 60:
+        duration_display = f"{duration_mins:.1f}m"
+    else:
+        hours = int(duration_mins // 60)
+        mins = int(duration_mins % 60)
+        duration_display = f"{hours}h {mins}m"
+
+    # Build activities summary
+    activities = []
+    if session_summary.get("quizzes_taken", 0) > 0:
+        activities.append(f"Quizzes: {session_summary['quizzes_taken']}")
+    if session_summary.get("notes_viewed", 0) > 0:
+        activities.append(f"Notes: {session_summary['notes_viewed']}")
+    if session_summary.get("ai_chats", 0) > 0:
+        activities.append(f"AI Chats: {session_summary['ai_chats']}")
+    if session_summary.get("verse_sessions", 0) > 0:
+        activities.append(f"Verse: {session_summary['verse_sessions']}")
+    if session_summary.get("tutorials_completed", 0) > 0:
+        activities.append(f"Tutorials: {session_summary['tutorials_completed']}")
+
+    activities_str = ", ".join(activities) if activities else "No activities recorded"
+
+    # Session ID (shortened)
+    session_id = session_summary.get("session_id", "N/A")
+    session_id_short = session_id[:8] if len(session_id) > 8 else session_id
+
+    # Resumed from
+    resumed_from = session_summary.get("resumed_from")
+    resumed_line = f"\n[dim]Resumed from: {resumed_from[:8] if resumed_from else 'N/A'}[/dim]" if resumed_from else ""
+
+    # Start/end times
+    start_time = session_summary.get("start_time", "N/A")
+    end_time = session_summary.get("end_time", "N/A")
+
+    card_content = (
+        f"[bold green]🎓 Session Summary[/bold green]\n"
+        f"[dim]{start_time} → {end_time}[/dim]\n"
+        f"\n"
+        f"[bold]Session ID:[/bold]     {session_id_short}\n"
+        f"[bold]Duration:[/bold]        {duration_display}\n"
+        f"[bold]Activities:[/bold]      {activities_str}{resumed_line}"
+    )
+
+    console.print(Panel(
+        card_content,
+        box=box.ROUNDED,
+        border_style="green",
+        padding=(1, 2),
+    ))
+    console.print()
+
+
 def _get_theme_config_path():
     """Get path to theme configuration file"""
     # Try multiple locations
@@ -208,7 +269,7 @@ def get_banner() -> Panel:
         (f"╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝\n", banner_color),
         ("\n", ""),
         (f"📚 Learn Anything       |  ", COLORS.get("secondary", "green")),
-        (f"v1.0.0 - Math, Science, Tech & More!\n", accent_color),
+        (f"v2.0.0 - Math, Science, Tech & More!\n", accent_color),
         (f"🚀 Works on: Termux • Linux • macOS • Windows", primary_color),
     )
     return Panel(

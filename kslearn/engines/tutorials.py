@@ -251,9 +251,10 @@ def run_tutorial(tutorial: Dict):
     console.print()
 
     # Check achievements
-    from kslearn.loader import json_brain
     from kslearn.engines.achievements import check_achievements
-    check_achievements(config, config.get("learning_progress", {}), json_brain.get_stats().get("total_qa_pairs", 0))
+    from kslearn.loader import content_loader
+    brain_qa_count = len(content_loader.load_brain_qa())
+    check_achievements(config, config.get("learning_progress", {}), brain_qa_count)
 
     console.input("[bold green]╰─► Press Enter to continue...[/bold green]")
 

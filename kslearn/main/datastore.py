@@ -45,12 +45,6 @@ class DataStore:
         """Download file from URL"""
         try:
             import urllib.request
-            import ssl
-
-            # Handle SSL certificates
-            ssl_context = ssl.create_default_context()
-            ssl_context.check_hostname = False
-            ssl_context.verify_mode = ssl.CERT_NONE
 
             if not filename:
                 filename = url.split('/')[-1].split('?')[0]

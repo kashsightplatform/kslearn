@@ -89,7 +89,7 @@ def _compute_file_hash(file_path: Path) -> str:
 
 def generate_content_manifest() -> Dict:
     """
-    Scan all content JSON files and generate a signed manifest.
+    Scan all content .ksl files and generate a signed manifest.
     This should be run after adding/editing content, with the master key.
     """
     manifest = {
@@ -101,9 +101,13 @@ def generate_content_manifest() -> Dict:
     from datetime import datetime
     manifest["generated_at"] = datetime.now().isoformat()
 
-    # Scan all JSON files in data/
-    for json_file in DATA_DIR.rglob("*.json"):
-        # Skip the manifest itself and cache files
+    # Scan all .ksl files in data/ksl/
+    for ksl_file in KSL_DIR.glob("*.ksl"):
+        rel_path = str(ksl_file.relative_to(KSL_DIR))
+        manifest["files"][rel_path] = _compute_file_hash(ksl_file)
+
+    # Also scan any legacy JSON files that might still exist in data/
+    for json_file in DATA_DIR.glob("*.json"):
         if json_file.name.startswith("."):
             continue
         rel_path = str(json_file.relative_to(DATA_DIR))

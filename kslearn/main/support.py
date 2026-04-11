@@ -114,7 +114,7 @@ SOCIAL_MEDIA = {
 # Project Credits
 PROJECT_INFO = {
     "name": "kslearn",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "tagline": "JSON-Powered Educational Learning System",
     "description": "Learn anything — math, science, psychology, religion, music, technology, and more. kslearn combines comprehensive learning notes, interactive quizzes, and offline AI to help you truly understand any subject.",
     "license": "MIT License",

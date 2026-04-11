@@ -3,9 +3,12 @@ from setuptools import setup, find_packages
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
+# Single source of truth for version
+from kslearn import __version__
+
 setup(
     name="kslearn",
-    version="1.0.0",
+    version=__version__,
     author="KashSight Platform",
     author_email="kashsightplatform@gmail.com",
     description="JSON-Powered Educational Learning System — offline quizzes, notes, flashcards, tutorials, and AI chat",

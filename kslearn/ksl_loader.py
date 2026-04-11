@@ -255,18 +255,14 @@ class KSLLoader:
         return info
 
     def discover(self, directory: Path) -> List[Path]:
+        """Discover all .ksl files in a directory.
+
+        Uses a single glob pattern — no redundant glob calls.
+        """
         directory = Path(directory)
         if not directory.exists():
             return []
-        import glob as glob_mod
-        all_files = set()
-        for f in glob_mod.glob(str(directory / "*.ksl")):
-            all_files.add(Path(f).resolve())
-        for f in directory.glob("*.ksl"):
-            all_files.add(f.resolve())
-        for f in directory.glob("*.ksl.ksl"):
-            all_files.add(f.resolve())
-        return sorted(all_files)
+        return sorted(f.resolve() for f in directory.glob("*.ksl"))
 
     def discover_all(self, directories: List[Path]) -> List[Path]:
         files = []

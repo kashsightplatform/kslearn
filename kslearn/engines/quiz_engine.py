@@ -24,6 +24,7 @@ class QuizEngine:
         self.score: int = 0
         self.correct: int = 0
         self.total_answered: int = 0
+        self.total_questions: int = 0
         self.streak: int = 0
         self.best_streak: int = 0
         self.session_questions: List[Dict] = []
